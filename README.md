@@ -21,6 +21,7 @@ Android API 14+
 ##CREDITS
 
 Author: Michele Lacorte (micky1995g@gmail.com)
+
 Author: HearSilent (https://github.com/hearsilent)
 
 Follow [Michele Lacorte Google+](https://plus.google.com/u/0/collection/McidZB)
