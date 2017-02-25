@@ -1,0 +1,89 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.0'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.protobuf'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+    }
+
+    productFlavors {
+        aosp {
+            applicationId 'com.android.launcher3'
+            testApplicationId 'com.android.launcher3.tests'
+        }
+    }
+    sourceSets {
+        main {
+            res.srcDirs = ['res']
+            java.srcDirs = ['src', 'src_config']
+            manifest.srcFile 'AndroidManifest-common.xml'
+            proto.srcDirs 'protos/'
+        }
+
+        androidTest {
+            java.srcDirs = ['tests/src']
+            manifest.srcFile "tests/AndroidManifest.xml"
+        }
+
+        aosp {
+            manifest.srcFile "AndroidManifest.xml"
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:recyclerview-v7:25.2.0'
+    compile 'com.android.support:palette-v7:25.2.0'
+    compile 'com.google.protobuf.nano:protobuf-javanano:3.0.0-alpha-2'
+
+    testCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+    androidTestCompile 'com.android.support:support-annotations:25.2.0'
+}
+
+protobuf {
+    // Configure the protoc executable
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.0.0-alpha-3'
+
+        generateProtoTasks {
+            all().each { task ->
+                task.builtins {
+                    remove java
+                    javanano {
+                        option 'ignore_services=false'
+                    }
+                }
+            }
+        }
+    }
+}
