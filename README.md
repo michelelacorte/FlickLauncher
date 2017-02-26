@@ -3,6 +3,11 @@
 Universal Launcher is a project started by [Michele Lacorte](https://github.com/michelelacorte) and [HearSilent](https://github.com/hearsilent).
 We want to create a launcher for google pixels style stock, with a few tweaks.
 
+##PREVIEW
+
+###v0.1.0 (Coming Soon!)
+
+<h1 align="center"><img src="https://s7.postimg.org/6z20p8xor/Screenshot_2017_02_26_20_28_47_framed.png"/></h1>
 
 ##SYSTEM REQUIREMENT
 
@@ -13,6 +18,9 @@ Android API 14+
 ![project maintained](https://img.shields.io/badge/Project-Maintained-green.svg)
 
 ##CHANGELOG
+
+**v0.1.0 (Coming Soon!)**
+* Starting implementing App Shortcuts on launcher.
 
 **v0**
 * Initial commit.
