@@ -1,6 +1,6 @@
 # Universal Launcher
 
-Universal Launcher is a project started by [Michele Lacorte](https://github.com/michelelacorte) and [Hear Silent](https://github.com/hearsilent).
+Universal Launcher is a project started by [Michele Lacorte](https://github.com/michelelacorte) and [HearSilent](https://github.com/hearsilent).
 We want to create a launcher for google pixels style stock, with a few tweaks.
 
 
@@ -35,7 +35,7 @@ Each proposal will be accepted!
 ##LICENSE
 
 ```
-Copyright 2017 Michele Lacorte and Hear Silent
+Copyright 2017 Michele Lacorte and HearSilent
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
