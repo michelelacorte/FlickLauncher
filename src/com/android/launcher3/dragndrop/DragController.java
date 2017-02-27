@@ -36,6 +36,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.android.launcher3.DragSource;
 import com.android.launcher3.DropTarget;
+import com.android.launcher3.Hotseat;
 import com.android.launcher3.ItemInfo;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.PagedView;
@@ -630,8 +631,18 @@ public class DragController implements DragDriver.EventListener, TouchController
                     mScrollState = SCROLL_OUTSIDE_ZONE;
                 }
                 break;
+            case MotionEvent.ACTION_MOVE:
+                if(dragLayerX != ev.getX() &&
+                        dragLayerY != ev.getY()){
+                    if(Launcher.creation != null) {
+                        Launcher.creation.clearAllLayout();
+                    }
+                    Hotseat.isHotseatTouched = false;
+                }
+                break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+                Hotseat.isHotseatTouched = false;
                 mHandler.removeCallbacks(mScrollRunnable);
                 break;
         }

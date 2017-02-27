@@ -51,6 +51,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -61,6 +62,7 @@ import android.os.StrictMode;
 import android.os.SystemClock;
 import android.os.Trace;
 import android.os.UserHandle;
+import android.support.v4.content.ContextCompat;
 import android.text.Selection;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -82,6 +84,7 @@ import android.view.accessibility.AccessibilityManager;
 import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Advanceable;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -136,6 +139,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+
+import it.michelelacorte.androidshortcuts.Shortcuts;
+import it.michelelacorte.androidshortcuts.ShortcutsBuilder;
+import it.michelelacorte.androidshortcuts.ShortcutsCreation;
+import it.michelelacorte.androidshortcuts.util.GridSize;
+import it.michelelacorte.androidshortcuts.util.StyleOption;
 
 /**
  * Default launcher application.
@@ -366,6 +375,11 @@ public class Launcher extends Activity
 
     private RotationPrefChangeHandler mRotationPrefChangeHandler;
 
+    //Shortcuts implementation
+    private GridSize gridSize;
+    private InsettableFrameLayout masterLayout;
+    public static ShortcutsCreation creation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (DEBUG_STRICT_MODE) {
@@ -421,6 +435,12 @@ public class Launcher extends Activity
         mPaused = false;
 
         setContentView(R.layout.launcher);
+
+        //Shortcuts variable init
+        masterLayout = (InsettableFrameLayout) findViewById(R.id.launcher);
+        gridSize = new GridSize((int) app.getInvariantDeviceProfile().numColumns,
+                (int) app.getInvariantDeviceProfile().numRows);
+
 
         setupViews();
         mDeviceProfile.layout(this, false /* notifyListeners */);
@@ -2378,6 +2398,9 @@ public class Launcher extends Activity
     public void onClick(View v) {
         // Make sure that rogue clicks don't get through while allapps is launching, or after the
         // view has detached (it's possible for this to happen if the view is removed mid touch).
+        if(creation != null)
+            creation.clearAllLayout();
+
         if (v.getWindowToken() == null) {
             return;
         }
@@ -3083,6 +3106,9 @@ public class Launcher extends Activity
         if (isWorkspaceLocked()) return false;
         if (mState != State.WORKSPACE) return false;
 
+        if(creation != null)
+            creation.clearAllLayout();
+
         if ((FeatureFlags.LAUNCHER3_ALL_APPS_PULL_UP && v instanceof PageIndicator) ||
                 (v == mAllAppsButton && mAllAppsButton != null)) {
             onLongClickAllAppsButton(v);
@@ -3142,7 +3168,107 @@ public class Launcher extends Activity
                             }
                         }
                     }
+
+                    int positionInGrid = mHotseat.getOrderInHotseat(longClickCellInfo.cellX,
+                            longClickCellInfo.cellY);
+
+                    List<Shortcuts> shortcutses = new ArrayList<Shortcuts>();
+                    shortcutses = new ArrayList<Shortcuts>();
+                    shortcutses.add(new Shortcuts(R.drawable.ic_add_black_24dp, "Shortcuts", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(getApplicationContext(), "Hello Shortcuts!!", Toast.LENGTH_LONG).show();
+                            creation.clearAllLayout();
+                        }
+                    }));
+                    shortcutses.add(new Shortcuts(R.drawable.ic_done_black_24dp, "Nougat!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
+                    shortcutses.add(new Shortcuts(R.drawable.ic_code_black_24dp, "App Shortcuts!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
+                    //shortcutses.add(new Shortcuts(R.drawable.ic_allapps, "App Shortcuts 2!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
+                    //shortcutses.add(new Shortcuts(R.drawable.ic_home_all_apps_holo_dark, "App Shortcuts 3!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
+                    if(creation != null)
+                        creation.clearAllLayout();
+
                     mWorkspace.startDrag(longClickCellInfo, dragOptions);
+
+                    //Get selected app info
+                    final Object tag = v.getTag();
+                    final ShortcutInfo shortcut;
+                    try{
+                        shortcut = (ShortcutInfo) tag;
+                        Drawable icon = new BitmapDrawable(getResources(), shortcut.getIcon(new IconCache(Launcher.this, getDeviceProfile().inv)));
+
+                        ShortcutsBuilder builder = new ShortcutsBuilder.Builder(this, masterLayout)
+                                .launcher3Shortcuts(gridSize, positionInGrid, (int)v.getY(), v.getBottom(), Hotseat.isHotseatTouched)
+                                .setOptionLayoutStyle(StyleOption.LINE_LAYOUT)
+                                .setPackageImage(icon)
+                                .setShortcutsList(shortcutses)
+                                .build();
+
+                        creation = new ShortcutsCreation(builder);
+
+                        creation.init();
+
+                    }catch (ClassCastException e){
+                        Log.e(TAG, "Clicked on Folder/Widget!");
+                        positionInGrid = mHotseat.getOrderInHotseat(longClickCellInfo.cellX,
+                                longClickCellInfo.cellY);
+                        try {
+                            //Get selected folder info
+                            final View f = v;
+                            final Object tagF = v.getTag();
+                            final FolderInfo folder;
+                            folder = (FolderInfo) tagF;
+
+                            shortcutses = new ArrayList<Shortcuts>();
+                            shortcutses.add(new Shortcuts(R.drawable.ic_folder_open_black_24dp, "Open Folder", new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    if (f instanceof FolderIcon) {
+                                        onClickFolderIcon(f);
+                                        creation.clearAllLayout();
+                                    }
+                                }
+                            }));
+                            shortcutses.add(new Shortcuts(R.drawable.ic_title_black_24dp, "Rename Folder", new OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    if (f instanceof FolderIcon) {
+                                        AlertDialog.Builder alert = new AlertDialog.Builder(Launcher.this);
+                                        final EditText edittext = new EditText(Launcher.this);
+                                        alert.setMessage("Folder Title");
+                                        alert.setTitle("Enter Your Title");
+
+                                        alert.setView(edittext);
+
+                                        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                                folder.setTitle(edittext.getText().toString());
+                                            }
+                                        });
+
+                                        alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                                creation.clearAllLayout();
+                                            }
+                                        });
+                                        alert.show();
+                                        creation.clearAllLayout();
+                                    }
+                                }
+                            }));
+
+                            ShortcutsBuilder builder = new ShortcutsBuilder.Builder(this, masterLayout)
+                                    .launcher3Shortcuts(gridSize, positionInGrid, (int)v.getY(), v.getBottom(), Hotseat.isHotseatTouched)
+                                    .setOptionLayoutStyle(0)
+                                    .setPackageImage(ContextCompat.getDrawable(Launcher.this, R.drawable.ic_folder_open_black_24dp))
+                                    .setShortcutsList(shortcutses)
+                                    .build();
+
+                            creation = new ShortcutsCreation(builder);
+
+                            creation.init();
+                        }catch (ClassCastException ee){}
+                    }
                 }
             }
         }

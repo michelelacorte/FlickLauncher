@@ -44,6 +44,8 @@ import com.android.launcher3.userevent.nano.LauncherLogProto.Target;
 public class Hotseat extends FrameLayout
         implements UserEventDispatcher.LaunchSourceProvider {
 
+    public static boolean isHotseatTouched = false;
+
     private CellLayout mContent;
 
     private Launcher mLauncher;
@@ -167,6 +169,7 @@ public class Hotseat extends FrameLayout
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         // We don't want any clicks to go through to the hotseat unless the workspace is in
         // the normal state or an accessible drag is in progress.
+        isHotseatTouched = true;
         return mLauncher.getWorkspace().workspaceInModalState() &&
                 !mLauncher.getAccessibilityDelegate().isInAccessibleDrag();
     }

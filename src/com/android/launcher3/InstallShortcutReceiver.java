@@ -147,8 +147,11 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
         }
         PendingInstallShortcutInfo info = createPendingInfo(context, data);
         if (info != null) {
+            //Code commented, allow third app to create shortcut on launcher
+            /*
             if (!info.isLauncherActivity()) {
                 // Since its a custom shortcut, verify that it is safe to launch.
+                //Code commented, allow third app to create shortcut on launcher
                 if (!PackageManagerHelper.hasPermissionForActivity(
                         context, info.launchIntent, null)) {
                     // Target cannot be launched, or requires some special permission to launch
@@ -156,6 +159,7 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
                     return;
                 }
             }
+            */
             queuePendingShortcutInfo(info, context);
         }
     }

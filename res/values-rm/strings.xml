@@ -200,4 +200,5 @@
     <skip />
     <!-- no translation found for package_state_error (7672093962724223588) -->
     <skip />
+    <string name="app_name">Universal Launcher</string>
 </resources>

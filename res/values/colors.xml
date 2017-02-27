@@ -49,5 +49,11 @@
     <color name="widgets_view_item_text_color">#C4C4C4</color>
 
     <!-- Used as a fallback since colorSecondary doesn't exist pre-API 25 -->
-    <color name="fallback_secondary_color">#FF37474F</color>
+    <!-- <color name="fallback_secondary_color">#FF37474F</color> -->
+    <color name="fallback_secondary_color">#5e8bff</color>
+
+
+    <color name="colorPrimary">#5e8bff</color>
+    <color name="colorPrimaryDark">#5e8bff</color>
+    <color name="colorAccent">#000</color>
 </resources>

@@ -17,10 +17,10 @@
 ** limitations under the License.
 */
 -->
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.android.launcher3">
-    <uses-sdk android:targetSdkVersion="25" android:minSdkVersion="16"/>
+    <uses-sdk android:targetSdkVersion="25" android:minSdkVersion="14"/>
 
     <!--
     The manifest defines the common entries that should be present in any derivative of Launcher3.
@@ -48,16 +48,17 @@
         android:backupAgent="com.android.launcher3.LauncherBackupAgent"
         android:fullBackupOnly="true"
         android:fullBackupContent="@xml/backupscheme"
-        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher_home"
         android:label="@string/derived_app_name"
         android:largeHeap="@bool/config_largeHeap"
         android:restoreAnyVersion="true"
-        android:supportsRtl="true" >
+        android:supportsRtl="true"
+        tools:replace="android:label">
 
         <activity
             android:name="com.android.launcher3.Launcher"
             android:clearTaskOnLaunch="true"
+            android:hardwareAccelerated="true"
             android:enabled="true"
             android:allowBackup="true"
             android:label="@string/application_name"

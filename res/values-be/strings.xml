@@ -203,4 +203,5 @@
     <skip />
     <!-- no translation found for settings_button_text (8119458837558863227) -->
     <skip />
+    <string name="app_name" translatable="false">Universal Launcher</string>
 </resources>

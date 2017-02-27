@@ -50,4 +50,5 @@
     <string name="folder_closed" msgid="3130534551370511932">"Kaust suletud"</string>
     <string name="folder_renamed" msgid="7951233572858053642">"Kausta uus nimi: <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="folder_name_format" msgid="3051680259794759037">"<xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <string name="app_name">Universal Launcher</string>
 </resources>

@@ -140,8 +140,11 @@ public class InvariantDeviceProfile {
                 invDistWeightedInterpolate(minWidthDps,  minHeightDps, closestProfiles);
 
         InvariantDeviceProfile closestProfile = closestProfiles.get(0);
-        numRows = closestProfile.numRows;
-        numColumns = closestProfile.numColumns;
+        //TODO: set rows and columns programmatically in setting.
+        //numRows = closestProfile.numRows;
+        //numColumns = closestProfile.numColumns;
+        numRows = 6;
+        numColumns = 5;
         numHotseatIcons = closestProfile.numHotseatIcons;
         defaultLayoutId = closestProfile.defaultLayoutId;
         numFolderRows = closestProfile.numFolderRows;
