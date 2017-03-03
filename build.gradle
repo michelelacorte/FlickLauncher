@@ -39,7 +39,7 @@ android {
 
     productFlavors {
         aosp {
-            applicationId 'com.android.launcher3'
+            applicationId 'com.universallauncher.universallauncher'
             testApplicationId 'com.android.launcher3.tests'
         }
     }

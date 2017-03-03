@@ -78,26 +78,28 @@ public class Utils {
      */
     public static void createShortcutsOnLauncher(Activity activity, Bitmap shortcutsImage, String shortcutsText, String className, String packageName, Drawable packageImage, Bitmap shortcutsImageBadge) throws ClassNotFoundException {
 
-        int result = ContextCompat.checkSelfPermission(activity, Manifest.permission.INSTALL_SHORTCUT);
-        if (result != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.INSTALL_SHORTCUT)) {
-                Log.e(TAG, "Install Shortcuts permission allows us to create shortcuts on launcher. Please allow this permission in App Settings.");
-            } else {
-                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.INSTALL_SHORTCUT}, 111);
-                Log.d(TAG, "Install Shortcuts permission allows us to create shortcuts on launcher.");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            int result = ContextCompat.checkSelfPermission(activity, Manifest.permission.INSTALL_SHORTCUT);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.INSTALL_SHORTCUT)) {
+                    Log.e(TAG, "Install Shortcuts permission allows us to create shortcuts on launcher. Please allow this permission in App Settings.");
+                } else {
+                    ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.INSTALL_SHORTCUT}, 111);
+                    Log.d(TAG, "Install Shortcuts permission allows us to create shortcuts on launcher.");
+                }
             }
         }
 
         Intent shortcutIntent = new Intent(activity.getApplicationContext(), activity.getClass());
-        shortcutIntent.setComponent(new ComponentName(
-                packageName, className.replaceAll(packageName, "")));
+      /*  shortcutIntent.setComponent(new ComponentName(
+                packageName, className.replaceAll(packageName, "")));*/
         shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         Intent addIntent = new Intent();
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutsText);
-        if(shortcutsImageBadge  == null && !RemoteShortcuts.USE_SHORTCUTS_FROM_API_25) {
+        if(shortcutsImageBadge  == null && !RemoteShortcuts.USE_SHORTCUTS_FROM_API_25 && !ShortcutsCreation.USE_SHORTCUTS_FOR_LAUNCHER_3) {
             Bitmap roundedBitmap = getRoundedBitmap(shortcutsImage, packageImage);
             addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, roundedBitmap);
         }else if(ShortcutsCreation.USE_SHORTCUTS_FOR_LAUNCHER_3){
@@ -115,6 +117,7 @@ public class Utils {
         addIntent.putExtra("duplicate", false);
         addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
         activity.getApplicationContext().sendBroadcast(addIntent);
+        Log.d(TAG, "Shortcuts created on Launcher!");
     }
 
     /**
@@ -186,8 +189,26 @@ public class Utils {
         if(packageImage != null) {
             packageIcon = convertDrawableToBitmap(packageImage);
         }
-        Bitmap packageIconScaled = getResizedBitmap(packageIcon, bitmap.getWidth(), bitmap.getHeight());
-        Bitmap shortcutsIconScaled = getResizedBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight());
+        Bitmap packageIconScaled = null;
+        Bitmap shortcutsIconScaled = null;
+        switch (getScreenXDimension(activity)) {
+            case 720:
+                packageIconScaled = getResizedBitmap(packageIcon, (int)(bitmap.getWidth()*1.6), (int)(bitmap.getHeight()*1.6));
+                shortcutsIconScaled = getResizedBitmap(bitmap, (int)(bitmap.getWidth()*1.2), (int)(bitmap.getHeight()*1.2));
+                break;
+            case 1080:
+                packageIconScaled = getResizedBitmap(packageIcon, (int)(bitmap.getWidth()*1.3), (int)(bitmap.getHeight()*1.3));
+                shortcutsIconScaled = getResizedBitmap(bitmap, (int)(bitmap.getWidth()*1.1), (int)(bitmap.getHeight()*1.1));
+                break;
+            case 1440:
+                packageIconScaled = getResizedBitmap(packageIcon, bitmap.getWidth(), bitmap.getHeight());
+                shortcutsIconScaled = getResizedBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight());
+                break;
+            default:
+                Log.e(TAG, "Resolution of screen not supported!");
+                break;
+        }
+
 
 
         final int dominantColor = getDominantColor(packageIconScaled);
@@ -212,12 +233,12 @@ public class Utils {
         paintShape.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OVER));
         switch (getScreenXDimension(activity)) {
             case 720:
-                canvas.drawCircle(packageIcon.getWidth()/2, packageIcon.getHeight()/2, 45, paint);
-                canvas.drawCircle(packageIcon.getWidth()/2, packageIcon.getHeight()/2+2, 45, paintShape);
+                canvas.drawCircle(packageIcon.getWidth()/2, packageIcon.getHeight()/2, 55, paint);
+                canvas.drawCircle(packageIcon.getWidth()/2, packageIcon.getHeight()/2+2, 55, paintShape);
                 break;
             case 1080:
-                canvas.drawCircle(packageIcon.getWidth()/2, packageIcon.getHeight()/2, 70, paint);
-                canvas.drawCircle(packageIcon.getWidth()/2, packageIcon.getHeight()/2+2, 70, paintShape);
+                canvas.drawCircle((float)(packageIcon.getWidth()/2.4), (float)(packageIcon.getHeight()/2.4), 70, paint);
+                canvas.drawCircle((float)(packageIcon.getWidth()/2.4), (float)(packageIcon.getHeight()/2.4+2), 70, paintShape);
                 break;
             case 1440:
                 canvas.drawCircle(packageIcon.getWidth()/2, packageIcon.getHeight()/2, 90, paint);

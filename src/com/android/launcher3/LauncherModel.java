@@ -634,6 +634,7 @@ public class LauncherModel extends BroadcastReceiver
         final ContentResolver cr = context.getContentResolver();
 
         final StackTraceElement[] stackTrace = new Throwable().getStackTrace();
+
         Runnable r = new Runnable() {
             public void run() {
                 cr.update(uri, values, null, null);

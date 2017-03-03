@@ -3184,7 +3184,7 @@ public class Launcher extends Activity
                     shortcutses.add(new Shortcuts(R.drawable.ic_done_black_24dp, "Nougat!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
                     shortcutses.add(new Shortcuts(R.drawable.ic_code_black_24dp, "App Shortcuts!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
                     //shortcutses.add(new Shortcuts(R.drawable.ic_allapps, "App Shortcuts 2!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
-                    //shortcutses.add(new Shortcuts(R.drawable.ic_home_all_apps_holo_dark, "App Shortcuts 3!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
+                    //shortcutses.add(new Shortcuts(R.drawable.ic_code_black_24dp, "App Shortcuts 3!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
                     if(creation != null)
                         creation.clearAllLayout();
 
@@ -3207,6 +3207,8 @@ public class Launcher extends Activity
                         creation = new ShortcutsCreation(builder);
 
                         creation.init();
+
+                        Hotseat.isHotseatTouched = false;
 
                     }catch (ClassCastException e){
                         Log.e(TAG, "Clicked on Folder/Widget!");

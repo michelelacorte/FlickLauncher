@@ -206,24 +206,24 @@ public class ShortcutsCreation {
                         case 720:
                             switch (shortcuts.size()) {
                                 case 1:
-                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * -0.05));
-                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.05 + 93));
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.56));
+                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.64 + 93));
                                     break;
                                 case 2:
-                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * -0.05 - 110 * i));
-                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.05 + 105 * i));
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.32 - 110 * i));
+                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.4 + 100 * i));
                                     break;
                                 case 3:
-                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * -0.05 - 110 * i));
-                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.05 + 57 * i));
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.22 - 110 * i));
+                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.3 + 55 * i));
                                     break;
                                 case 4:
-                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * -0.05 - 110 * i));
-                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.05 + 42 * i));
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.18 - 110 * i));
+                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.28 + 42 * i));
                                     break;
                                 case 5:
-                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * -0.05 - 110 * i));
-                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.05 + 34 * i));
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.12 - 110 * i));
+                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.22 + 34 * i));
                                     break;
                                 default:
                                     Log.e(TAG, "Invalid Shortcuts number, max value is " + String.valueOf(MAX_NUMBER_OF_SHORTCUTS) + "!");
@@ -234,24 +234,24 @@ public class ShortcutsCreation {
                         case 1080:
                             switch (shortcuts.size()) {
                                 case 1:
-                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * -0.05));
-                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.05 + 137));
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.56));
+                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.64 + 137));
                                     break;
                                 case 2:
-                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * -0.05 - 160 * i));
-                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.05 + 157 * i));
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.32 - 160 * i));
+                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.4 + 157 * i));
                                     break;
                                 case 3:
-                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * -0.05 - 160 * i));
-                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.05 + 83 * i));
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.22 - 160 * i));
+                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.3 + 83 * i));
                                     break;
                                 case 4:
-                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * -0.05 - 160 * i));
-                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.05 + 62 * i));
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.18 - 160 * i));
+                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.28 + 62 * i));
                                     break;
                                 case 5:
-                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * -0.05 - 160 * i));
-                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.05 + 50 * i));
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.12 - 160 * i));
+                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.22 + 50 * i));
                                     break;
                                 default:
                                     Log.e(TAG, "Invalid Shortcuts number, max value is " + String.valueOf(MAX_NUMBER_OF_SHORTCUTS) + "!");
@@ -278,8 +278,8 @@ public class ShortcutsCreation {
                                     triangle.setY((float)(rowHeight +layoutHeightTotal * -0.31 + 83 * i));
                                     break;
                                 case 5:
-                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * -0.05 - 220 * i));
-                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.05 + 65 * i));
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.12 - 220 * i));
+                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.22 + 65 * i));
                                     break;
                                 default:
                                     Log.e(TAG, "Invalid Shortcuts number, max value is " + String.valueOf(MAX_NUMBER_OF_SHORTCUTS) + "!");
@@ -297,40 +297,40 @@ public class ShortcutsCreation {
                         case 720:
                             switch (shortcuts.size()) {
                                 case 1:
-                                    layout[i].setY((float)(rowHeight + layoutHeightTotal * 2.5));
-                                    triangle.setY(rowHeight + layoutHeightTotal + 163);
+                                    layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.6));
+                                    triangle.setY(rowHeight + layoutHeightTotal + 52);
                                     break;
                                 case 2:
                                     if (i >= 1) {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.9 - 110 * i));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.3 - 110 * i));
                                     } else {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.9));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.3));
                                     }
-                                    triangle.setY((float)(rowHeight + layoutHeightTotal * 1.9 - 127 * i));
+                                    triangle.setY((float)(rowHeight + layoutHeightTotal * 1.3 - 130 * i));
                                     break;
                                 case 3:
                                     if (i >= 1) {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.6 - 110 * i));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.25 - 110 * i));
                                     } else {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.6));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.25));
                                     }
-                                    triangle.setY((float)(rowHeight + layoutHeightTotal * 1.6 - 120 * i));
+                                    triangle.setY((float)(rowHeight + layoutHeightTotal * 1.25 - 120 * i));
                                     break;
                                 case 4:
                                     if (i >= 1) {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.5 - 110 * i));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.25 - 110 * i));
                                     } else {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.5));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.25));
                                     }
-                                    triangle.setY((float)(rowHeight + layoutHeightTotal * 1.5 - 117 * i));
+                                    triangle.setY((float)(rowHeight + layoutHeightTotal * 1.25 - 117 * i));
                                     break;
                                 case 5:
                                     if (i >= 1) {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.4 - 110 * i));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.25 - 110 * i));
                                     } else {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.4));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.25));
                                     }
-                                    triangle.setY((float)(rowHeight + layoutHeightTotal * 1.4 - 115 * i));
+                                    triangle.setY((float)(rowHeight + layoutHeightTotal * 1.25 - 115 * i));
                                     break;
                                 default:
                                     Log.e(TAG, "Invalid Shortcuts number, max value is " + String.valueOf(MAX_NUMBER_OF_SHORTCUTS) + "!");
@@ -340,40 +340,40 @@ public class ShortcutsCreation {
                         case 1080:
                             switch (shortcuts.size()) {
                                 case 1:
-                                    layout[i].setY((float)(rowHeight + layoutHeightTotal * 2.5));
-                                    triangle.setY(rowHeight + layoutHeightTotal + 225);
+                                    layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.6));
+                                    triangle.setY(rowHeight + layoutHeightTotal + 75);
                                     break;
                                 case 2:
                                     if (i >= 1) {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.9 - 160 * i));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.3- 160 * i));
                                     } else {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.9));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.3));
                                     }
-                                    triangle.setY(rowHeight + layoutHeightTotal * i + 100 * i);
+                                    triangle.setY((float)(rowHeight + layoutHeightTotal * 1.3 - 185 * i));
                                     break;
                                 case 3:
                                     if (i >= 1) {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.6 - 160 * i));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.25 - 160 * i));
                                     } else {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.6));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.25));
                                     }
-                                    triangle.setY(rowHeight + layoutHeightTotal * i - 267 * i);
+                                    triangle.setY((float)(rowHeight + layoutHeightTotal * 1.25 - 175 * i));
                                     break;
                                 case 4:
                                     if (i >= 1) {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.5 - 160 * i));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.25 - 160 * i));
                                     } else {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.5));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.25));
                                     }
-                                    triangle.setY(rowHeight + layoutHeightTotal * i - 480 * i);
+                                    triangle.setY((float)(rowHeight + layoutHeightTotal * 1.21 - 160 * i));
                                     break;
                                 case 5:
                                     if (i >= 1) {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.4 - 160 * i));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.25 - 160 * i));
                                     } else {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.4));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.25));
                                     }
-                                    triangle.setY(rowHeight + layoutHeightTotal * i - 668 * i);
+                                    triangle.setY((float)(rowHeight + layoutHeightTotal * 1.21 - 160 * i));
                                     break;
                                 default:
                                     Log.e(TAG, "Invalid Shortcuts number, max value is " + String.valueOf(MAX_NUMBER_OF_SHORTCUTS) + "!");
@@ -409,15 +409,14 @@ public class ShortcutsCreation {
                                         layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.3));
                                     }
                                     triangle.setY((float)(rowHeight + layoutHeightTotal * 1.2 - 205 * i));
-                                    //triangle.setY(rowHeight + layoutHeightTotal * i - 643 * i);
                                     break;
                                 case 5:
                                     if (i >= 1) {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.4 - 220 * i));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.25 - 220 * i));
                                     } else {
-                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.4));
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.25));
                                     }
-                                    triangle.setY(rowHeight + layoutHeightTotal * i - 893 * i);
+                                    triangle.setY((float)(rowHeight + layoutHeightTotal * 1.2 - 217 * i));
                                     break;
                                 default:
                                     Log.e(TAG, "Invalid Shortcuts number, max value is " + String.valueOf(MAX_NUMBER_OF_SHORTCUTS) + "!");
@@ -1441,5 +1440,4 @@ public class ShortcutsCreation {
         }
         return positionInGrid;
     }
-
 }
