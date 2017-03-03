@@ -21,6 +21,10 @@ Android API 14+
 
 **v0.1.0 (Coming Soon!)**
 * Starting implementing App Shortcuts on launcher.
+* Fixed crash on click widget
+* Update app icon and string (all languages)
+* Update color matching to app icon
+* Change default grid size to 6x5
 
 **v0**
 * Initial commit.
