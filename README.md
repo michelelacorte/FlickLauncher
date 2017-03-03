@@ -20,7 +20,10 @@ Android API 14+
 ##CHANGELOG
 
 **v0.1.0 (Coming Soon!)**
-* Starting implementing App Shortcuts on launcher.
+* App Shortcuts on Launcher working on device screen:
+    * 1440x2560 (Portrait).
+    * 1080x1920 (Portrait).
+    * 720x1280 (Portrait).
 * Fixed crash on click widget
 * Update app icon and string (all languages)
 * Update color matching to app icon
