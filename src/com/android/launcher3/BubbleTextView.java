@@ -19,7 +19,6 @@ package com.android.launcher3;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.content.res.Resources.Theme;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -29,6 +28,9 @@ import android.graphics.Region;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.util.TypedValue;
@@ -38,7 +40,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewDebug;
 import android.view.ViewParent;
-import android.widget.TextView;
 
 import com.android.launcher3.IconCache.IconLoadRequest;
 import com.android.launcher3.folder.FolderIcon;
@@ -51,10 +52,10 @@ import java.text.NumberFormat;
  * because we want to make the bubble taller than the text and TextView's clip is
  * too aggressive.
  */
-public class BubbleTextView extends TextView
+public class BubbleTextView extends AppCompatTextView
         implements BaseRecyclerViewFastScrollBar.FastScrollFocusableView {
 
-    private static SparseArray<Theme> sPreloaderThemes = new SparseArray<Theme>(2);
+    private static SparseArray<Theme> sPreloaderThemes = new SparseArray<>(2);
 
     // Dimensions in DP
     private static final float AMBIENT_SHADOW_RADIUS = 2.5f;
@@ -225,7 +226,7 @@ public class BubbleTextView extends TextView
     }
 
     @Override
-    protected boolean verifyDrawable(Drawable who) {
+    protected boolean verifyDrawable(@NonNull Drawable who) {
         return who == mBackground || super.verifyDrawable(who);
     }
 
@@ -404,7 +405,7 @@ public class BubbleTextView extends TextView
         }
 
         // If text is transparent, don't draw any shadow
-        if (getCurrentTextColor() == getResources().getColor(android.R.color.transparent)) {
+        if (getCurrentTextColor() == ContextCompat.getColor(getContext(), android.R.color.transparent)) {
             getPaint().clearShadowLayer();
             super.draw(canvas);
             return;
@@ -468,11 +469,10 @@ public class BubbleTextView extends TextView
     }
 
     public void setTextVisibility(boolean visible) {
-        Resources res = getResources();
         if (visible) {
             super.setTextColor(mTextColor);
         } else {
-            super.setTextColor(res.getColor(android.R.color.transparent));
+            super.setTextColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
         }
     }
 
