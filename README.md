@@ -9,6 +9,8 @@ We want to create a launcher for google pixels style stock, with a few tweaks.
 
 <h1 align="center"><img src="https://s7.postimg.org/6z20p8xor/Screenshot_2017_02_26_20_28_47_framed.png"/></h1>
 
+<h1 align="center"><img src="http://i.giphy.com/xUA7b9CtmYCVuAsPT2.gif"/></h1>
+
 ##SYSTEM REQUIREMENT
 
 Android API 14+
@@ -20,7 +22,10 @@ Android API 14+
 ##CHANGELOG
 
 **v0.1.0 (Coming Soon!)**
-* Starting implementing App Shortcuts on launcher.
+* App Shortcuts on Launcher working on device screen:
+    * 1440x2560 (Portrait).
+    * 1080x1920 (Portrait).
+    * 720x1280 (Portrait).
 * Fixed crash on click widget
 * Update app icon and string (all languages)
 * Update color matching to app icon
