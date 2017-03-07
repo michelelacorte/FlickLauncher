@@ -109,6 +109,10 @@ public class AllAppsTransitionController implements TouchController, VerticalPul
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if(Launcher.creation != null) {
+            Hotseat.isHotseatTouched = false;
+            Launcher.creation.clearAllLayout();
+        }
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             mNoIntercept = false;
             if (!mLauncher.isAllAppsVisible() && mLauncher.getWorkspace().workspaceInModalState()) {

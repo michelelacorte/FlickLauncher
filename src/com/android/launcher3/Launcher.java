@@ -124,6 +124,7 @@ import com.android.launcher3.util.ItemInfoMatcher;
 import com.android.launcher3.util.MultiHashMap;
 import com.android.launcher3.util.PackageManagerHelper;
 import com.android.launcher3.util.PendingRequestArgs;
+import com.android.launcher3.util.ShortcutsManager;
 import com.android.launcher3.util.TestingUtils;
 import com.android.launcher3.util.Thunk;
 import com.android.launcher3.util.ViewOnDrawExecutor;
@@ -3174,15 +3175,15 @@ public class Launcher extends Activity
 
                     List<Shortcuts> shortcutses = new ArrayList<Shortcuts>();
                     shortcutses = new ArrayList<Shortcuts>();
-                    shortcutses.add(new Shortcuts(R.drawable.ic_add_black_24dp, "Shortcuts", new View.OnClickListener() {
+                    /*shortcutses.add(new Shortcuts(R.drawable.ic_add_black_24dp, "Shortcuts", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Toast.makeText(getApplicationContext(), "Hello Shortcuts!!", Toast.LENGTH_LONG).show();
                             creation.clearAllLayout();
                         }
-                    }));
-                    shortcutses.add(new Shortcuts(R.drawable.ic_done_black_24dp, "Nougat!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
-                    shortcutses.add(new Shortcuts(R.drawable.ic_code_black_24dp, "App Shortcuts!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
+                    }));*/
+                    //shortcutses.add(new Shortcuts(R.drawable.ic_done_black_24dp, "Nougat!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
+                    //shortcutses.add(new Shortcuts(R.drawable.ic_code_black_24dp, "App Shortcuts!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
                     //shortcutses.add(new Shortcuts(R.drawable.ic_allapps, "App Shortcuts 2!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
                     //shortcutses.add(new Shortcuts(R.drawable.ic_code_black_24dp, "App Shortcuts 3!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
                     if(creation != null)
@@ -3196,7 +3197,7 @@ public class Launcher extends Activity
                     try{
                         shortcut = (ShortcutInfo) tag;
                         Drawable icon = new BitmapDrawable(getResources(), shortcut.getIcon(new IconCache(Launcher.this, getDeviceProfile().inv)));
-
+                        shortcutses = ShortcutsManager.getShortcutsBasedOnTag(Launcher.this.getApplicationContext(), shortcut, icon);
                         ShortcutsBuilder builder = new ShortcutsBuilder.Builder(this, masterLayout)
                                 .launcher3Shortcuts(gridSize, positionInGrid, (int)v.getY(), v.getBottom(), Hotseat.isHotseatTouched)
                                 .setOptionLayoutStyle(StyleOption.LINE_LAYOUT)

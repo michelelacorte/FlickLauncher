@@ -91,15 +91,15 @@ public class Utils {
         }
 
         Intent shortcutIntent = new Intent(activity.getApplicationContext(), activity.getClass());
-      /*  shortcutIntent.setComponent(new ComponentName(
-                packageName, className.replaceAll(packageName, "")));*/
+        shortcutIntent.setComponent(new ComponentName(
+                packageName, className.replaceAll(packageName, "")));
         shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         Intent addIntent = new Intent();
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutsText);
-        if(shortcutsImageBadge  == null && !RemoteShortcuts.USE_SHORTCUTS_FROM_API_25 && !ShortcutsCreation.USE_SHORTCUTS_FOR_LAUNCHER_3) {
+        if(shortcutsImageBadge  == null && !RemoteShortcuts.USE_SHORTCUTS_FROM_API_25&& !ShortcutsCreation.USE_SHORTCUTS_FOR_LAUNCHER_3) {
             Bitmap roundedBitmap = getRoundedBitmap(shortcutsImage, packageImage);
             addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, roundedBitmap);
         }else if(ShortcutsCreation.USE_SHORTCUTS_FOR_LAUNCHER_3){
@@ -201,9 +201,10 @@ public class Utils {
                 shortcutsIconScaled = getResizedBitmap(bitmap, (int)(bitmap.getWidth()*1.1), (int)(bitmap.getHeight()*1.1));
                 break;
             case 1440:
-                packageIconScaled = getResizedBitmap(packageIcon, bitmap.getWidth(), bitmap.getHeight());
-                shortcutsIconScaled = getResizedBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight());
-                break;
+                return getRoundedBitmap(bitmap, packageImage);
+                //packageIconScaled = getResizedBitmap(packageIcon, bitmap.getWidth(), bitmap.getHeight());
+                //shortcutsIconScaled = getResizedBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight());
+                //break;
             default:
                 Log.e(TAG, "Resolution of screen not supported!");
                 break;

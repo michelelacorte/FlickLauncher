@@ -56,4 +56,5 @@
     <color name="colorPrimary">#5e8bff</color>
     <color name="colorPrimaryDark">#5e8bff</color>
     <color name="colorAccent">#000</color>
+    <color name="chrome_blue">#4587f3</color>
 </resources>

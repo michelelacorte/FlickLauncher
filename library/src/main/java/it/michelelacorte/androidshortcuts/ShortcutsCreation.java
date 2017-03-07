@@ -1,5 +1,6 @@
 package it.michelelacorte.androidshortcuts;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.Point;
@@ -8,9 +9,11 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.view.animation.Transformation;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
@@ -18,6 +21,7 @@ import android.widget.RelativeLayout;
 import java.util.List;
 
 import it.michelelacorte.androidshortcuts.util.GridSize;
+import it.michelelacorte.androidshortcuts.util.ResizeWidthAnimation;
 import it.michelelacorte.androidshortcuts.util.Utils;
 
 /**
@@ -184,8 +188,8 @@ public class ShortcutsCreation {
                 triangle.setRotation(180);
 
                 //Start Animation
-                layout[i].startAnimation(animationRightToLeft);
-                triangle.startAnimation(animationRightToLeft);
+                //layout[i].startAnimation(animationRightToLeft);
+                //triangle.startAnimation(animationRightToLeft);
             } else {
                 //Sinistra
 
@@ -194,8 +198,8 @@ public class ShortcutsCreation {
                 triangle.setRotation(180);
 
                 //Start Animation
-                layout[i].startAnimation(animationLeftToRight);
-                triangle.startAnimation(animationLeftToRight);
+                //layout[i].startAnimation(animationLeftToRight);
+                //triangle.startAnimation(animationLeftToRight);
             }
 
             if ((toolbarHeight = Utils.getToolbarHeight(activity)) >= 0) {
@@ -521,6 +525,41 @@ public class ShortcutsCreation {
                 }
             }
             masterLayout.addView(layout[i], params);
+            /*ResizeWidthAnimation anim = new ResizeWidthAnimation(layout[i], DIM_WIDTH);
+            anim.setDuration(250*i);
+            layout[i].startAnimation(anim);
+            */
+            if ((dim + DIM_WIDTH) >= maxXScreen) {
+                /*
+                final int j = i;
+                ValueAnimator anim = ValueAnimator.ofInt(0, DIM_WIDTH);
+                anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        int val = (Integer) valueAnimator.getAnimatedValue();
+                        ViewGroup.LayoutParams layoutParams = layout[j].getLayoutParams();
+                        layoutParams.width = val;
+                        layout[j].setLayoutParams(layoutParams);
+                    }
+                });
+                anim.setDuration(200 * j);
+                anim.start();
+                */
+            }else {
+                final int j = i;
+                ValueAnimator anim = ValueAnimator.ofInt(layout[j].getMeasuredWidth(), DIM_WIDTH);
+                anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        int val = (Integer) valueAnimator.getAnimatedValue();
+                        ViewGroup.LayoutParams layoutParams = layout[j].getLayoutParams();
+                        layoutParams.width = val;
+                        layout[j].setLayoutParams(layoutParams);
+                    }
+                });
+                anim.setDuration(150 * j);
+                anim.start();
+            }
         }
         masterLayout.addView(triangle, paramsTriangle);
         Log.d(TAG, "Shortcuts Created!");
