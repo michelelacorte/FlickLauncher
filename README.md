@@ -26,10 +26,12 @@ Android API 14+
     * 1440x2560 (Portrait).
     * 1080x1920 (Portrait).
     * 720x1280 (Portrait).
-* Fixed crash on click widget
-* Update app icon and string (all languages)
-* Update color matching to app icon
-* Change default grid size to 6x5
+* Fixed App Shortcuts on 560 dpi and 420 dpi.
+* Added App Shortcuts for: Google Chrome, Maps, Ebay, Evernote, Gmail, Allo, Docs, Youtube, Calendar, Photos, Drive.
+* Fixed crash on click widget.
+* Update app icon and string (all languages).
+* Update color matching to app icon.
+* Change default grid size to 6x5.
 
 **v0**
 * Initial commit.
