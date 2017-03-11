@@ -27,7 +27,7 @@ Android API 14+
     * 1080x1920 (Portrait).
     * 720x1280 (Portrait).
 * Fixed App Shortcuts on 560 dpi and 420 dpi.
-* Added App Shortcuts for: Google Chrome, Maps, Ebay, Evernote, Gmail, Allo, Docs, Youtube, Calendar, Photos, Drive, Greenify.
+* Added App Shortcuts for: Google Chrome, Maps, Ebay, Evernote, Gmail, Allo, Docs, Youtube, Calendar, Photos, Drive, Greenify, Play Movies, Play Music.
 * Fixed crash on click widget.
 * Update app icon and string (all languages).
 * Update color matching to app icon.
