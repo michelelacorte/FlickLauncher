@@ -9,6 +9,9 @@ We want to create a launcher for google pixels style stock, with a few tweaks.
 
 <h1 align="center"><img src="https://s7.postimg.org/6z20p8xor/Screenshot_2017_02_26_20_28_47_framed.png"/></h1>
 
+<h1 align="center"><img src="https://s13.postimg.org/pvp280epz/Screenshot_2017_03_11_19_51_20_framed.png"/></h1>
+
+
 <h1 align="center"><img src="http://i.giphy.com/xUA7b9CtmYCVuAsPT2.gif"/></h1>
 
 ##SYSTEM REQUIREMENT
