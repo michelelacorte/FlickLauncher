@@ -3,6 +3,10 @@
 Universal Launcher is a project started by [Michele Lacorte](https://github.com/michelelacorte) and [HearSilent](https://github.com/hearsilent).
 We want to create a launcher for google pixels style stock, with a few tweaks.
 
+##ALPHA
+
+Universal Launcher is on closed Alpha preview, if you want to contribute send me an email and than I send you back the Alpha project!
+
 ##PREVIEW
 
 ###v0.1.0 (Coming Soon!)
@@ -35,6 +39,9 @@ Android API 14+
 * Update app icon and string (all languages).
 * Update color matching to app icon.
 * Change default grid size to 6x5.
+* Possibility to change grid size.
+* Possibility to change number of icon in dock.
+* Added circular icon in launcher.
 
 **v0**
 * Initial commit.
