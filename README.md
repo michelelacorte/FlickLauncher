@@ -3,13 +3,13 @@
 Universal Launcher is a project started by [Michele Lacorte](https://github.com/michelelacorte) and [HearSilent](https://github.com/hearsilent).
 We want to create a launcher for google pixels style stock, with a few tweaks.
 
-##ALPHA
+## ALPHA
 
 Universal Launcher is on closed Alpha preview, if you want to contribute send me an email and than I send you back the Alpha project!
 
-##PREVIEW
+## PREVIEW
 
-###v0.1.0 (Coming Soon!)
+### v0.1.0 (Coming Soon!)
 
 <h1 align="center"><img src="https://s7.postimg.org/6z20p8xor/Screenshot_2017_02_26_20_28_47_framed.png"/></h1>
 
@@ -18,15 +18,15 @@ Universal Launcher is on closed Alpha preview, if you want to contribute send me
 
 <h1 align="center"><img src="http://i.giphy.com/xUA7b9CtmYCVuAsPT2.gif"/></h1>
 
-##SYSTEM REQUIREMENT
+## SYSTEM REQUIREMENT
 
 Android API 14+
 
-##STATUS
+## STATUS
 
 ![project maintained](https://img.shields.io/badge/Project-Maintained-green.svg)
 
-##CHANGELOG
+## CHANGELOG
 
 **v0.1.0 (Coming Soon!)**
 * App Shortcuts on Launcher working on device screen:
@@ -47,7 +47,7 @@ Android API 14+
 * Initial commit.
 
 
-##CREDITS
+## CREDITS
 
 Author: Michele Lacorte (micky1995g@gmail.com)
 
@@ -55,13 +55,13 @@ Author: HearSilent (https://github.com/hearsilent)
 
 Follow [Michele Lacorte Google+](https://plus.google.com/u/0/collection/McidZB)
 
-##CONTRIBUTING
+## CONTRIBUTING
 
 If you want to contribute to the project fork it and open [Pull Request](https://github.com/michelelacorte/UniversalLauncher/pulls), or contact author by e-mail.
 
 Each proposal will be accepted!
 
-##LICENSE
+## LICENSE
 
 ```
 Copyright 2017 Michele Lacorte and HearSilent
