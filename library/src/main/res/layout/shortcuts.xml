@@ -10,6 +10,7 @@
 
     <View android:layout_width="30dp"
         android:layout_height="35dp"
+        android:id="@+id/view_circle"
         android:background="@drawable/circle"
         android:layout_gravity="start|center_vertical"
         android:layout_centerVertical="true" />

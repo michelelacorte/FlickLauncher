@@ -36,6 +36,7 @@ public class Shortcuts implements Serializable{
     private int rank;
     private String targetClass;
     private String targetPackage;
+    private String targetAction;
 
     private View.OnClickListener onShortcutsClickListener;
     private View.OnClickListener onShortcutsOptionClickListener;
@@ -50,6 +51,22 @@ public class Shortcuts implements Serializable{
      */
     public Shortcuts(int shortcutsImage, String shortcutsText, View.OnClickListener onShortcutsClickListener){
         this.shortcutsImage = shortcutsImage;
+        if(shortcutsText.toCharArray().length > MAX_CHAR_SHORTCUTS){
+            this.shortcutsText = "NULL";
+            Log.e(TAG, "Impossible to have string > " + MAX_CHAR_SHORTCUTS + " chars, setted to NULL string!");
+        }else{
+            this.shortcutsText = shortcutsText;
+        }
+        if(onShortcutsClickListener != null) {
+            this.onShortcutsClickListener = onShortcutsClickListener;
+        }else{
+            Log.e(TAG, "OnClickListener must be different from NULL");
+        }
+    }
+
+    public Shortcuts(Bitmap shortcutsImage, String shortcutsText, View.OnClickListener onShortcutsClickListener){
+        this.shortcutsImageBitmap = shortcutsImage;
+        this.shortcutsImage = 0;
         if(shortcutsText.toCharArray().length > MAX_CHAR_SHORTCUTS){
             this.shortcutsText = "NULL";
             Log.e(TAG, "Impossible to have string > " + MAX_CHAR_SHORTCUTS + " chars, setted to NULL string!");
@@ -103,7 +120,7 @@ public class Shortcuts implements Serializable{
      * @param targetClass String
      * @param targetPackage String
      */
-    public Shortcuts(int shortcutsImage, String shortcutsText, String targetClass, String targetPackage){
+    public Shortcuts(int shortcutsImage, String shortcutsText, String targetClass, String targetPackage, String targetAction){
         this.shortcutsImage = shortcutsImage;
         if(shortcutsText.toCharArray().length > MAX_CHAR_SHORTCUTS){
             this.shortcutsText = "NULL";
@@ -113,6 +130,7 @@ public class Shortcuts implements Serializable{
         }
         this.targetClass= targetClass;
         this.targetPackage = targetPackage;
+        this.targetAction = targetAction;
     }
 
 
@@ -123,7 +141,7 @@ public class Shortcuts implements Serializable{
      * @param targetClass String
      * @param targetPackage String
      */
-    public Shortcuts(Bitmap shortcutsImage, String shortcutsText, String targetClass, String targetPackage){
+    public Shortcuts(Bitmap shortcutsImage, String shortcutsText, String targetClass, String targetPackage, String targetAction){
         this.shortcutsImageBitmap = shortcutsImage;
         this.shortcutsImage = 0;
         if(shortcutsText.toCharArray().length > MAX_CHAR_SHORTCUTS){
@@ -134,6 +152,7 @@ public class Shortcuts implements Serializable{
         }
         this.targetClass = targetClass;
         this.targetPackage = targetPackage;
+        this.targetAction = targetAction;
     }
 
     @TargetApi(25)
@@ -191,6 +210,17 @@ public class Shortcuts implements Serializable{
         TextView mShortcutsText = (TextView) layout.findViewById(R.id.shortcut_text);
         RelativeLayout mShortcutsParent = (RelativeLayout) layout.findViewById(R.id.shortcut_parent);
         ImageView mShortcutsOptions = (ImageView) layout.findViewById(R.id.shortcut_options);
+        View mViewCircle = (View) layout.findViewById(R.id.view_circle);
+
+        if(Utils.getScreenDpi(activity) == 560){
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mViewCircle.getLayoutParams();
+            params.height -= 15;
+            mViewCircle.setLayoutParams(params);
+        }else if(Utils.getScreenDpi(activity) == 420){
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mViewCircle.getLayoutParams();
+            params.height -= 10;
+            mViewCircle.setLayoutParams(params);
+        }
 
         if(onShortcutsClickListener != null)
             mShortcutsParent.setOnClickListener(onShortcutsClickListener);
@@ -201,15 +231,15 @@ public class Shortcuts implements Serializable{
                 try {
                     if(RemoteShortcuts.USE_SHORTCUTS_FROM_API_25){
                         shortcutsCreation.clearAllLayout();
-                        Utils.createShortcutsOnLauncher(activity, shortcutsImageBitmap, shortcutsText, targetClass, targetPackage, packageImage, shortcutsImageBadgeBitmap);
+                        Utils.createShortcutsOnLauncher(activity, shortcutsImageBitmap, shortcutsText, targetClass, targetPackage, targetAction, packageImage, shortcutsImageBadgeBitmap);
                     } else if(shortcutsImageBitmap != null && !RemoteShortcuts.USE_SHORTCUTS_FROM_API_25) {
                         shortcutsCreation.clearAllLayout();
-                        Utils.createShortcutsOnLauncher(activity, shortcutsImageBitmap, shortcutsText, targetClass, targetPackage, packageImage, null);
+                        Utils.createShortcutsOnLauncher(activity, shortcutsImageBitmap, shortcutsText, targetClass, targetPackage, targetAction, packageImage, null);
                     }else if (!RemoteShortcuts.USE_SHORTCUTS_FROM_API_25){
                         shortcutsCreation.clearAllLayout();
                         Drawable drawable = ContextCompat.getDrawable(activity.getApplicationContext(), shortcutsImage);
                         Bitmap toBitmap = Utils.convertDrawableToBitmap(drawable);
-                        Utils.createShortcutsOnLauncher(activity, toBitmap, shortcutsText, targetClass, targetPackage, packageImage, null);
+                        Utils.createShortcutsOnLauncher(activity, toBitmap, shortcutsText, targetClass, targetPackage, targetAction, packageImage, null);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -224,6 +254,9 @@ public class Shortcuts implements Serializable{
                     public void onClick(View view) {
                         Intent intent = new Intent();
                         intent.setComponent(new ComponentName(targetPackage, targetClass));
+                        if(targetAction != null && !targetAction.equals("")) {
+                            intent.setAction(targetAction);
+                        }
                         activity.startActivity(intent);
                     }
                 });
@@ -271,16 +304,16 @@ public class Shortcuts implements Serializable{
                     try {
                         if(RemoteShortcuts.USE_SHORTCUTS_FROM_API_25){
                             shortcutsCreation.clearAllLayout();
-                            Utils.createShortcutsOnLauncher(activity, shortcutsImageBitmap, shortcutsText, targetClass, targetPackage, packageImage, shortcutsImageBadgeBitmap);
+                            Utils.createShortcutsOnLauncher(activity, shortcutsImageBitmap, shortcutsText, targetClass, targetPackage, targetAction, packageImage, shortcutsImageBadgeBitmap);
                         }
                         if(shortcutsImageBitmap != null && !RemoteShortcuts.USE_SHORTCUTS_FROM_API_25) {
                             shortcutsCreation.clearAllLayout();
-                            Utils.createShortcutsOnLauncher(activity, shortcutsImageBitmap, shortcutsText, targetClass, targetPackage, packageImage, null);
+                            Utils.createShortcutsOnLauncher(activity, shortcutsImageBitmap, shortcutsText, targetClass, targetPackage, targetAction, packageImage, null);
                         }else if (!RemoteShortcuts.USE_SHORTCUTS_FROM_API_25){
                             shortcutsCreation.clearAllLayout();
                             Drawable drawable = ContextCompat.getDrawable(activity.getApplicationContext(), shortcutsImage);
                             Bitmap toBitmap = Utils.convertDrawableToBitmap(drawable);
-                            Utils.createShortcutsOnLauncher(activity, toBitmap, shortcutsText, targetClass, targetPackage, packageImage, null);
+                            Utils.createShortcutsOnLauncher(activity, toBitmap, shortcutsText, targetClass, targetPackage, targetAction, packageImage, null);
                         }
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();

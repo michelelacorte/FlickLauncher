@@ -18,7 +18,10 @@ package com.android.launcher3;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.content.res.Resources.Theme;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -32,6 +35,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -44,8 +48,16 @@ import android.view.ViewParent;
 import com.android.launcher3.IconCache.IconLoadRequest;
 import com.android.launcher3.folder.FolderIcon;
 import com.android.launcher3.model.PackageItemInfo;
+import com.android.launcher3.util.IconPackManager;
+
+import org.xmlpull.v1.XmlPullParser;
 
 import java.text.NumberFormat;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import it.michelelacorte.androidshortcuts.util.Utils;
 
 /**
  * TextView that draws a bubble behind the text. We cannot use a LineBackgroundSpan
@@ -187,12 +199,28 @@ public class BubbleTextView extends AppCompatTextView
         verifyHighRes();
     }
 
+    public static Drawable getIconPack(){
+        /*Launcher.activity.getPackageManager().queryIntentActivities(new Intent("org.adw.launcher.THEMES"), PackageManager.GET_META_DATA);
+        int i = Launcher.activity.getResources().getIdentifier("appfilter", "xml", "iconpack.package.name");
+        Launcher.activity.getResources().getXml(i);*/
+        String componentName = Launcher.getLauncherActivity().getPackageManager().getLaunchIntentForPackage("com.themezilla.pixelui").getComponent().toString();
+        int id = Launcher.getLauncherActivity().getResources().getIdentifier(componentName, "drawable", "com.themezilla.pixelui");
+        return ContextCompat.getDrawable(Launcher.getLauncherActivity(), id);
+    }
+
     private void applyIconAndLabel(Bitmap icon, ItemInfo info) {
         FastBitmapDrawable iconDrawable = mLauncher.createIconDrawable(icon);
         if (info.isDisabled()) {
             iconDrawable.setState(FastBitmapDrawable.State.DISABLED);
         }
-        setIcon(iconDrawable);
+        if(Utilities.isAllowCircularIconPrefEnabled(getContext())){
+            Bitmap test = Utils.getRoundedBitmapForUniversalLauncher(Launcher.getLauncherActivity(), icon);
+            FastBitmapDrawable iconD = mLauncher.createIconDrawable(test);
+            setIcon(iconD);
+        }else{
+            setIcon(iconDrawable);
+        }
+
         setText(info.title);
         if (info.contentDescription != null) {
             setContentDescription(info.isDisabled()

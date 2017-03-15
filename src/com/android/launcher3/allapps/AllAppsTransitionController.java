@@ -109,9 +109,9 @@ public class AllAppsTransitionController implements TouchController, VerticalPul
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if(Launcher.creation != null) {
+        if(Launcher.getShortcutsCreation() != null) {
             Hotseat.isHotseatTouched = false;
-            Launcher.creation.clearAllLayout();
+            Launcher.getShortcutsCreation().clearAllLayout();
         }
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             mNoIntercept = false;
@@ -404,7 +404,7 @@ public class AllAppsTransitionController implements TouchController, VerticalPul
 
         // assumption is that this variable is always null
         mDiscoBounceAnimation = (AnimatorSet) AnimatorInflater.loadAnimator(mLauncher,
-                R.anim.discovery_bounce);
+                R.animator.discovery_bounce);
         mDiscoBounceAnimation.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animator) {

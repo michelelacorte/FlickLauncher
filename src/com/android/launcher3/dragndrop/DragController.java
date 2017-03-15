@@ -634,8 +634,8 @@ public class DragController implements DragDriver.EventListener, TouchController
             case MotionEvent.ACTION_MOVE:
                 if(dragLayerX != ev.getX() &&
                         dragLayerY != ev.getY()){
-                    if(Launcher.creation != null) {
-                        Launcher.creation.clearAllLayout();
+                    if(Launcher.getShortcutsCreation() != null) {
+                        Launcher.getShortcutsCreation().clearAllLayout();
                     }
                     Hotseat.isHotseatTouched = false;
                 }

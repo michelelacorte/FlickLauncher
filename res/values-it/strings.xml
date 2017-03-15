@@ -16,7 +16,9 @@
 * limitations under the License.
 */
  -->
-
+<!DOCTYPE resources [
+    <!ENTITY app_name "Universal Launcher">
+    ]>
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name" msgid="649227358658669779">Universal Launcher</string>
@@ -104,4 +106,60 @@
     <string name="widget_resized" msgid="9130327887929620">"Widget ridimensionato a larghezza <xliff:g id="NUMBER_0">%1$s</xliff:g>, altezza <xliff:g id="NUMBER_1">%2$s</xliff:g>"</string>
     <string name="action_deep_shortcut" msgid="2864038805849372848">"Scorciatoie"</string>
     <string name="shortcuts_menu_description" msgid="406159963824238648">"<xliff:g id="NUMBER_OF_SHORTCUTS">%1$d</xliff:g> scorciatoie per <xliff:g id="APP_NAME">%2$s</xliff:g>"</string>
+    <string name="allow_icon_summary">L\'impostazione attiva le icone circolari</string>
+    <string name="allow_icon_title">Abilita icone circolari</string>
+    <string name="preferences_layout_option">Interfaccia</string>
+    <string name="grid_size">Dimensione della griglia</string>
+    <string name="grid_size_summary">Cambia la dimensione della griglia</string>
+    <string name="column_size">Dimensione colonne</string>
+    <string name="row_size">Dimensione righe</string>
+    <string name="preferences_dock_option">Dock</string>
+    <string name="dock_size">Icone nella dock</string>
+    <string name="dock_size_summary">Cambia il numero delle icone nella dock</string>
+    <string name="cancel">ANNULLA</string>
+    <string name="add_shortcuts">Aggiungi Shortcuts</string>
+    <string name="alert_max">INumero massimo di shortcuts:</string>
+    <string name="alert_title">Titolo</string>
+    <string name="allo_conversation">Nuova Chat</string>
+    <string name="calendar_event">Nuovo evento</string>
+    <string name="calendar_reminder">Nuovo promemoria</string>
+    <string name="delete">Disinstalla</string>
+    <string name="docs_new">Nuovo</string>
+    <string name="docs_template">Scegli template</string>
+    <string name="drive_scan">Scan</string>
+    <string name="drive_upload">Upload</string>
+    <string name="ebay_following">Seguiti</string>
+    <string name="ebay_local_offer">Vendita</string>
+    <string name="ebay_watching">Osservati</string>
+    <string name="evernote_audio">Audio</string>
+    <string name="evernote_camera">Camera</string>
+    <string name="evernote_note">Nota</string>
+    <string name="gmail_compose">Scrivi</string>
+    <string name="greenify_hibernate">Iberna ora</string>
+    <string name="greenify_sleep">Sospendi e Iberna</string>
+    <string name="hang_call">Chiamata vocale</string>
+    <string name="hang_chat">Chat</string>
+    <string name="hang_video">Videochiamata</string>
+    <string name="information">Info</string>
+    <string name="maps_home">Casa</string>
+    <string name="maps_work">Lavoro</string>
+    <string name="movies_my">Miei Film</string>
+    <string name="movies_tv">Miei programmi TV</string>
+    <string name="movies_wishlist">Lista dei desideri</string>
+    <string name="music_library">Libreria</string>
+    <string name="music_recent">Recente</string>
+    <string name="new_incognito_tab">Nuova tab incognito</string>
+    <string name="new_tab">Nuova Scheda</string>
+    <string name="photo_free_space">Libera spazio</string>
+    <string name="photo_lucky">Mi sento fortunato</string>
+    <string name="search">Cerca</string>
+    <string name="youtube_sub">Iscrizioni</string>
+    <string name="youtube_trending">Di tendenza</string>
+    <string name="ask_default_1">Vuoi impostare</string>
+    <string name="ask_default_2">come launcher di default?</string>
+    <string name="ask_default_launcher">Imposta &app_name; come default</string>
+    <string name="ask_default_launcher_summary">Cambia il launcher di default</string>
+    <string name="ask_default">Vuoi impostare &app_name; come default?</string>
+    <string name="preferences_various_option">Varie</string>
+    <string name="default_launcher_already_set">Hai già &app_name; come launcher di default!</string>
 </resources>

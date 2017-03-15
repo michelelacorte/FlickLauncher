@@ -45,6 +45,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -62,12 +63,14 @@ import android.os.StrictMode;
 import android.os.SystemClock;
 import android.os.Trace;
 import android.os.UserHandle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Selection;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.method.TextKeyListener;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Display;
 import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
@@ -86,6 +89,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Advanceable;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -119,6 +123,7 @@ import com.android.launcher3.shortcuts.DeepShortcutsContainer;
 import com.android.launcher3.shortcuts.ShortcutKey;
 import com.android.launcher3.userevent.nano.LauncherLogProto;
 import com.android.launcher3.util.ActivityResultInfo;
+import com.android.launcher3.util.ApplicationInfo;
 import com.android.launcher3.util.ComponentKey;
 import com.android.launcher3.util.ItemInfoMatcher;
 import com.android.launcher3.util.MultiHashMap;
@@ -146,6 +151,7 @@ import it.michelelacorte.androidshortcuts.ShortcutsBuilder;
 import it.michelelacorte.androidshortcuts.ShortcutsCreation;
 import it.michelelacorte.androidshortcuts.util.GridSize;
 import it.michelelacorte.androidshortcuts.util.StyleOption;
+import it.michelelacorte.androidshortcuts.util.Utils;
 
 /**
  * Default launcher application.
@@ -379,7 +385,8 @@ public class Launcher extends Activity
     //Shortcuts implementation
     private GridSize gridSize;
     private InsettableFrameLayout masterLayout;
-    public static ShortcutsCreation creation;
+    private static ShortcutsCreation creation;
+    private static Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -406,6 +413,7 @@ public class Launcher extends Activity
         }
 
         super.onCreate(savedInstanceState);
+
 
         LauncherAppState app = LauncherAppState.getInstance();
 
@@ -493,7 +501,11 @@ public class Launcher extends Activity
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onCreate(savedInstanceState);
         }
+
+        activity = this;
     }
+
+
 
     @Override
     public void onExtractedColorsChanged() {
@@ -3197,9 +3209,9 @@ public class Launcher extends Activity
                     try{
                         shortcut = (ShortcutInfo) tag;
                         Drawable icon = new BitmapDrawable(getResources(), shortcut.getIcon(new IconCache(Launcher.this, getDeviceProfile().inv)));
-                        shortcutses = ShortcutsManager.getShortcutsBasedOnTag(Launcher.this.getApplicationContext(), shortcut, icon);
+                        shortcutses = ShortcutsManager.getShortcutsBasedOnTag(Launcher.this.getApplicationContext(), Launcher.this, shortcut, icon);
                         ShortcutsBuilder builder = new ShortcutsBuilder.Builder(this, masterLayout)
-                                .launcher3Shortcuts(gridSize, positionInGrid, (int)v.getY(), v.getBottom(), Hotseat.isHotseatTouched)
+                                .launcher3Shortcuts(gridSize, positionInGrid, (int)v.getY(), v.getBottom(), Hotseat.isHotseatTouched, Utilities.getDockSizeDefaultValue(getApplicationContext()))
                                 .setOptionLayoutStyle(StyleOption.LINE_LAYOUT)
                                 .setPackageImage(icon)
                                 .setShortcutsList(shortcutses)
@@ -3236,16 +3248,24 @@ public class Launcher extends Activity
                                 @Override
                                 public void onClick(View view) {
                                     if (f instanceof FolderIcon) {
-                                        AlertDialog.Builder alert = new AlertDialog.Builder(Launcher.this);
-                                        final EditText edittext = new EditText(Launcher.this);
+                                        AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(Launcher.this, R.style.AlertDialogCustom));
+                                        LinearLayout layout = new LinearLayout(getApplicationContext());
+                                        layout.setOrientation(LinearLayout.VERTICAL);
+                                        layout.setPadding(100, 50, 100, 100);
+
+                                        final EditText titleBox = new EditText(Launcher.this);
+
+
+                                        titleBox.getBackground().mutate().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
                                         alert.setMessage("Folder Title");
                                         alert.setTitle("Enter Your Title");
 
-                                        alert.setView(edittext);
+                                        layout.addView(titleBox);
+                                        alert.setView(layout);
 
                                         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int whichButton) {
-                                                folder.setTitle(edittext.getText().toString());
+                                                folder.setTitle(titleBox.getText().toString());
                                             }
                                         });
 
@@ -3261,7 +3281,7 @@ public class Launcher extends Activity
                             }));
 
                             ShortcutsBuilder builder = new ShortcutsBuilder.Builder(this, masterLayout)
-                                    .launcher3Shortcuts(gridSize, positionInGrid, (int)v.getY(), v.getBottom(), Hotseat.isHotseatTouched)
+                                    .launcher3Shortcuts(gridSize, positionInGrid, (int)v.getY(), v.getBottom(), Hotseat.isHotseatTouched, Utilities.getDockSizeDefaultValue(getApplicationContext()))
                                     .setOptionLayoutStyle(0)
                                     .setPackageImage(ContextCompat.getDrawable(Launcher.this, R.drawable.ic_folder_open_black_24dp))
                                     .setShortcutsList(shortcutses)
@@ -4533,6 +4553,15 @@ public class Launcher extends Activity
         icon.setBounds(0, 0, mDeviceProfile.iconSizePx, mDeviceProfile.iconSizePx);
         return icon;
     }
+
+    public static ShortcutsCreation getShortcutsCreation() {
+        return creation;
+    }
+
+    public static Activity getLauncherActivity() {
+        return activity;
+    }
+
 
     /**
      * Prints out out state for debugging.

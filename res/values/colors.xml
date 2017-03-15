@@ -56,5 +56,16 @@
     <color name="colorPrimary">#5e8bff</color>
     <color name="colorPrimaryDark">#5e8bff</color>
     <color name="colorAccent">#000</color>
+
+    <!-- Shortcuts Color -->
     <color name="chrome_blue">#4587f3</color>
+    <color name="maps_green">#0f9d3a</color>
+    <color name="ebay_search">#7c69c1</color>
+    <color name="ebay_watching">#fc7186</color>
+    <color name="ebay_local_offer">#078b89</color>
+    <color name="ebay_following">#57dfd4</color>
+    <color name="evernote_green">#2dbe60</color>
+    <color name="gmail_red">#db4441</color>
+    <color name="drive_blu">#4889f4</color>
+    <color name="music_orange">#ff5722</color>
 </resources>

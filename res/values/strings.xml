@@ -17,12 +17,60 @@
 */
 -->
 
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<!DOCTYPE resources [
+<!ENTITY app_name "Universal Launcher">
+]>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
     <!-- Shortcuts -->
+    <string name="add_shortcuts">Add Shortcuts</string>
+    <string name="information">Info</string>
+    <string name="delete">Uninstall</string>
     <string name="new_incognito_tab">New Incognito Tab</string>
     <string name="new_tab">New Tab</string>
+    <string name="maps_work">Work</string>
+    <string name="maps_home">Home</string>
+    <string name="search">Search</string>
+    <string name="ebay_watching">Watching</string>
+    <string name="ebay_local_offer">Selling</string>
+    <string name="ebay_following">Following</string>
+    <string name="evernote_note">Simple Note</string>
+    <string name="evernote_audio">Audio</string>
+    <string name="evernote_camera">Camera</string>
+    <string name="gmail_compose">Compose</string>
+    <string name="allo_conversation">New Conversation</string>
+    <string name="drive_upload">Upload</string>
+    <string name="drive_scan">Scan</string>
+    <string name="youtube_sub">Subscriptions</string>
+    <string name="youtube_trending">Trending</string>
+    <string name="calendar_event">New event</string>
+    <string name="calendar_reminder">New reminder</string>
+    <string name="photo_free_space">Free up space</string>
+    <string name="photo_lucky">I\'m Feeling Lucky</string>
+    <string name="docs_new">Create new</string>
+    <string name="docs_template">Choose template</string>
+    <string name="greenify_hibernate">Hibernate Now</string>
+    <string name="greenify_sleep">Sleep and Hibernate</string>
+    <string name="movies_my">My Movies</string>
+    <string name="movies_tv">My TV Shows</string>
+    <string name="movies_wishlist">My Wishlist</string>
+    <string name="music_library">My library</string>
+    <string name="music_recent">Recent activity</string>
+    <string name="hang_chat">Chat</string>
+    <string name="hang_video">Video call</string>
+    <string name="hang_call">Voice call</string>
+
+    <!-- Alert dialog shortcuts -->
+    <string name="alert_title">Title</string>
+    <string name="alert_max">Max number of shortcuts is:</string>
     <!-- General -->
     <skip />
+
+    <!-- Alert dialog launcher default -->
+    <string name="ask_default">Do want you set &app_name; as the default launcher?</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
 
     <!-- Application name -->
     <string name="app_name" translatable="false">Universal Launcher</string>
@@ -157,12 +205,39 @@
     <string name="accessibility_action_overview">Overview</string>
 
     <!-- Strings for settings -->
+    <string name="preferences_layout_option">Layout Option</string>
     <!-- Title for Allow Rotation setting. [CHAR LIMIT=50] -->
     <string name="allow_rotation_title">Allow Home screen rotation</string>
     <!-- Text explaining when the home screen will get rotated. [CHAR LIMIT=100] -->
     <string name="allow_rotation_desc">When phone is rotated</string>
     <!-- Text explaining that rotation is disabled in Display settings. 'Display' refers to the Display section in system settings [CHAR LIMIT=100] -->
     <string name="allow_rotation_blocked_desc">Current Display setting doesn\'t permit rotation</string>
+
+    <string name="allow_icon_title">Allow circular icon</string>
+
+    <string name="allow_icon_summary">This settings made circular icon</string>
+
+    <string name="grid_size">Change grid size</string>
+
+    <string name="grid_size_summary">Set your custom grid size</string>
+
+    <string name="column_size">Column Size</string>
+
+    <string name="row_size">Row Size</string>
+
+    <string name="preferences_dock_option">Dock option</string>
+
+    <string name="dock_size">Icon in dock</string>
+
+    <string name="dock_size_summary">Change number of icon in dock</string>
+
+    <string name="preferences_various_option">Various</string>
+
+    <string name="ask_default_launcher">Set &app_name; as default launcher</string>
+
+    <string name="ask_default_launcher_summary">Change default launcher</string>
+
+    <string name="default_launcher_already_set">You have &app_name; as default launcher!</string>
 
     <!-- Label on an icon that references an uninstalled package, for which we have no information about when it might be installed. [CHAR_LIMIT=15] -->
     <string name="package_state_unknown">Unknown</string>

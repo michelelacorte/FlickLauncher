@@ -23,6 +23,5 @@
     android:layout_gravity="center"
     android:focusable="true"
     launcher:iconDisplay="all_apps"
-    launcher:iconSizeOverride="56dp"
     launcher:centerVertically="true" />
 

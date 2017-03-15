@@ -18,10 +18,12 @@ package com.android.launcher3;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.WallpaperManager;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
@@ -56,6 +58,7 @@ import android.util.Log;
 import android.util.Pair;
 import android.util.SparseArray;
 import android.util.TypedValue;
+import android.view.ContextThemeWrapper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
@@ -67,6 +70,7 @@ import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.config.ProviderConfig;
 import com.android.launcher3.graphics.ShadowGenerator;
 import com.android.launcher3.util.IconNormalizer;
+import com.android.launcher3.util.StringFilter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
@@ -149,6 +153,20 @@ public final class Utilities {
 
     public static final String ALLOW_ROTATION_PREFERENCE_KEY = "pref_allowRotation";
 
+    public static final String ALLOW_CIRCULAR_ICON_PREFERENCE_KEY = "pref_allowCircularIcon";
+
+    public static final String GRID_SIZE_COLUMN = "pref_gridSizeColumn";
+
+    public static final String GRID_SIZE_ROW = "pref_gridSizeRow";
+
+    public static final String GRID_SIZE = "pref_gridSize";
+
+    public static final String DOCK_SIZE = "pref_dockSize";
+
+    public static final String DOCK_SIZE_ITEM = "pref_dockSizeItem";
+
+    public static final String DEFAULT_LAUNCHER = "pref_askDefaultLauncher";
+
     public static boolean isPropertyEnabled(String propertyName) {
         return Log.isLoggable(propertyName, Log.VERBOSE);
     }
@@ -168,6 +186,39 @@ public final class Utilities {
             return originalSmallestWidth >= 600;
         }
         return false;
+    }
+
+    public static boolean getAllowCircularIconDefaultValue() {
+        return true;
+    }
+
+    public static boolean isAllowCircularIconPrefEnabled(Context context) {
+        return getPrefs(context).getBoolean(ALLOW_CIRCULAR_ICON_PREFERENCE_KEY,
+                getAllowCircularIconDefaultValue());
+    }
+
+    public static void setGridSizeColumnDefaultValue(Context context, int columnCount) {
+        getPrefs(context).edit().putInt(GRID_SIZE_COLUMN, columnCount).apply();
+    }
+
+    public static void setGridSizeRowDefaultValue(Context context, int rowCount) {
+        getPrefs(context).edit().putInt(GRID_SIZE_ROW, rowCount).apply();
+    }
+
+    public static void setDockSizeDefaultValue(Context context, int num) {
+        getPrefs(context).edit().putInt(DOCK_SIZE_ITEM, num).apply();
+    }
+
+    public static int getGridSizeColumnDefaultValue(Context context) {
+        return getPrefs(context).getInt(GRID_SIZE_COLUMN, 5);
+    }
+
+    public static int getGridSizeRowDefaultValue(Context context) {
+        return  getPrefs(context).getInt(GRID_SIZE_ROW, 6);
+    }
+
+    public static int getDockSizeDefaultValue(Context context) {
+        return  getPrefs(context).getInt(DOCK_SIZE_ITEM, 5);
     }
 
     public static Bitmap createIconBitmap(Cursor c, int iconIndex, Context context) {
@@ -918,5 +969,32 @@ public final class Utilities {
             event.getText().add(text);
             accessibilityManager.sendAccessibilityEvent(event);
         }
+    }
+
+    private static void changeDefaultLauncher(Context context){
+        context.startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).addCategory(Intent.CATEGORY_HOME));
+    }
+
+    public static void answerToChangeDefaultLauncher(final Context context){
+        AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AlertDialogCustom));
+
+
+        alert.setTitle(context.getResources().getString(R.string.app_name));
+        alert.setMessage(context.getResources().getString(R.string.ask_default));
+
+
+        alert.setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                changeDefaultLauncher(context);
+            }
+        });
+
+        alert.setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.dismiss();
+            }
+        });
+        alert.setIcon(R.mipmap.ic_launcher_home);
+        alert.show();
     }
 }

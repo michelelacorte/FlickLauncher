@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Matrix;
@@ -15,6 +16,7 @@ import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -22,6 +24,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
@@ -76,7 +79,7 @@ public class Utils {
      * @param packageName String
      * @throws ClassNotFoundException
      */
-    public static void createShortcutsOnLauncher(Activity activity, Bitmap shortcutsImage, String shortcutsText, String className, String packageName, Drawable packageImage, Bitmap shortcutsImageBadge) throws ClassNotFoundException {
+    public static void createShortcutsOnLauncher(Activity activity, Bitmap shortcutsImage, String shortcutsText, String className, String packageName, String action, Drawable packageImage, Bitmap shortcutsImageBadge) throws ClassNotFoundException {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             int result = ContextCompat.checkSelfPermission(activity, Manifest.permission.INSTALL_SHORTCUT);
@@ -93,6 +96,9 @@ public class Utils {
         Intent shortcutIntent = new Intent(activity.getApplicationContext(), activity.getClass());
         shortcutIntent.setComponent(new ComponentName(
                 packageName, className.replaceAll(packageName, "")));
+        if(action != null && !action.equals("")) {
+            shortcutIntent.setAction(action);
+        }
         shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -364,5 +370,52 @@ public class Utils {
         Point mdispSize = new Point();
         mdisp.getSize(mdispSize);
         return mdispSize.x;
+    }
+
+    public static int getScreenDpi(Activity activity){
+        DisplayMetrics displayMetrics = activity.getApplicationContext().getResources().getDisplayMetrics();
+        return displayMetrics.densityDpi;
+    }
+
+    public static Bitmap getRoundedBitmapForUniversalLauncher(Activity activity, Bitmap bitmap)
+    {
+        final Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(output);
+
+        final int color = 0xffFFFFFF;
+        final Paint paint = new Paint();
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+
+        //1440 = 120 gradi
+        //1080 = 70 gradi
+        //TODO: completare icone circolari
+        DisplayMetrics displayMetrics = activity.getApplicationContext().getResources().getDisplayMetrics();
+        int displayDensityDpi = displayMetrics.densityDpi;
+        switch(getScreenXDimension(activity)){
+            case 720:
+                //
+                break;
+            case 1080:
+                canvas.drawCircle(bitmap.getWidth()/2, bitmap.getHeight()/2, 70, paint);
+                break;
+            case 1440:
+                if(displayDensityDpi == 560) {
+                    canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2, 100, paint);
+                }else{
+                    canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2, 120, paint);
+                }
+                break;
+            default:
+                Log.e(TAG, "Resolution of screen not supported!");
+                break;
+        }
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
+        Bitmap scaledIcon = getResizedBitmap(bitmap, (int)(bitmap.getWidth()/1.5), (int)(bitmap.getHeight()/1.5));
+        canvas.drawBitmap(scaledIcon, bitmap.getWidth()/6, bitmap.getHeight()/6, paint);
+        return output;
     }
 }

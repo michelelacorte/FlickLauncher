@@ -35,6 +35,7 @@ public class ShortcutsBuilder {
     private int bottomSpace;
     private boolean isHotseatTouched;
     private int positionInGrid;
+    private int dockItem;
 
 
     private boolean IS_NORMAL = false;
@@ -105,6 +106,7 @@ public class ShortcutsBuilder {
         this.isHotseatTouched = launcher3Shortcuts.isHotseatTouched;
         this.bottomSpace = launcher3Shortcuts.bottomSpace;
         this.positionInGrid = launcher3Shortcuts.positionInGrid;
+        this.dockItem = launcher3Shortcuts.dockItem;
         IS_LAUNCHER3 = true;
     }
 
@@ -126,9 +128,9 @@ public class ShortcutsBuilder {
         {
             return new NormalShortcuts(activity, masterLayout, gridView, currentXPosition, currentYPosition, rowHeight);
         }
-        public Launcher3Shortcuts launcher3Shortcuts(GridSize gridSize, int positionInGrid, int rowHeight, int bottomSpace, boolean isHotseatTouched)
+        public Launcher3Shortcuts launcher3Shortcuts(GridSize gridSize, int positionInGrid, int rowHeight, int bottomSpace, boolean isHotseatTouched, int dockItem)
         {
-            return new Launcher3Shortcuts(activity, masterLayout, gridSize, positionInGrid, rowHeight, bottomSpace, isHotseatTouched);
+            return new Launcher3Shortcuts(activity, masterLayout, gridSize, positionInGrid, rowHeight, bottomSpace, isHotseatTouched, dockItem);
         }
     }
 
@@ -204,8 +206,9 @@ public class ShortcutsBuilder {
         private int bottomSpace;
         private boolean isHotseatTouched;
         private int positionInGrid;
+        private int dockItem;
 
-        public Launcher3Shortcuts(Activity activity, ViewGroup masterLayout, GridSize gridSize, int positionInGrid, int rowHeight, int bottomSpace, boolean isHotseatTouched){
+        public Launcher3Shortcuts(Activity activity, ViewGroup masterLayout, GridSize gridSize, int positionInGrid, int rowHeight, int bottomSpace, boolean isHotseatTouched, int dockItem){
             this.activity = activity;
             this.masterLayout = masterLayout;
             this.gridSize = gridSize;
@@ -213,6 +216,7 @@ public class ShortcutsBuilder {
             this.bottomSpace = bottomSpace;
             this.isHotseatTouched = isHotseatTouched;
             this.positionInGrid = positionInGrid;
+            this.dockItem = dockItem;
         }
 
         public Launcher3Shortcuts setShortcutsArray(@NotNull Shortcuts... shortcuts){
@@ -307,5 +311,10 @@ public class ShortcutsBuilder {
     public int getBottomSpace() {
         return bottomSpace;
     }
+
+    public int getDockItem() {
+        return dockItem;
+    }
+
 
 }

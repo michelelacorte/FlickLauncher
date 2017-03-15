@@ -22,6 +22,7 @@ import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.Xml;
 import android.view.Display;
 import android.view.WindowManager;
@@ -143,9 +144,9 @@ public class InvariantDeviceProfile {
         //TODO: set rows and columns programmatically in setting.
         //numRows = closestProfile.numRows;
         //numColumns = closestProfile.numColumns;
-        numRows = 6;
-        numColumns = 5;
-        numHotseatIcons = closestProfile.numHotseatIcons;
+        numRows = Utilities.getGridSizeRowDefaultValue(context);
+        numColumns = Utilities.getGridSizeColumnDefaultValue(context);
+        numHotseatIcons = Utilities.getDockSizeDefaultValue(context);
         defaultLayoutId = closestProfile.defaultLayoutId;
         numFolderRows = closestProfile.numFolderRows;
         numFolderColumns = closestProfile.numFolderColumns;

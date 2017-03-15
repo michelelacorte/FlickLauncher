@@ -24,11 +24,17 @@ android {
     compileSdkVersion 25
     buildToolsVersion '25.0.2'
 
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 4
+        versionName "0.1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -72,8 +78,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.2.0'
     compile 'com.android.support:palette-v7:25.2.0'
     compile 'com.google.protobuf.nano:protobuf-javanano:3.0.0-alpha-2'
-    //compile 'com.github.michelelacorte:AndroidAppShortcuts:2.0.0'
-
     compile project(':library')
 
     testCompile 'junit:junit:4.12'

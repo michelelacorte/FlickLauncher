@@ -9,11 +9,10 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.Interpolator;
 import android.view.animation.ScaleAnimation;
-import android.view.animation.Transformation;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
@@ -21,7 +20,6 @@ import android.widget.RelativeLayout;
 import java.util.List;
 
 import it.michelelacorte.androidshortcuts.util.GridSize;
-import it.michelelacorte.androidshortcuts.util.ResizeWidthAnimation;
 import it.michelelacorte.androidshortcuts.util.Utils;
 
 /**
@@ -30,7 +28,7 @@ import it.michelelacorte.androidshortcuts.util.Utils;
 
 public class ShortcutsCreation {
     private final String TAG = "ShorctusCreation";
-    private static final int MAX_NUMBER_OF_SHORTCUTS = 5;
+    public static final int MAX_NUMBER_OF_SHORTCUTS = 5;
     private static final int PADDING = 20;
     public static boolean USE_SHORTCUTS_FOR_LAUNCHER_3 = false;
 
@@ -40,6 +38,7 @@ public class ShortcutsCreation {
     private int maxXScreen;
     private int maxYScreen;
     private float displayDensity;
+    private int displayDensityDpi;
 
     private int toolbarHeight;
     private int DIM_WIDTH = 840;
@@ -116,6 +115,7 @@ public class ShortcutsCreation {
                     shortcutsBuilder.isHotseatTouched(),
                     shortcutsBuilder.getGridSize(),
                     shortcutsBuilder.getOptionLayoutStyle(),
+                    shortcutsBuilder.getDockItem(),
                     shortcutsBuilder.getShortcutsList());
 
         }
@@ -123,7 +123,7 @@ public class ShortcutsCreation {
 
 
 
-    private void createShortcutsForLauncher3(Activity activity, Drawable packageImage, ViewGroup masterLayout, int positionInGrid, int rowHeight, int bottomSpace, boolean isHotseatTouched, GridSize gridSize, int optionLayoutStyle, List<Shortcuts> shortcuts) {
+    private void createShortcutsForLauncher3(Activity activity, Drawable packageImage, ViewGroup masterLayout, int positionInGrid, int rowHeight, int bottomSpace, boolean isHotseatTouched, GridSize gridSize, int optionLayoutStyle, int dockItem, List<Shortcuts> shortcuts) {
         if(shortcuts.size() > MAX_NUMBER_OF_SHORTCUTS){
             Log.e(TAG, "Invalid Shortcuts number, max value is " + String.valueOf(MAX_NUMBER_OF_SHORTCUTS) + "!");
             return;
@@ -152,8 +152,13 @@ public class ShortcutsCreation {
                 DIM_HEIGHT = 150;
                 break;
             case 1440:
-                DIM_WIDTH = 780;
-                DIM_HEIGHT = 200;
+                if(displayDensityDpi == 560){
+                    DIM_WIDTH = 780;
+                    DIM_HEIGHT = 190;
+                }else {
+                    DIM_WIDTH = 780;
+                    DIM_HEIGHT = 200;
+                }
                 break;
             default:
                 Log.e(TAG, "Resolution of screen not supported!");
@@ -165,6 +170,8 @@ public class ShortcutsCreation {
         RelativeLayout.LayoutParams paramsTriangle = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         int mIconWidth = maxXScreen / gridSize.getColumnCount();
+        int mIconWidthHotseat = maxXScreen/dockItem;
+        int dimHotseat = (positionInGrid) * mIconWidthHotseat;
         int dim = (positionInGrid) * mIconWidth;
         int layoutHeightTotal = DIM_HEIGHT * shortcuts.size() + PADDING;
 
@@ -183,8 +190,14 @@ public class ShortcutsCreation {
             shortcuts.get(i).init(layout[i], optionLayoutStyle, activity, packageImage, this);
             if ((dim + DIM_WIDTH) >= maxXScreen) {
                 //Destra
-                layout[i].setX(dim - DIM_WIDTH + (mIconWidth) - mIconWidth / 4);
-                triangle.setX((float) (dim + mIconWidth - mIconWidth / 1.5));
+                if(isHotseatTouched){
+                    Log.e(TAG, "TEST");
+                    layout[i].setX(dimHotseat - DIM_WIDTH + (mIconWidthHotseat) - mIconWidthHotseat / 4);
+                    triangle.setX((float) (dimHotseat + mIconWidthHotseat - mIconWidthHotseat / 1.5));
+                }else{
+                    layout[i].setX(dim - DIM_WIDTH + (mIconWidth) - mIconWidth / 4);
+                    triangle.setX((float) (dim + mIconWidth - mIconWidth / 1.5));
+                }
                 triangle.setRotation(180);
 
                 //Start Animation
@@ -193,8 +206,13 @@ public class ShortcutsCreation {
             } else {
                 //Sinistra
 
-                layout[i].setX(dim + mIconWidth / 4);
-                triangle.setX((float) (dim + mIconWidth / 2));
+                if(isHotseatTouched){
+                    layout[i].setX(dimHotseat + mIconWidthHotseat / 4);
+                    triangle.setX((float) (dimHotseat + mIconWidthHotseat / 2));
+                }else{
+                    layout[i].setX(dim + mIconWidth / 4);
+                    triangle.setX((float) (dim + mIconWidth / 2));
+                }
                 triangle.setRotation(180);
 
                 //Start Animation
@@ -270,8 +288,8 @@ public class ShortcutsCreation {
                                     triangle.setY((float)(rowHeight +layoutHeightTotal * -0.92 + 187));
                                     break;
                                 case 2:
-                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.3 - 220 * i));
-                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.4 + 203 * i));
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.4 - 220 * i));
+                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.5 + 203 * i));
                                     break;
                                 case 3:
                                     layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.3 - 220 * i));
@@ -530,9 +548,8 @@ public class ShortcutsCreation {
             layout[i].startAnimation(anim);
             */
             if ((dim + DIM_WIDTH) >= maxXScreen) {
-                /*
                 final int j = i;
-                ValueAnimator anim = ValueAnimator.ofInt(0, DIM_WIDTH);
+                ValueAnimator anim = ValueAnimator.ofInt(layout[j].getMeasuredWidth(), DIM_WIDTH);
                 anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -542,9 +559,13 @@ public class ShortcutsCreation {
                         layout[j].setLayoutParams(layoutParams);
                     }
                 });
-                anim.setDuration(200 * j);
+                if(j == 0){
+                    anim.setDuration(75);
+                }else {
+                    anim.setDuration(75 * j);
+                }
                 anim.start();
-                */
+
             }else {
                 final int j = i;
                 ValueAnimator anim = ValueAnimator.ofInt(layout[j].getMeasuredWidth(), DIM_WIDTH);
@@ -557,13 +578,42 @@ public class ShortcutsCreation {
                         layout[j].setLayoutParams(layoutParams);
                     }
                 });
-                anim.setDuration(150 * j);
+                if(j == 0){
+                    anim.setDuration(75);
+                }else {
+                    anim.setDuration(75 * j);
+                }
                 anim.start();
             }
         }
         masterLayout.addView(triangle, paramsTriangle);
         Log.d(TAG, "Shortcuts Created!");
     }
+
+    class ReverseInterpolator implements Interpolator {
+
+        private final Interpolator mInterpolator;
+
+        public ReverseInterpolator(Interpolator interpolator){
+            mInterpolator = interpolator;
+        }
+
+        @Override
+        public float getInterpolation(float input) {
+            return mInterpolator.getInterpolation(reverseInput(input));
+        }
+
+        /**
+         * Map value so 0-0.5 = 0-1 and 0.5-1 = 1-0
+         */
+        private float reverseInput(float input){
+            if(input <= 0.5)
+                return input*2;
+            else
+                return Math.abs(input-1)*2;
+        }
+    }
+
 
     private void createShortcutsForLauncher3(Activity activity, Drawable packageImage, ViewGroup masterLayout, int positionInGrid, int rowHeight, int bottomSpace, boolean isHotseatTouched, GridSize gridSize, int optionLayoutStyle, Shortcuts... shortcuts) {
         if(shortcuts.length > MAX_NUMBER_OF_SHORTCUTS){
@@ -1451,6 +1501,7 @@ public class ShortcutsCreation {
         Display mdisp = activity.getWindowManager().getDefaultDisplay();
         DisplayMetrics displayMetrics = activity.getApplicationContext().getResources().getDisplayMetrics();
         displayDensity = displayMetrics.density;
+        displayDensityDpi = displayMetrics.densityDpi;
         Point mdispSize = new Point();
         mdisp.getSize(mdispSize);
         maxXScreen = mdispSize.x;

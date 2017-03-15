@@ -127,7 +127,7 @@ public class RemoteShortcuts {
                     Bitmap shortcutsImage = BitmapFactory.decodeByteArray(imageByteArray, 0, length);
                     String targetPackage = input.readUTF();
                     String targetClass = input.readUTF();
-                    listOfShortcuts.add(new Shortcuts(shortcutsImage, shortcutsText, targetClass, targetPackage));
+                    listOfShortcuts.add(new Shortcuts(shortcutsImage, shortcutsText, targetClass, targetPackage, ""));
                 }
             }catch (EOFException e){}
             input.close();

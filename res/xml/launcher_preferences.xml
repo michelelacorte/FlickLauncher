@@ -16,11 +16,51 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <com.android.launcher3.util.CustomPreferenceCategory
+        android:title="@string/preferences_layout_option">
+
     <SwitchPreference
             android:key="pref_allowRotation"
             android:title="@string/allow_rotation_title"
             android:defaultValue="@bool/allow_rotation"
-            android:persistent="true"
-    />
+            android:persistent="true" />
+
+    <SwitchPreference
+        android:key="pref_allowCircularIcon"
+        android:title="@string/allow_icon_title"
+        android:defaultValue="@bool/allow_circular_icon"
+        android:summary="@string/allow_icon_summary"
+        android:persistent="true" />
+
+    <Preference
+        android:key="pref_gridSize"
+        android:title="@string/grid_size"
+        android:summary="@string/grid_size_summary"
+        android:persistent="true" />
+
+    </com.android.launcher3.util.CustomPreferenceCategory>
+
+
+    <com.android.launcher3.util.CustomPreferenceCategory
+        android:title="@string/preferences_dock_option">
+
+        <Preference
+            android:key="pref_dockSize"
+            android:title="@string/dock_size"
+            android:summary="@string/dock_size_summary"
+            android:persistent="true" />
+
+    </com.android.launcher3.util.CustomPreferenceCategory>
+
+    <com.android.launcher3.util.CustomPreferenceCategory
+        android:title="@string/preferences_various_option">
+
+        <Preference
+            android:key="pref_askDefaultLauncher"
+            android:title="@string/ask_default_launcher"
+            android:summary="@string/ask_default_launcher_summary"
+            android:persistent="true" />
+
+    </com.android.launcher3.util.CustomPreferenceCategory>
 
 </PreferenceScreen>
