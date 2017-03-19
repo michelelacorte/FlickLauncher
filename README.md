@@ -1,11 +1,11 @@
-# Universal Launcher
+# Flick Launcher
 
-Universal Launcher is a project started by [Michele Lacorte](https://github.com/michelelacorte) and [HearSilent](https://github.com/hearsilent).
+Flick Launcher is a project started by [Michele Lacorte](https://github.com/michelelacorte) and [HearSilent](https://github.com/hearsilent).
 We want to create a launcher for google pixels style stock, with a few tweaks.
 
 ## ALPHA
 
-Universal Launcher is on closed Alpha preview, if you want to contribute send me an email and than I send you back the Alpha project!
+Flick Launcher is on open Alpha preview!!!
 
 ## PREVIEW
 
@@ -27,7 +27,7 @@ Android API 14+
 
 ## CHANGELOG
 
-**v0.1.0 (Coming Soon!)**
+**v0.1.0 Alpha**
 * App Shortcuts on Launcher working on device screen:
     * 1440x2560 (Portrait).
     * 1080x1920 (Portrait).
@@ -41,6 +41,8 @@ Android API 14+
 * Possibility to change grid size.
 * Possibility to change number of icon in dock.
 * Added circular icon in launcher.
+* Possibility to change color of folder.
+* Added Gesture.
 
 **v0**
 * Initial commit.
@@ -56,7 +58,7 @@ Follow [Michele Lacorte Google+](https://plus.google.com/u/0/collection/McidZB)
 
 ## CONTRIBUTING
 
-If you want to contribute to the project fork it and open [Pull Request](https://github.com/michelelacorte/UniversalLauncher/pulls), or contact author by e-mail.
+If you want to contribute to the project fork it and open [Pull Request](https://github.com/michelelacorte/FlickLauncher/pulls), or contact author by e-mail.
 
 Each proposal will be accepted!
 
