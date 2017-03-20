@@ -5,7 +5,18 @@ We want to create a launcher for google pixels style stock, with a few tweaks.
 
 ## ALPHA
 
-Flick Launcher is on open Alpha preview!!!
+#### Flick Launcher is on open Alpha preview!!!
+
+<a href="https://play.google.com/store/apps/details?id=com.universallauncher.universallauncher">
+<img alt="Get it on Google Play" src="https://s32.postimg.org/50h5qj4lx/google_play_badge.png" />
+</a>
+
+#### If you want to help me please download Donation App!!
+
+<a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">
+<img alt="Get it on Google Play" src="https://s32.postimg.org/50h5qj4lx/google_play_badge.png" />
+</a>
+
 
 ## PREVIEW
 
