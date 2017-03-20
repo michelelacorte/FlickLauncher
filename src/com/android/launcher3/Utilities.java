@@ -18,7 +18,9 @@ package com.android.launcher3;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.WallpaperManager;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -52,6 +54,7 @@ import android.os.PowerManager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.text.style.TtsSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -59,10 +62,13 @@ import android.util.Pair;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.launcher3.compat.UserHandleCompat;
@@ -161,11 +167,93 @@ public final class Utilities {
 
     public static final String GRID_SIZE = "pref_gridSize";
 
+    public static final String ALL_APPS_SIZE = "pref_allAppsSize";
+
+    public static final String ALL_APPS_SIZE_ITEM = "pref_allAppsSizeItem";
+
     public static final String DOCK_SIZE = "pref_dockSize";
 
     public static final String DOCK_SIZE_ITEM = "pref_dockSizeItem";
 
     public static final String DEFAULT_LAUNCHER = "pref_askDefaultLauncher";
+
+    public static final String RESTART_LAUNCHER = "pref_askRestartLauncher";
+
+    // Gesture Preferences
+    public static final String DOUBLE_TAP_TO_SLEEP = "pref_allowSleep";
+
+    public static final String CHOOSE_DOUBLE_TAP = "pref_chooseDoubleTap";
+    public static final String CHOOSE_DOUBLE_TAP_PACKAGE = "pref_chooseDoubleTapPackage";
+    public static final String CHOOSE_DOUBLE_TAP_CLASS = "pref_chooseDoubleTapClass";
+
+    public static final String CHOOSE_SWIPE_UP = "pref_chooseUpSwipe";
+    public static final String CHOOSE_SWIPE_UP_PACKAGE = "pref_chooseUpSwipePackage";
+    public static final String CHOOSE_SWIPE_UP_CLASS = "pref_chooseUpSwipeClass";
+
+    public static final String CHOOSE_SWIPE_BOTTOM = "pref_chooseBottomSwipe";
+    public static final String CHOOSE_SWIPE_BOTTOM_PACKAGE = "pref_chooseBottomSwipePackage";
+    public static final String CHOOSE_SWIPE_BOTTOM_CLASS = "pref_chooseBottomSwipeClass";
+
+    public static final String CHOOSE_SWIPE_UP_TWO_FINGERS = "pref_chooseUpSwipeTwoFingers";
+    public static final String CHOOSE_SWIPE_UP_TWO_FINGERS_PACKAGE = "pref_chooseUpSwipeTwoFingersPackage";
+    public static final String CHOOSE_SWIPE_UP_TWO_FINGERS_CLASS = "pref_chooseUpSwipeTwoFingersClass";
+
+    public static final String CHOOSE_SWIPE_BOTTOM_TWO_FINGERS = "pref_chooseBottomSwipeTwoFingers";
+    public static final String CHOOSE_SWIPE_BOTTOM_TWO_FINGERS_PACKAGE = "pref_chooseBottomSwipeTwoFingersPackage";
+    public static final String CHOOSE_SWIPE_BOTTOM_TWO_FINGERS_CLASS = "pref_chooseBottomSwipeTwoFingersClass";
+
+
+    // Info Preferences
+    public static final String INFORMATION = "pref_info";
+    public static final String DONATION = "pref_donation";
+    public static final String LICENSE = "pref_license";
+
+
+    // Folder Preferences
+    public static final String FOLDER_BACKGROUND = "pref_folderBackground";
+    public static final String FOLDER_TRANSPARENT = "pref_folderPreviewTransparent";
+    public static final String FOLDER_PREVIEW_BACKGROUND = "pref_folderPreviewBackground";
+    public static final String FOLDER_PREVIEW_CIRCLE = "pref_folderPreviewCircleColor";
+
+
+
+    public static void setFolderPreviewCircleValue(Context context, int color) {
+        getPrefs(context).edit().putInt(FOLDER_PREVIEW_CIRCLE, color).apply();
+    }
+
+    public static int getFolderPreviewCirclePrefEnabled(Context context) {
+        return getPrefs(context).getInt(FOLDER_PREVIEW_CIRCLE,
+                -1);
+    }
+
+    public static void setFolderPreviewBackgroundValue(Context context, int color) {
+        getPrefs(context).edit().putInt(FOLDER_PREVIEW_BACKGROUND, color).apply();
+    }
+
+    public static int getFolderPreviewBackgroundPrefEnabled(Context context) {
+        return getPrefs(context).getInt(FOLDER_PREVIEW_BACKGROUND,
+                -1);
+    }
+
+    public static boolean isAllowFolderTransparentPrefEnabled(Context context) {
+        return getPrefs(context).getBoolean(FOLDER_TRANSPARENT,
+                getAllowFolderTransparentDefaultValue());
+    }
+
+    public static boolean getAllowFolderTransparentDefaultValue() {
+        return false;
+    }
+
+
+    public static void setFolderBackgroundValue(Context context, int color) {
+        getPrefs(context).edit().putInt(FOLDER_BACKGROUND, color).apply();
+    }
+
+    public static int getFolderBackgroundPrefEnabled(Context context) {
+        return getPrefs(context).getInt(FOLDER_BACKGROUND,
+                -1);
+    }
+
 
     public static boolean isPropertyEnabled(String propertyName) {
         return Log.isLoggable(propertyName, Log.VERBOSE);
@@ -188,6 +276,15 @@ public final class Utilities {
         return false;
     }
 
+    public static boolean getAllowDoubleTapToSleepDefaultValue() {
+        return false;
+    }
+
+    public static boolean isAllowDoubleTapToSleepPrefEnabled(Context context) {
+        return getPrefs(context).getBoolean(DOUBLE_TAP_TO_SLEEP,
+                getAllowDoubleTapToSleepDefaultValue());
+    }
+
     public static boolean getAllowCircularIconDefaultValue() {
         return true;
     }
@@ -196,6 +293,119 @@ public final class Utilities {
         return getPrefs(context).getBoolean(ALLOW_CIRCULAR_ICON_PREFERENCE_KEY,
                 getAllowCircularIconDefaultValue());
     }
+
+    public static void setAppDoubleTapValue(Context context, String appName, String packageName, String className) {
+        getPrefs(context).edit().putString(CHOOSE_DOUBLE_TAP, appName).apply();
+        getPrefs(context).edit().putString(CHOOSE_DOUBLE_TAP_PACKAGE, packageName).apply();
+        getPrefs(context).edit().putString(CHOOSE_DOUBLE_TAP_CLASS, className).apply();
+    }
+
+    public static String getAppDoubleTapPrefEnabled(Context context) {
+        return getPrefs(context).getString(CHOOSE_DOUBLE_TAP,
+                null);
+    }
+
+
+    public static void setAppSwipeUpValue(Context context, String appName, String packageName, String className) {
+        getPrefs(context).edit().putString(CHOOSE_SWIPE_UP, appName).apply();
+        getPrefs(context).edit().putString(CHOOSE_SWIPE_UP_PACKAGE, packageName).apply();
+        getPrefs(context).edit().putString(CHOOSE_SWIPE_UP_CLASS, className).apply();
+    }
+
+    public static String getAppSwipeUpPrefEnabled(Context context) {
+        return getPrefs(context).getString(CHOOSE_SWIPE_UP,
+                null);
+    }
+
+
+    public static void setAppSwipeBottomValue(Context context, String appName, String packageName, String className) {
+        getPrefs(context).edit().putString(CHOOSE_SWIPE_BOTTOM, appName).apply();
+        getPrefs(context).edit().putString(CHOOSE_SWIPE_BOTTOM_PACKAGE, packageName).apply();
+        getPrefs(context).edit().putString(CHOOSE_SWIPE_BOTTOM_CLASS, className).apply();
+    }
+
+    public static String getAppSwipeBottomPrefEnabled(Context context) {
+        return getPrefs(context).getString(CHOOSE_SWIPE_BOTTOM,
+                null);
+    }
+
+
+    public static String getAppDoubleTapPackageNamePrefEnabled(Context context) {
+        return getPrefs(context).getString(CHOOSE_DOUBLE_TAP_PACKAGE,
+                null);
+    }
+
+    public static String getAppDoubleTapClassNamePrefEnabled(Context context) {
+        return getPrefs(context).getString(CHOOSE_DOUBLE_TAP_CLASS,
+                null);
+    }
+
+
+    public static String getAppSwipeUpPackageNamePrefEnabled(Context context) {
+        return getPrefs(context).getString(CHOOSE_SWIPE_UP_PACKAGE,
+                null);
+    }
+
+    public static String getAppSwipeUpClassNamePrefEnabled(Context context) {
+        return getPrefs(context).getString(CHOOSE_SWIPE_UP_CLASS,
+                null);
+    }
+
+    public static String getAppSwipeBottomPackageNamePrefEnabled(Context context) {
+        return getPrefs(context).getString(CHOOSE_SWIPE_BOTTOM_PACKAGE,
+                null);
+    }
+
+    public static String getAppSwipeBottomClassNamePrefEnabled(Context context) {
+        return getPrefs(context).getString(CHOOSE_SWIPE_BOTTOM_CLASS,
+                null);
+    }
+
+    public static void setAppSwipeBottomTwoFingersValue(Context context, String appName, String packageName, String className) {
+        getPrefs(context).edit().putString(CHOOSE_SWIPE_BOTTOM_TWO_FINGERS, appName).apply();
+        getPrefs(context).edit().putString(CHOOSE_SWIPE_BOTTOM_TWO_FINGERS_PACKAGE, packageName).apply();
+        getPrefs(context).edit().putString(CHOOSE_SWIPE_BOTTOM_TWO_FINGERS_CLASS, className).apply();
+    }
+
+    public static String getAppSwipeBottomTwoFingersPrefEnabled(Context context) {
+        return getPrefs(context).getString(CHOOSE_SWIPE_BOTTOM_TWO_FINGERS,
+                null);
+    }
+
+
+    public static String getAppSwipeBottomTwoFingersPackageNamePrefEnabled(Context context) {
+        return getPrefs(context).getString(CHOOSE_SWIPE_BOTTOM_TWO_FINGERS_PACKAGE,
+                null);
+    }
+
+    public static String getAppSwipeBottomTwoFingersClassNamePrefEnabled(Context context) {
+        return getPrefs(context).getString(CHOOSE_SWIPE_BOTTOM_TWO_FINGERS_CLASS,
+                null);
+    }
+
+
+    public static void setAppSwipeUpTwoFingersValue(Context context, String appName, String packageName, String className) {
+        getPrefs(context).edit().putString(CHOOSE_SWIPE_UP_TWO_FINGERS, appName).apply();
+        getPrefs(context).edit().putString(CHOOSE_SWIPE_UP_TWO_FINGERS_PACKAGE, packageName).apply();
+        getPrefs(context).edit().putString(CHOOSE_SWIPE_UP_TWO_FINGERS_CLASS, className).apply();
+    }
+
+    public static String getAppSwipeUpTwoFingersPrefEnabled(Context context) {
+        return getPrefs(context).getString(CHOOSE_SWIPE_UP_TWO_FINGERS,
+                null);
+    }
+
+
+    public static String getAppSwipeUpTwoFingersPackageNamePrefEnabled(Context context) {
+        return getPrefs(context).getString(CHOOSE_SWIPE_UP_TWO_FINGERS_PACKAGE,
+                null);
+    }
+
+    public static String getAppSwipeUpTwoFingersClassNamePrefEnabled(Context context) {
+        return getPrefs(context).getString(CHOOSE_SWIPE_UP_TWO_FINGERS_CLASS,
+                null);
+    }
+
 
     public static void setGridSizeColumnDefaultValue(Context context, int columnCount) {
         getPrefs(context).edit().putInt(GRID_SIZE_COLUMN, columnCount).apply();
@@ -219,6 +429,14 @@ public final class Utilities {
 
     public static int getDockSizeDefaultValue(Context context) {
         return  getPrefs(context).getInt(DOCK_SIZE_ITEM, 5);
+    }
+
+    public static void setAllAppsSizeDefaultValue(Context context, int num) {
+        getPrefs(context).edit().putInt(ALL_APPS_SIZE_ITEM, num).apply();
+    }
+
+    public static int getAllAppsSizeDefaultValue(Context context) {
+        return  getPrefs(context).getInt(ALL_APPS_SIZE_ITEM, 5);
     }
 
     public static Bitmap createIconBitmap(Cursor c, int iconIndex, Context context) {
@@ -996,5 +1214,79 @@ public final class Utilities {
         });
         alert.setIcon(R.mipmap.ic_launcher_home);
         alert.show();
+    }
+
+    public static void restart(Context context, int delay) {
+        if (delay == 0) {
+            delay = 1;
+        }
+        Intent restartIntent = context.getPackageManager()
+                .getLaunchIntentForPackage(context.getPackageName() );
+        restartIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        PendingIntent intent = PendingIntent.getActivity(
+                context, 0,
+                restartIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        manager.set(AlarmManager.RTC, java.lang.System.currentTimeMillis() + delay, intent);
+        java.lang.System.exit(2);
+    }
+
+    public static void answerToRestartLauncher(final Context contextRestart, Context context, final int delay){
+        AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AlertDialogCustom));
+
+
+        alert.setTitle(context.getResources().getString(R.string.app_name));
+        alert.setMessage(context.getResources().getString(R.string.ask_restart));
+
+
+        alert.setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                restart(contextRestart, delay);
+            }
+        });
+
+        alert.setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.dismiss();
+            }
+        });
+        alert.setIcon(R.mipmap.ic_launcher_home);
+        alert.show();
+    }
+
+    public static void aboutAlertDialog(Context context)
+    {
+        AlertDialog builder =
+                new AlertDialog.Builder(context, R.style.AlertDialogCustom).setTitle(context.getResources().getString(R.string.app_name))
+                        .setCancelable(false)
+                        .setIcon(R.mipmap.ic_launcher_home)
+                        .setMessage(R.string.disclaimer_dialog_message)
+                        .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+        builder.show();
+        ((TextView)builder.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+        ((TextView)builder.findViewById(android.R.id.message)).setGravity(Gravity.CENTER_VERTICAL);
+        builder.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+    }
+
+    public static void licenseAlertDialog(Context context)
+    {
+        AlertDialog builder =
+                new AlertDialog.Builder(context, R.style.AlertDialogCustom).setTitle(context.getResources().getString(R.string.app_name))
+                        .setCancelable(false)
+                        .setIcon(R.mipmap.ic_launcher_home)
+                        .setMessage(R.string.license_dialog_message)
+                        .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+        builder.show();
+        ((TextView)builder.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+        ((TextView)builder.findViewById(android.R.id.message)).setGravity(Gravity.CENTER_VERTICAL);
+        builder.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
     }
 }

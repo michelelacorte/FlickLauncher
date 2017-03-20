@@ -38,6 +38,7 @@
         android:description="@string/permdesc_install_shortcut" />
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
     <uses-permission android:name="android.permission.BIND_APPWIDGET" />
@@ -49,7 +50,7 @@
         android:fullBackupOnly="true"
         android:fullBackupContent="@xml/backupscheme"
         android:icon="@mipmap/ic_launcher_home"
-        android:label="Universal Launcher"
+        android:label="Flick Launcher"
         android:largeHeap="@bool/config_largeHeap"
         android:restoreAnyVersion="true"
         android:supportsRtl="true"
@@ -61,7 +62,7 @@
             android:hardwareAccelerated="true"
             android:enabled="true"
             android:allowBackup="true"
-            android:label="Universal Launcher"
+            android:label="Flick Launcher"
             android:launchMode="singleTask"
             android:screenOrientation="nosensor"
             android:stateNotNeeded="true"
@@ -98,6 +99,18 @@
 
         <meta-data android:name="android.nfc.disable_beam_default"
                        android:value="true" />
+
+        <receiver
+            android:name=".util.DarClass"
+            android:permission="android.permission.BIND_DEVICE_ADMIN" >
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/my_admin" />
+
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
 
     </application>
 </manifest>

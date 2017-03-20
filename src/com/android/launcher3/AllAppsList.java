@@ -35,9 +35,8 @@ import java.util.List;
  */
 class AllAppsList {
     public static final int DEFAULT_APPLICATIONS_NUMBER = 42;
-
     /** The list off all apps. */
-    public ArrayList<AppInfo> data =
+    public static ArrayList<AppInfo> data =
             new ArrayList<AppInfo>(DEFAULT_APPLICATIONS_NUMBER);
     /** The list of apps that have been added since the last notify() call. */
     public ArrayList<AppInfo> added =
@@ -248,4 +247,9 @@ class AllAppsList {
         }
         return null;
     }
+
+    public static ArrayList<AppInfo> getData() {
+        return data;
+    }
+
 }

@@ -30,6 +30,7 @@ import android.graphics.Rect;
 import android.graphics.Region;
 import android.graphics.drawable.Drawable;
 import android.os.Parcelable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -569,13 +570,20 @@ public class FolderIcon extends FrameLayout implements FolderListener {
             canvas.translate(getOffsetX(), getOffsetY());
 
             paint.reset();
-            paint.setStyle(Paint.Style.FILL);
+            if(Utilities.isAllowFolderTransparentPrefEnabled(Launcher.getLauncherActivity().getApplicationContext())){
+                paint.setStyle(Paint.Style.STROKE);
+            }else {
+                paint.setStyle(Paint.Style.FILL);
+            }
             paint.setXfermode(null);
             paint.setAntiAlias(true);
 
             int alpha = (int) Math.min(MAX_BG_OPACITY, BG_OPACITY * mColorMultiplier);
-            paint.setColor(Color.argb(alpha, BG_INTENSITY, BG_INTENSITY, BG_INTENSITY));
-
+            if(Utilities.getFolderPreviewBackgroundPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()) != -1){
+                paint.setColor(Utilities.getFolderPreviewBackgroundPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()));
+            }else {
+                paint.setColor(Color.argb(alpha, BG_INTENSITY, BG_INTENSITY, BG_INTENSITY));
+            }
             float radius = getScaledRadius();
 
             canvas.drawCircle(radius, radius, radius, paint);
@@ -595,7 +603,11 @@ public class FolderIcon extends FrameLayout implements FolderListener {
 
             paint.reset();
             paint.setAntiAlias(true);
-            paint.setColor(Color.argb(255, BG_INTENSITY, BG_INTENSITY, BG_INTENSITY));
+            if(Utilities.getFolderPreviewCirclePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()) != -1){
+                paint.setColor(Utilities.getFolderPreviewCirclePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()));
+            }else {
+                paint.setColor(Color.argb(255, BG_INTENSITY, BG_INTENSITY, BG_INTENSITY));
+            }
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(mStrokeWidth);
 

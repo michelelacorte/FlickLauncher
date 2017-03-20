@@ -48,6 +48,7 @@
     <uses-permission android:name="com.android.launcher.permission.WRITE_SETTINGS" />
     <uses-permission android:name="com.android.launcher3.permission.READ_SETTINGS" />
     <uses-permission android:name="com.android.launcher3.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.premission.CHANGE_WIFI_STATE"/>
 
     <application
         android:backupAgent="com.android.launcher3.LauncherBackupAgent"
@@ -55,7 +56,7 @@
         android:fullBackupContent="@xml/backupscheme"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher_home"
-        android:label="Universal Launcher"
+        android:label="Flick Launcher"
         android:largeHeap="@bool/config_largeHeap"
         android:restoreAnyVersion="true"
         android:supportsRtl="true" >

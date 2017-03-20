@@ -191,7 +191,6 @@ public class ShortcutsCreation {
             if ((dim + DIM_WIDTH) >= maxXScreen) {
                 //Destra
                 if(isHotseatTouched){
-                    Log.e(TAG, "TEST");
                     layout[i].setX(dimHotseat - DIM_WIDTH + (mIconWidthHotseat) - mIconWidthHotseat / 4);
                     triangle.setX((float) (dimHotseat + mIconWidthHotseat - mIconWidthHotseat / 1.5));
                 }else{

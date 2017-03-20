@@ -219,6 +219,20 @@ public class BubbleTextView extends AppCompatTextView
             setIcon(iconD);
         }else{
             setIcon(iconDrawable);
+            /*IconPackManager ic = new IconPackManager();
+            HashMap<String, IconPackManager.IconPack> map = new HashMap<String, IconPackManager.IconPack>(ic.getAvailableIconPacks(false));
+            Iterator it = map.entrySet().iterator();
+            Drawable d = null;
+            String packName = null;
+            IconPackManager.IconPack packIcon = null;
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry)it.next();
+                packName = (String)pair.getKey();
+                packIcon = (IconPackManager.IconPack)pair.getValue();
+                break;
+            }
+            d = packIcon.getDrawableIconForPackage(packName, iconDrawable);
+            setIcon(d);*/
         }
 
         setText(info.title);

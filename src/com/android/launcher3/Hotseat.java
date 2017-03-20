@@ -75,6 +75,8 @@ public class Hotseat extends FrameLayout
                 ContextCompat.getColor(context, R.color.all_apps_container_color), 0);
         mBackground = new ColorDrawable(mBackgroundColor);
         setBackground(mBackground);
+        //TODO: dock color
+        //setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
     }
 
     public CellLayout getLayout() {

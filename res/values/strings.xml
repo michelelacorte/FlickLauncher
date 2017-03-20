@@ -18,7 +18,7 @@
 -->
 
 <!DOCTYPE resources [
-<!ENTITY app_name "Universal Launcher">
+<!ENTITY app_name "Flick Launcher">
 ]>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
@@ -59,21 +59,28 @@
     <string name="hang_chat">Chat</string>
     <string name="hang_video">Video call</string>
     <string name="hang_call">Voice call</string>
+    <string name="folder_title">Folder Title</string>
+    <string name="folder_enter_title">Enter your title</string>
+    <string name="folder_rename">Rename Folder</string>
+    <string name="folder_open">Open Folder</string>
 
     <!-- Alert dialog shortcuts -->
     <string name="alert_title">Title</string>
     <string name="alert_max">Max number of shortcuts is:</string>
+    <string name="alert_choose_app">Choose App</string>
     <!-- General -->
     <skip />
 
+    <string name="nothing">Nothing</string>
     <!-- Alert dialog launcher default -->
     <string name="ask_default">Do want you set &app_name; as the default launcher?</string>
+    <string name="ask_restart">Do you want to restart launcher?</string>
 
     <string name="ok">OK</string>
     <string name="cancel">CANCEL</string>
 
     <!-- Application name -->
-    <string name="app_name" translatable="false">Universal Launcher</string>
+    <string name="app_name" translatable="false">Flick Launcher</string>
     <!-- Default folder name -->
     <string name="folder_name"></string>
     <!-- Work folder name -->
@@ -205,7 +212,7 @@
     <string name="accessibility_action_overview">Overview</string>
 
     <!-- Strings for settings -->
-    <string name="preferences_layout_option">Layout Option</string>
+    <string name="preferences_layout_option">Layout</string>
     <!-- Title for Allow Rotation setting. [CHAR LIMIT=50] -->
     <string name="allow_rotation_title">Allow Home screen rotation</string>
     <!-- Text explaining when the home screen will get rotated. [CHAR LIMIT=100] -->
@@ -225,9 +232,13 @@
 
     <string name="row_size">Row Size</string>
 
-    <string name="preferences_dock_option">Dock option</string>
+    <string name="preferences_dock_option">Dock</string>
+
+    <string name="preferences_folder">Folder</string>
 
     <string name="dock_size">Icon in dock</string>
+
+    <string name="all_apps_dialog">Icon in all apps</string>
 
     <string name="dock_size_summary">Change number of icon in dock</string>
 
@@ -238,6 +249,43 @@
     <string name="ask_default_launcher_summary">Change default launcher</string>
 
     <string name="default_launcher_already_set">You have &app_name; as default launcher!</string>
+
+    <string name="ask_restart_launcher">Restart &app_name;</string>
+
+    <string name="preferences_gesture">Gestures</string>
+
+    <string name="allow_sleep">Allow double tab to sleep</string>
+
+    <string name="allow_sleep_summary">Enable double tap to lock screen</string>
+
+    <string name="choose_double_tap">Tap Tap Gesture</string>
+
+    <string name="choose_double_tap_summary">Choose your custom app</string>
+
+    <string name="choose_bottom_swipe">Bottom Swipe Gesture</string>
+
+    <string name="choose_up_swipe">Up Swipe Gesture</string>
+
+    <string name="choose_up_swipe_two_fingers">Up Swipe Gesture (two fingers)</string>
+
+    <string name="choose_bottom_swipe_two_fingers">Bottom Swipe Gesture (two fingers)</string>
+
+    <string name="preferences_info">Info</string>
+
+    <string name="info">Information about &app_name;</string>
+
+    <string name="donation">Donation</string>
+
+    <string name="donation_summary">We are counting on you!</string>
+
+    <string name="all_apps_size">Change all apps size</string>
+
+    <string name="all_apps_size_summary">Set your custom number of icon in all apps</string>
+
+    <string name="disclaimer_dialog_message">Welcome to &app_name;!\n\nThis is an Open Source Launcher and available on <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>.\n\nUniversal Launcher project is inspired by Google Pixel style, we add a few tweaks.\nFor more detail visit <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub Page</a>.\n\nThis project is under <a href="https://github.com/michelelacorte/UniversalLauncher/blob/master/LICENSE">Apache v2 License</a>, and all right reserved to Michele Lacorte.\n\nIf you like this app please help developer download <a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">Donation App</a>.\n\n\n\nApp Version v0.1.0 Build 9</string>
+
+
+
 
     <!-- Label on an icon that references an uninstalled package, for which we have no information about when it might be installed. [CHAR_LIMIT=15] -->
     <string name="package_state_unknown">Unknown</string>
@@ -336,5 +384,28 @@
 
     <!-- Accessibility description for the shortcuts menu shown for an app. -->
     <string name="shortcuts_menu_description"><xliff:g id="number_of_shortcuts" example="3">%1$d</xliff:g> shortcuts for <xliff:g id="app_name" example="Messenger">%2$s</xliff:g></string>
+    <string name="folder_background">Folder color background</string>
+    <string name="folder_background_summary">Change background color</string>
+    <string name="folder_transparent">Make folder transparent</string>
+    <string name="folder_transparent_summary">Make folder preview transparent</string>
+    <string name="folder_preview_background">Change background preview color</string>
+    <string name="folder_preview_background_summary">Change the color of background preview</string>
+    <string name="folder_circle_color">Change circle border color</string>
+    <string name="folder_circle_color_summary">Change the circle color preview</string>
+    <string name="choose_color">Choose color</string>
+    <string name="license">License</string>
+    <string name="license_dialog_message"><a href="https://github.com/QuadFlask/colorpicker">colorpicker</a>\n\n
+    Copyright 2014-2017 QuadFlask\n\n
+    Licensed under the Apache License, Version 2.0 (the "License");\n
+    you may not use this file except in compliance with the License.\n
+    You may obtain a copy of the License at\n\n
+
+   <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\n
+
+    Unless required by applicable law or agreed to in writing, software\n
+    distributed under the License is distributed on an "AS IS" BASIS,\n
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n
+    See the License for the specific language governing permissions and\n
+    limitations under the License.\n</string>
 
 </resources>

@@ -16,6 +16,8 @@
 
 package com.android.launcher3;
 
+import android.*;
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.LayoutTransition;
@@ -23,19 +25,27 @@ import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -52,6 +62,7 @@ import android.view.animation.Interpolator;
 
 import com.android.launcher3.pageindicators.PageIndicator;
 import com.android.launcher3.util.LauncherEdgeEffect;
+import com.android.launcher3.util.OnSwipeTouchListener;
 import com.android.launcher3.util.Thunk;
 
 import java.util.ArrayList;
@@ -60,7 +71,7 @@ import java.util.ArrayList;
  * An abstraction of the original Workspace which supports browsing through a
  * sequential list of "pages"
  */
-public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarchyChangeListener {
+public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarchyChangeListener{
     private static final String TAG = "PagedView";
     private static final boolean DEBUG = false;
     protected static final int INVALID_PAGE = -1;
@@ -193,6 +204,20 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     private final LauncherEdgeEffect mEdgeGlowLeft = new LauncherEdgeEffect();
     private final LauncherEdgeEffect mEdgeGlowRight = new LauncherEdgeEffect();
 
+
+    /* variable for counting two successive up-down events */
+    private int clickCount = 0;
+    /*variable for storing the time of first click*/
+    private long startTime;
+    /* variable for calculating the total time*/
+    private long duration;
+/* constant for defining the time duration between the click that can be considered as double-tap */
+    private static final int MAX_DURATION = 500;
+
+    private OnSwipeTouchListener onSwipeTouchListener;
+
+
+
     public PagedView(Context context) {
         this(context, null);
     }
@@ -232,6 +257,69 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         mMinSnapVelocity = (int) (MIN_SNAP_VELOCITY * density);
         setOnHierarchyChangeListener(this);
         setWillNotDraw(false);
+
+        onSwipeTouchListener = new OnSwipeTouchListener(getContext()) {
+            public void onSwipeTop() {
+                if(!Utilities.isAllowDoubleTapToSleepPrefEnabled(Launcher.getLauncherActivity().getApplicationContext())) {
+                    if (Utilities.getAppSwipeUpPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()) != null) {
+                        if(Utilities.getAppSwipeUpPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()).equals("WIFI") ||
+                                Utilities.getAppSwipeUpClassNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()).equals("WIFI")){
+                            //WIFI
+                        }else {
+                            Intent intent = new Intent();
+                            intent.setComponent(new ComponentName(Utilities.getAppSwipeUpPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()),
+                                    Utilities.getAppSwipeUpClassNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())));
+                            intent.setAction(Intent.ACTION_VIEW);
+                            getContext().startActivity(intent);
+                        }
+                    }
+                }
+            }
+
+            public void onSwipeTopTwoFingers() {
+                if(!Utilities.isAllowDoubleTapToSleepPrefEnabled(Launcher.getLauncherActivity().getApplicationContext())) {
+                    if (Utilities.getAppSwipeUpTwoFingersPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()) != null) {
+                        Intent intent = new Intent();
+                        intent.setComponent(new ComponentName(Utilities.getAppSwipeUpTwoFingersPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()),
+                                Utilities.getAppSwipeUpTwoFingersClassNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())));
+                        intent.setAction(Intent.ACTION_VIEW);
+                        getContext().startActivity(intent);
+                    }
+                }
+            }
+
+            public void onSwipeBottomTwoFingers() {
+                if(!Utilities.isAllowDoubleTapToSleepPrefEnabled(Launcher.getLauncherActivity().getApplicationContext())) {
+                    if (Utilities.getAppSwipeBottomTwoFingersPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()) != null) {
+                        Intent intent = new Intent();
+                        intent.setComponent(new ComponentName(Utilities.getAppSwipeBottomTwoFingersPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()),
+                                Utilities.getAppSwipeBottomTwoFingersClassNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())));
+                        intent.setAction(Intent.ACTION_VIEW);
+                        getContext().startActivity(intent);
+                    }
+                }
+            }
+
+            public void onSwipeBottom() {
+                if(!Utilities.isAllowDoubleTapToSleepPrefEnabled(Launcher.getLauncherActivity().getApplicationContext())) {
+                    if (Utilities.getAppSwipeBottomPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()) != null) {
+                        Intent intent = new Intent();
+                        intent.setComponent(new ComponentName(Utilities.getAppSwipeBottomPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()),
+                                Utilities.getAppSwipeBottomClassNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())));
+                        intent.setAction(Intent.ACTION_VIEW);
+                        getContext().startActivity(intent);
+                    }
+                }
+            }
+        };
+
+        this.setOnTouchListener(onSwipeTouchListener);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev){
+        onSwipeTouchListener.getGestureDetector().onTouchEvent(ev);
+        return super.dispatchTouchEvent(ev);
     }
 
     protected void setEdgeGlowColor(int color) {
@@ -1353,12 +1441,51 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
 
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+                clickCount++;
+
+                if (clickCount==1){
+                    startTime = System.currentTimeMillis();
+                }
+
+                else if(clickCount == 2)
+                {
+                    long duration =  System.currentTimeMillis() - startTime;
+                    if(duration <= MAX_DURATION)
+                    {
+                        if(Utilities.isAllowDoubleTapToSleepPrefEnabled(Launcher.getLauncherActivity().getApplicationContext())) {
+                            if (!Launcher.getDevicePolicyManager().isAdminActive(Launcher.getAdminComponent())) {
+                                Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+                                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, Launcher.getAdminComponent());
+                                Launcher.getLauncherActivity().startActivityForResult(intent, Launcher.REQUEST_ENABLE);
+                            } else {
+                                Launcher.getDevicePolicyManager().lockNow();
+                            }
+                        }else {
+                            if (Utilities.getAppDoubleTapPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()) != null) {
+                                Intent intent = new Intent();
+                                intent.setComponent(new ComponentName(Utilities.getAppDoubleTapPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()),
+                                        Utilities.getAppDoubleTapClassNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())));
+                                intent.setAction(Intent.ACTION_VIEW);
+                                getContext().startActivity(intent);
+                            }
+                        }
+                        clickCount = 0;
+                        duration = 0;
+                    }else{
+                        clickCount = 1;
+                        startTime = System.currentTimeMillis();
+                    }
+                    break;
+                }
                 resetTouchState();
                 break;
 
             case MotionEvent.ACTION_POINTER_UP:
                 onSecondaryPointerUp(ev);
                 releaseVelocityTracker();
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                onSwipeTouchListener.setFingerCount(ev.getPointerCount());
                 break;
         }
 

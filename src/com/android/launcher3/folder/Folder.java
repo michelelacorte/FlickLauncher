@@ -28,6 +28,7 @@ import android.content.res.Resources;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.text.Selection;
 import android.text.Spannable;
@@ -269,6 +270,11 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
         int measureSpec = MeasureSpec.UNSPECIFIED;
         mFooter.measure(measureSpec, measureSpec);
         mFooterHeight = mFooter.getMeasuredHeight();
+        //Folder background color
+        if(Utilities.getFolderBackgroundPrefEnabled(getContext()) != -1){
+            mFooter.setBackgroundColor(Utilities.getFolderBackgroundPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()));
+            mContent.setBackgroundColor(Utilities.getFolderBackgroundPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()));
+        }
     }
 
     public void onClick(View v) {
@@ -1406,6 +1412,7 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
     }
 
     public void onTitleChanged(CharSequence title) {
+        mFolderName.setText(title);
     }
 
     public ArrayList<View> getItemsInReadingOrder() {

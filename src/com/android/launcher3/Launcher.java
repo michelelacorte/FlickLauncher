@@ -28,6 +28,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.app.admin.DevicePolicyManager;
 import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
@@ -45,7 +46,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -54,6 +54,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -123,8 +124,8 @@ import com.android.launcher3.shortcuts.DeepShortcutsContainer;
 import com.android.launcher3.shortcuts.ShortcutKey;
 import com.android.launcher3.userevent.nano.LauncherLogProto;
 import com.android.launcher3.util.ActivityResultInfo;
-import com.android.launcher3.util.ApplicationInfo;
 import com.android.launcher3.util.ComponentKey;
+import com.android.launcher3.util.DarClass;
 import com.android.launcher3.util.ItemInfoMatcher;
 import com.android.launcher3.util.MultiHashMap;
 import com.android.launcher3.util.PackageManagerHelper;
@@ -151,7 +152,6 @@ import it.michelelacorte.androidshortcuts.ShortcutsBuilder;
 import it.michelelacorte.androidshortcuts.ShortcutsCreation;
 import it.michelelacorte.androidshortcuts.util.GridSize;
 import it.michelelacorte.androidshortcuts.util.StyleOption;
-import it.michelelacorte.androidshortcuts.util.Utils;
 
 /**
  * Default launcher application.
@@ -388,6 +388,10 @@ public class Launcher extends Activity
     private static ShortcutsCreation creation;
     private static Activity activity;
 
+    public static final int REQUEST_ENABLE = 0;
+    private static DevicePolicyManager devicePolicyManager;
+    private static ComponentName adminComponent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (DEBUG_STRICT_MODE) {
@@ -503,8 +507,14 @@ public class Launcher extends Activity
         }
 
         activity = this;
-    }
+        /*if (!isTaskRoot()) {
+            finish();
+            return;
+        }*/
 
+        adminComponent = new ComponentName(Launcher.this, DarClass.class);
+        devicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+    }
 
 
     @Override
@@ -868,6 +878,9 @@ public class Launcher extends Activity
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onActivityResult(requestCode, resultCode, data);
         }
+        if (REQUEST_ENABLE == requestCode) {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     /** @Override for MNC */
@@ -1092,6 +1105,7 @@ public class Launcher extends Activity
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onResume();
         }
+
     }
 
     @Override
@@ -1402,6 +1416,7 @@ public class Launcher extends Activity
             TestingUtils.addWeightWatcher(this);
         }
     }
+
 
     private void setupOverviewPanel() {
         mOverviewPanel = (ViewGroup) findViewById(R.id.overview_panel);
@@ -2458,8 +2473,16 @@ public class Launcher extends Activity
 
     @SuppressLint("ClickableViewAccessibility")
     public boolean onTouch(View v, MotionEvent event) {
-        return false;
+        return true;
     }
+
+
+    /*@Override
+    public boolean onTouchEvent(MotionEvent e) {
+        return gestureDetector.onTouchEvent(e);
+    }*/
+
+
 
     /**
      * Event handler for the app widget view which has not fully restored.
@@ -3186,22 +3209,13 @@ public class Launcher extends Activity
                             longClickCellInfo.cellY);
 
                     List<Shortcuts> shortcutses = new ArrayList<Shortcuts>();
-                    shortcutses = new ArrayList<Shortcuts>();
-                    /*shortcutses.add(new Shortcuts(R.drawable.ic_add_black_24dp, "Shortcuts", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Toast.makeText(getApplicationContext(), "Hello Shortcuts!!", Toast.LENGTH_LONG).show();
-                            creation.clearAllLayout();
-                        }
-                    }));*/
-                    //shortcutses.add(new Shortcuts(R.drawable.ic_done_black_24dp, "Nougat!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
-                    //shortcutses.add(new Shortcuts(R.drawable.ic_code_black_24dp, "App Shortcuts!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
-                    //shortcutses.add(new Shortcuts(R.drawable.ic_allapps, "App Shortcuts 2!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
-                    //shortcutses.add(new Shortcuts(R.drawable.ic_code_black_24dp, "App Shortcuts 3!", "it.michelelacorte.exampleandroidshortcuts.MainActivity", "it.michelelacorte.exampleandroidshortcuts"));
+
                     if(creation != null)
                         creation.clearAllLayout();
 
                     mWorkspace.startDrag(longClickCellInfo, dragOptions);
+
+
 
                     //Get selected app info
                     final Object tag = v.getTag();
@@ -3212,7 +3226,7 @@ public class Launcher extends Activity
                         shortcutses = ShortcutsManager.getShortcutsBasedOnTag(Launcher.this.getApplicationContext(), Launcher.this, shortcut, icon);
                         ShortcutsBuilder builder = new ShortcutsBuilder.Builder(this, masterLayout)
                                 .launcher3Shortcuts(gridSize, positionInGrid, (int)v.getY(), v.getBottom(), Hotseat.isHotseatTouched, Utilities.getDockSizeDefaultValue(getApplicationContext()))
-                                .setOptionLayoutStyle(StyleOption.LINE_LAYOUT)
+                                .setOptionLayoutStyle(StyleOption.NONE)
                                 .setPackageImage(icon)
                                 .setShortcutsList(shortcutses)
                                 .build();
@@ -3235,7 +3249,7 @@ public class Launcher extends Activity
                             folder = (FolderInfo) tagF;
 
                             shortcutses = new ArrayList<Shortcuts>();
-                            shortcutses.add(new Shortcuts(R.drawable.ic_folder_open_black_24dp, "Open Folder", new OnClickListener() {
+                            shortcutses.add(new Shortcuts(R.drawable.ic_folder_open_black_24dp, getString(R.string.folder_open), new OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     if (f instanceof FolderIcon) {
@@ -3244,7 +3258,7 @@ public class Launcher extends Activity
                                     }
                                 }
                             }));
-                            shortcutses.add(new Shortcuts(R.drawable.ic_title_black_24dp, "Rename Folder", new OnClickListener() {
+                            shortcutses.add(new Shortcuts(R.drawable.ic_title_black_24dp, getString(R.string.folder_rename), new OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     if (f instanceof FolderIcon) {
@@ -3257,19 +3271,19 @@ public class Launcher extends Activity
 
 
                                         titleBox.getBackground().mutate().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-                                        alert.setMessage("Folder Title");
-                                        alert.setTitle("Enter Your Title");
+                                        alert.setMessage(getString(R.string.folder_title));
+                                        alert.setTitle(getString(R.string.folder_enter_title));
 
                                         layout.addView(titleBox);
                                         alert.setView(layout);
 
-                                        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        alert.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int whichButton) {
                                                 folder.setTitle(titleBox.getText().toString());
                                             }
                                         });
 
-                                        alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                                        alert.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int whichButton) {
                                                 creation.clearAllLayout();
                                             }
@@ -3283,7 +3297,7 @@ public class Launcher extends Activity
                             ShortcutsBuilder builder = new ShortcutsBuilder.Builder(this, masterLayout)
                                     .launcher3Shortcuts(gridSize, positionInGrid, (int)v.getY(), v.getBottom(), Hotseat.isHotseatTouched, Utilities.getDockSizeDefaultValue(getApplicationContext()))
                                     .setOptionLayoutStyle(0)
-                                    .setPackageImage(ContextCompat.getDrawable(Launcher.this, R.drawable.ic_folder_open_black_24dp))
+                                    .setPackageImage(ContextCompat.getDrawable(Launcher.this, R.mipmap.ic_launcher_home))
                                     .setShortcutsList(shortcutses)
                                     .build();
 
@@ -4560,6 +4574,14 @@ public class Launcher extends Activity
 
     public static Activity getLauncherActivity() {
         return activity;
+    }
+
+    public static DevicePolicyManager getDevicePolicyManager() {
+        return devicePolicyManager;
+    }
+
+    public static ComponentName getAdminComponent() {
+        return adminComponent;
     }
 
 

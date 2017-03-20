@@ -12,6 +12,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.view.ContextThemeWrapper;
 import android.view.MotionEvent;
@@ -213,12 +214,19 @@ public class ShortcutsManager {
             default:
                 final String packageName = shortcutInfo.getTargetComponent().getPackageName();
 
+                final ContextThemeWrapper theme;
+                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
+                    theme = new ContextThemeWrapper(activity, R.style.AlertDialogCustomAPI23);
+                }else{
+                    theme = new ContextThemeWrapper(activity, R.style.AlertDialogCustom);
+                }
+
                 bitmap = getBitmap(R.drawable.ic_add_black_24dp, context);
                 bitmap = Utils.setColorOnBitmap(bitmap, Utils.getDominantColor(drawableToBitmap(icon)));
                 shortcutses.add(new Shortcuts(bitmap, context.getResources().getString(R.string.add_shortcuts), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(activity, R.style.AlertDialogCustom));
+                        AlertDialog.Builder alert = new AlertDialog.Builder(theme);
                         LinearLayout layout = new LinearLayout(context);
                         layout.setOrientation(LinearLayout.VERTICAL);
                         layout.setPadding(100, 50, 100, 100);

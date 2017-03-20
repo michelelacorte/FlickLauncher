@@ -147,6 +147,7 @@ public class InvariantDeviceProfile {
         numRows = Utilities.getGridSizeRowDefaultValue(context);
         numColumns = Utilities.getGridSizeColumnDefaultValue(context);
         numHotseatIcons = Utilities.getDockSizeDefaultValue(context);
+        Log.e("ICON: ", " " + numHotseatIcons);
         defaultLayoutId = closestProfile.defaultLayoutId;
         numFolderRows = closestProfile.numFolderRows;
         numFolderColumns = closestProfile.numFolderColumns;
