@@ -1,30 +1,44 @@
-# Universal Launcher
+# Flick Launcher
 
-Universal Launcher is a project started by [Michele Lacorte](https://github.com/michelelacorte) and [HearSilent](https://github.com/hearsilent).
+Flick Launcher is a project started by [Michele Lacorte](https://github.com/michelelacorte) and [HearSilent](https://github.com/hearsilent).
 We want to create a launcher for google pixels style stock, with a few tweaks.
 
-##PREVIEW
+## ALPHA
 
-###v0.1.0 (Coming Soon!)
+#### Flick Launcher is on open Alpha preview!!!
 
-<h1 align="center"><img src="https://s7.postimg.org/6z20p8xor/Screenshot_2017_02_26_20_28_47_framed.png"/></h1>
+<a href="https://play.google.com/store/apps/details?id=com.universallauncher.universallauncher">
+<img alt="Get it on Google Play" src="https://s32.postimg.org/50h5qj4lx/google_play_badge.png" />
+</a>
 
-<h1 align="center"><img src="https://s13.postimg.org/pvp280epz/Screenshot_2017_03_11_19_51_20_framed.png"/></h1>
+#### If you want to help me please download Donation App!!
+
+<a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">
+<img alt="Get it on Google Play" src="https://s32.postimg.org/50h5qj4lx/google_play_badge.png" />
+</a>
 
 
-<h1 align="center"><img src="http://i.giphy.com/xUA7b9CtmYCVuAsPT2.gif"/></h1>
+## PREVIEW
 
-##SYSTEM REQUIREMENT
+### v0.1.0 (Coming Soon!)
+
+<h1 align="center"><img src="https://s7.postimg.org/6z20p8xor/Screenshot_2017_02_26_20_28_47_framed.png" height="500"/></h1>
+
+<h1 align="center"><img src="https://s13.postimg.org/pvp280epz/Screenshot_2017_03_11_19_51_20_framed.png" height="500"/></h1>
+
+<h1 align="center"><img src="http://i.giphy.com/xUA7b9CtmYCVuAsPT2.gif" height="500"/></h1>
+
+## SYSTEM REQUIREMENT
 
 Android API 14+
 
-##STATUS
+## STATUS
 
 ![project maintained](https://img.shields.io/badge/Project-Maintained-green.svg)
 
-##CHANGELOG
+## CHANGELOG
 
-**v0.1.0 (Coming Soon!)**
+**v0.1.0 Alpha**
 * App Shortcuts on Launcher working on device screen:
     * 1440x2560 (Portrait).
     * 1080x1920 (Portrait).
@@ -35,12 +49,17 @@ Android API 14+
 * Update app icon and string (all languages).
 * Update color matching to app icon.
 * Change default grid size to 6x5.
+* Possibility to change grid size.
+* Possibility to change number of icon in dock.
+* Added circular icon in launcher.
+* Possibility to change color of folder.
+* Added Gesture.
 
 **v0**
 * Initial commit.
 
 
-##CREDITS
+## CREDITS
 
 Author: Michele Lacorte (micky1995g@gmail.com)
 
@@ -48,13 +67,13 @@ Author: HearSilent (https://github.com/hearsilent)
 
 Follow [Michele Lacorte Google+](https://plus.google.com/u/0/collection/McidZB)
 
-##CONTRIBUTING
+## CONTRIBUTING
 
-If you want to contribute to the project fork it and open [Pull Request](https://github.com/michelelacorte/UniversalLauncher/pulls), or contact author by e-mail.
+If you want to contribute to the project fork it and open [Pull Request](https://github.com/michelelacorte/FlickLauncher/pulls), or contact author by e-mail.
 
 Each proposal will be accepted!
 
-##LICENSE
+## LICENSE
 
 ```
 Copyright 2017 Michele Lacorte and HearSilent
