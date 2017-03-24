@@ -35,11 +35,15 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.hardware.Camera;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -65,6 +69,7 @@ import com.android.launcher3.util.LauncherEdgeEffect;
 import com.android.launcher3.util.OnSwipeTouchListener;
 import com.android.launcher3.util.Thunk;
 
+import java.security.Policy;
 import java.util.ArrayList;
 
 /**
@@ -260,55 +265,239 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
 
         onSwipeTouchListener = new OnSwipeTouchListener(getContext()) {
             public void onSwipeTop() {
-                if(!Utilities.isAllowDoubleTapToSleepPrefEnabled(Launcher.getLauncherActivity().getApplicationContext())) {
-                    if (Utilities.getAppSwipeUpPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()) != null) {
-                        if(Utilities.getAppSwipeUpPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()).equals("WIFI") ||
-                                Utilities.getAppSwipeUpClassNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()).equals("WIFI")){
-                            //WIFI
-                        }else {
+                if (Utilities.getAppSwipeUpPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()) != null) {
+                    switch (Utilities.getAppSwipeUpPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())) {
+                        case Utilities.TORCH:
+                            if (Utilities.isFlashLightOn()) {
+                                Utilities.turnOffFlashLight(getContext());
+                            } else {
+                                Utilities.turnOnFlashLight(getContext());
+                            }
+                            break;
+                        case Utilities.BLUETOOTH:
+                            if (Utilities.isBluetoothOn()) {
+                                Utilities.setBluetooth(false);
+                            } else {
+                                Utilities.setBluetooth(true);
+                            }
+                            break;
+                        case Utilities.SETTINGS:
+                            Utilities.openSettings(Launcher.getLauncherActivity());
+                            break;
+                        case Utilities.WIFI:
+                            if (Utilities.isWifiOn()) {
+                                Utilities.turnOffWifi(Launcher.getLauncherActivity());
+                            } else {
+                                Utilities.turnOnWifi(Launcher.getLauncherActivity());
+                            }
+                            break;
+                        case Utilities.SCREENSHOT:
+                            Utilities.takeScreenshot(Launcher.getLauncherActivity());
+                            break;
+                        case Utilities.SLEEP:
+                            if (!Launcher.getDevicePolicyManager().isAdminActive(Launcher.getAdminComponent())) {
+                                Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+                                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, Launcher.getAdminComponent());
+                                Launcher.getLauncherActivity().startActivityForResult(intent, Launcher.REQUEST_ENABLE);
+                            } else {
+                                Launcher.getDevicePolicyManager().lockNow();
+                            }
+                            break;
+                        case Utilities.MODE_SILENT:
+                            Utilities.modeSilent(Launcher.getLauncherActivity());
+                            break;
+                        case Utilities.MODE_VIBRATE:
+                            Utilities.modeVibrate(Launcher.getLauncherActivity());
+                            break;
+                        case Utilities.MODE_NORMAL:
+                            Utilities.modeNormal(Launcher.getLauncherActivity());
+                            break;
+                        default:
                             Intent intent = new Intent();
                             intent.setComponent(new ComponentName(Utilities.getAppSwipeUpPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()),
                                     Utilities.getAppSwipeUpClassNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())));
                             intent.setAction(Intent.ACTION_VIEW);
                             getContext().startActivity(intent);
-                        }
+                            break;
                     }
                 }
             }
 
             public void onSwipeTopTwoFingers() {
-                if(!Utilities.isAllowDoubleTapToSleepPrefEnabled(Launcher.getLauncherActivity().getApplicationContext())) {
-                    if (Utilities.getAppSwipeUpTwoFingersPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()) != null) {
-                        Intent intent = new Intent();
-                        intent.setComponent(new ComponentName(Utilities.getAppSwipeUpTwoFingersPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()),
-                                Utilities.getAppSwipeUpTwoFingersClassNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())));
-                        intent.setAction(Intent.ACTION_VIEW);
-                        getContext().startActivity(intent);
+                if (Utilities.getAppSwipeUpTwoFingersPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()) != null) {
+                    switch (Utilities.getAppSwipeUpTwoFingersPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())) {
+                        case Utilities.TORCH:
+                            if (Utilities.isFlashLightOn()) {
+                                Utilities.turnOffFlashLight(getContext());
+                            } else {
+                                Utilities.turnOnFlashLight(getContext());
+                            }
+                            break;
+                        case Utilities.BLUETOOTH:
+                            if (Utilities.isBluetoothOn()) {
+                                Utilities.setBluetooth(false);
+                            } else {
+                                Utilities.setBluetooth(true);
+                            }
+                            break;
+                        case Utilities.SETTINGS:
+                            Utilities.openSettings(Launcher.getLauncherActivity());
+                            break;
+                        case Utilities.WIFI:
+                            if (Utilities.isWifiOn()) {
+                                Utilities.turnOffWifi(Launcher.getLauncherActivity());
+                            } else {
+                                Utilities.turnOnWifi(Launcher.getLauncherActivity());
+                            }
+                            break;
+                        case Utilities.SCREENSHOT:
+                            Utilities.takeScreenshot(Launcher.getLauncherActivity());
+                            break;
+                        case Utilities.SLEEP:
+                            if (!Launcher.getDevicePolicyManager().isAdminActive(Launcher.getAdminComponent())) {
+                                Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+                                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, Launcher.getAdminComponent());
+                                Launcher.getLauncherActivity().startActivityForResult(intent, Launcher.REQUEST_ENABLE);
+                            } else {
+                                Launcher.getDevicePolicyManager().lockNow();
+                            }
+                            break;
+                        case Utilities.MODE_SILENT:
+                            Utilities.modeSilent(Launcher.getLauncherActivity());
+                            break;
+                        case Utilities.MODE_VIBRATE:
+                            Utilities.modeVibrate(Launcher.getLauncherActivity());
+                            break;
+                        case Utilities.MODE_NORMAL:
+                            Utilities.modeNormal(Launcher.getLauncherActivity());
+                            break;
+                        default:
+                            Intent intent = new Intent();
+                            intent.setComponent(new ComponentName(Utilities.getAppSwipeUpTwoFingersPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()),
+                                    Utilities.getAppSwipeUpTwoFingersClassNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())));
+                            intent.setAction(Intent.ACTION_VIEW);
+                            getContext().startActivity(intent);
+                            break;
                     }
                 }
             }
 
             public void onSwipeBottomTwoFingers() {
-                if(!Utilities.isAllowDoubleTapToSleepPrefEnabled(Launcher.getLauncherActivity().getApplicationContext())) {
-                    if (Utilities.getAppSwipeBottomTwoFingersPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()) != null) {
-                        Intent intent = new Intent();
-                        intent.setComponent(new ComponentName(Utilities.getAppSwipeBottomTwoFingersPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()),
-                                Utilities.getAppSwipeBottomTwoFingersClassNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())));
-                        intent.setAction(Intent.ACTION_VIEW);
-                        getContext().startActivity(intent);
-                    }
+                switch (Utilities.getAppSwipeBottomTwoFingersPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())) {
+                    case Utilities.TORCH:
+                        if (Utilities.isFlashLightOn()) {
+                            Utilities.turnOffFlashLight(getContext());
+                        } else {
+                            Utilities.turnOnFlashLight(getContext());
+                        }
+                        break;
+                    case Utilities.BLUETOOTH:
+                        if (Utilities.isBluetoothOn()) {
+                            Utilities.setBluetooth(false);
+                        } else {
+                            Utilities.setBluetooth(true);
+                        }
+                        break;
+                    case Utilities.SETTINGS:
+                        Utilities.openSettings(Launcher.getLauncherActivity());
+                        break;
+                    case Utilities.WIFI:
+                        if (Utilities.isWifiOn()) {
+                            Utilities.turnOffWifi(Launcher.getLauncherActivity());
+                        } else {
+                            Utilities.turnOnWifi(Launcher.getLauncherActivity());
+                        }
+                        break;
+                    case Utilities.SCREENSHOT:
+                        Utilities.takeScreenshot(Launcher.getLauncherActivity());
+                        break;
+                    case Utilities.SLEEP:
+                        if (!Launcher.getDevicePolicyManager().isAdminActive(Launcher.getAdminComponent())) {
+                            Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+                            intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, Launcher.getAdminComponent());
+                            Launcher.getLauncherActivity().startActivityForResult(intent, Launcher.REQUEST_ENABLE);
+                        } else {
+                            Launcher.getDevicePolicyManager().lockNow();
+                        }
+                        break;
+                    case Utilities.MODE_SILENT:
+                        Utilities.modeSilent(Launcher.getLauncherActivity());
+                        break;
+                    case Utilities.MODE_VIBRATE:
+                        Utilities.modeVibrate(Launcher.getLauncherActivity());
+                        break;
+                    case Utilities.MODE_NORMAL:
+                        Utilities.modeNormal(Launcher.getLauncherActivity());
+                        break;
+                    default:
+                        if (Utilities.getAppSwipeBottomTwoFingersPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()) != null) {
+                            Intent intent = new Intent();
+                            intent.setComponent(new ComponentName(Utilities.getAppSwipeBottomTwoFingersPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()),
+                                    Utilities.getAppSwipeBottomTwoFingersClassNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())));
+                            intent.setAction(Intent.ACTION_VIEW);
+                            getContext().startActivity(intent);
+                        }
+                        break;
                 }
+
             }
 
             public void onSwipeBottom() {
-                if(!Utilities.isAllowDoubleTapToSleepPrefEnabled(Launcher.getLauncherActivity().getApplicationContext())) {
-                    if (Utilities.getAppSwipeBottomPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()) != null) {
-                        Intent intent = new Intent();
-                        intent.setComponent(new ComponentName(Utilities.getAppSwipeBottomPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()),
-                                Utilities.getAppSwipeBottomClassNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())));
-                        intent.setAction(Intent.ACTION_VIEW);
-                        getContext().startActivity(intent);
-                    }
+                switch (Utilities.getAppSwipeBottomPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())) {
+                    case Utilities.TORCH:
+                        if (Utilities.isFlashLightOn()) {
+                            Utilities.turnOffFlashLight(getContext());
+                        } else {
+                            Utilities.turnOnFlashLight(getContext());
+                        }
+                        break;
+                    case Utilities.BLUETOOTH:
+                        if (Utilities.isBluetoothOn()) {
+                            Utilities.setBluetooth(false);
+                        } else {
+                            Utilities.setBluetooth(true);
+                        }
+                        break;
+                    case Utilities.SETTINGS:
+                        Utilities.openSettings(Launcher.getLauncherActivity());
+                        break;
+                    case Utilities.WIFI:
+                        if (Utilities.isWifiOn()) {
+                            Utilities.turnOffWifi(Launcher.getLauncherActivity());
+                        } else {
+                            Utilities.turnOnWifi(Launcher.getLauncherActivity());
+                        }
+                        break;
+                    case Utilities.SCREENSHOT:
+                        Utilities.takeScreenshot(Launcher.getLauncherActivity());
+                        break;
+                    case Utilities.SLEEP:
+                        if (!Launcher.getDevicePolicyManager().isAdminActive(Launcher.getAdminComponent())) {
+                            Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+                            intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, Launcher.getAdminComponent());
+                            Launcher.getLauncherActivity().startActivityForResult(intent, Launcher.REQUEST_ENABLE);
+                        } else {
+                            Launcher.getDevicePolicyManager().lockNow();
+                        }
+                        break;
+                    case Utilities.MODE_SILENT:
+                        Utilities.modeSilent(Launcher.getLauncherActivity());
+                        break;
+                    case Utilities.MODE_VIBRATE:
+                        Utilities.modeVibrate(Launcher.getLauncherActivity());
+                        break;
+                    case Utilities.MODE_NORMAL:
+                        Utilities.modeNormal(Launcher.getLauncherActivity());
+                        break;
+                    default:
+                        if (Utilities.getAppSwipeBottomPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()) != null) {
+                            Intent intent = new Intent();
+                            intent.setComponent(new ComponentName(Utilities.getAppSwipeBottomPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()),
+                                    Utilities.getAppSwipeBottomClassNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())));
+                            intent.setAction(Intent.ACTION_VIEW);
+                            getContext().startActivity(intent);
+                        }
+                        break;
                 }
             }
         };
@@ -1462,11 +1651,60 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
                             }
                         }else {
                             if (Utilities.getAppDoubleTapPrefEnabled(Launcher.getLauncherActivity().getApplicationContext()) != null) {
-                                Intent intent = new Intent();
-                                intent.setComponent(new ComponentName(Utilities.getAppDoubleTapPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()),
-                                        Utilities.getAppDoubleTapClassNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())));
-                                intent.setAction(Intent.ACTION_VIEW);
-                                getContext().startActivity(intent);
+                                switch (Utilities.getAppDoubleTapPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())) {
+                                    case Utilities.TORCH:
+                                        if (Utilities.isFlashLightOn()) {
+                                            Utilities.turnOffFlashLight(getContext());
+                                        } else {
+                                            Utilities.turnOnFlashLight(getContext());
+                                        }
+                                        break;
+                                    case Utilities.BLUETOOTH:
+                                        if (Utilities.isBluetoothOn()) {
+                                            Utilities.setBluetooth(false);
+                                        } else {
+                                            Utilities.setBluetooth(true);
+                                        }
+                                        break;
+                                    case Utilities.SETTINGS:
+                                        Utilities.openSettings(Launcher.getLauncherActivity());
+                                        break;
+                                    case Utilities.WIFI:
+                                        if (Utilities.isWifiOn()) {
+                                            Utilities.turnOffWifi(Launcher.getLauncherActivity());
+                                        } else {
+                                            Utilities.turnOnWifi(Launcher.getLauncherActivity());
+                                        }
+                                        break;
+                                    case Utilities.SCREENSHOT:
+                                        Utilities.takeScreenshot(Launcher.getLauncherActivity());
+                                        break;
+                                    case Utilities.SLEEP:
+                                        if (!Launcher.getDevicePolicyManager().isAdminActive(Launcher.getAdminComponent())) {
+                                            Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+                                            intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, Launcher.getAdminComponent());
+                                            Launcher.getLauncherActivity().startActivityForResult(intent, Launcher.REQUEST_ENABLE);
+                                        } else {
+                                            Launcher.getDevicePolicyManager().lockNow();
+                                        }
+                                        break;
+                                    case Utilities.MODE_SILENT:
+                                        Utilities.modeSilent(Launcher.getLauncherActivity());
+                                        break;
+                                    case Utilities.MODE_VIBRATE:
+                                        Utilities.modeVibrate(Launcher.getLauncherActivity());
+                                        break;
+                                    case Utilities.MODE_NORMAL:
+                                        Utilities.modeNormal(Launcher.getLauncherActivity());
+                                        break;
+                                    default:
+                                        Intent intent = new Intent();
+                                        intent.setComponent(new ComponentName(Utilities.getAppDoubleTapPackageNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext()),
+                                                Utilities.getAppDoubleTapClassNamePrefEnabled(Launcher.getLauncherActivity().getApplicationContext())));
+                                        intent.setAction(Intent.ACTION_VIEW);
+                                        getContext().startActivity(intent);
+                                        break;
+                                }
                             }
                         }
                         clickCount = 0;

@@ -20,6 +20,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.launcher3.compat.LauncherActivityInfoCompat;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 /**
  * Represents an app in AllAppsView.
  */
-public class AppInfo extends ItemInfo {
+public class AppInfo extends ItemInfo implements Comparable<AppInfo> {
 
     /**
      * The intent used to start the application.
@@ -161,5 +162,10 @@ public class AppInfo extends ItemInfo {
     @Override
     public boolean isDisabled() {
         return isDisabled != 0;
+    }
+
+    @Override
+    public int compareTo(@NonNull AppInfo appInfo) {
+        return this.title.toString().compareToIgnoreCase(appInfo.title.toString());
     }
 }

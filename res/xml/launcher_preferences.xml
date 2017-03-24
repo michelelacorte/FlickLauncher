@@ -132,6 +132,17 @@
     </com.android.launcher3.util.CustomPreferenceCategory>
 
     <com.android.launcher3.util.CustomPreferenceCategory
+        android:title="@string/preferences_security">
+
+        <Preference
+            android:key="pref_fingerprint"
+            android:title="@string/fingerprint"
+            android:summary="@string/fingerprint_summary"
+            android:persistent="true" />
+
+    </com.android.launcher3.util.CustomPreferenceCategory>
+
+    <com.android.launcher3.util.CustomPreferenceCategory
         android:title="@string/preferences_various_option">
 
         <Preference

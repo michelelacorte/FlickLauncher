@@ -220,9 +220,9 @@
     <!-- Text explaining that rotation is disabled in Display settings. 'Display' refers to the Display section in system settings [CHAR LIMIT=100] -->
     <string name="allow_rotation_blocked_desc">Current Display setting doesn\'t permit rotation</string>
 
-    <string name="allow_icon_title">Allow circular icon</string>
+    <string name="allow_icon_title">Allow circular icons</string>
 
-    <string name="allow_icon_summary">This settings made circular icon</string>
+    <string name="allow_icon_summary">This setting makes icons circular</string>
 
     <string name="grid_size">Change grid size</string>
 
@@ -262,13 +262,13 @@
 
     <string name="choose_double_tap_summary">Choose your custom app</string>
 
-    <string name="choose_bottom_swipe">Bottom Swipe Gesture</string>
+    <string name="choose_bottom_swipe">Swipe Down Gesture</string>
 
-    <string name="choose_up_swipe">Up Swipe Gesture</string>
+    <string name="choose_up_swipe">Swipe Up Gesture</string>
 
-    <string name="choose_up_swipe_two_fingers">Up Swipe Gesture (two fingers)</string>
+    <string name="choose_up_swipe_two_fingers">Swipe Up Gesture (two fingers)</string>
 
-    <string name="choose_bottom_swipe_two_fingers">Bottom Swipe Gesture (two fingers)</string>
+    <string name="choose_bottom_swipe_two_fingers">Swipe Down Gesture (two fingers)</string>
 
     <string name="preferences_info">Info</string>
 
@@ -282,7 +282,7 @@
 
     <string name="all_apps_size_summary">Set your custom number of icon in all apps</string>
 
-    <string name="disclaimer_dialog_message">Welcome to &app_name;!\n\nThis is an Open Source Launcher and available on <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>.\n\nUniversal Launcher project is inspired by Google Pixel style, we add a few tweaks.\nFor more detail visit <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub Page</a>.\n\nThis project is under <a href="https://github.com/michelelacorte/UniversalLauncher/blob/master/LICENSE">Apache v2 License</a>, and all right reserved to Michele Lacorte.\n\nIf you like this app please help developer download <a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">Donation App</a>.\n\n\n\nApp Version v0.1.0 Build 9</string>
+    <string name="disclaimer_dialog_message">Welcome to &app_name;!\n\nThis is an Open Source Launcher and available on <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>.\n\nUniversal Launcher project is inspired by Google Pixel style, we add a few tweaks.\nFor more detail visit <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub Page</a>.\n\nThis project is under <a href="https://github.com/michelelacorte/UniversalLauncher/blob/master/LICENSE">Apache v2 License</a>, and all right reserved to Michele Lacorte.\n\nIf you like this app please help developer download <a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">Donation App</a>.\n\n\n\nApp Version v0.1.0 Build 15</string>
 
 
 
@@ -394,6 +394,10 @@
     <string name="folder_circle_color_summary">Change the circle color preview</string>
     <string name="choose_color">Choose color</string>
     <string name="license">License</string>
+    <string name="preferences_security">Security</string>
+    <string name="fingerprint">Locks app with Fingerprint</string>
+    <string name="fingerprint_summary">Locks your apps with fingerprint authentication</string>
+    <string name="select_apps">Select apps</string>
     <string name="license_dialog_message"><a href="https://github.com/QuadFlask/colorpicker">colorpicker</a>\n\n
     Copyright 2014-2017 QuadFlask\n\n
     Licensed under the Apache License, Version 2.0 (the "License");\n
@@ -408,4 +412,31 @@
     See the License for the specific language governing permissions and\n
     limitations under the License.\n</string>
 
+    <!-- Custom gesture -->
+    <string name="torch">Torch</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="settings">Settings</string>
+    <string name="wifi">Wifi</string>
+    <string name="screenshot">Screenshot</string>
+    <string name="sleep">Sleep Screen</string>
+    <string name="mode_silent">Ringer Mode Silent</string>
+    <string name="mode_normal">Ringer Mode Normal</string>
+    <string name="mode_vibrate">Ringer Mode Vibrate</string>
+
+    <!-- Fingerprint -->
+
+    <string name="title_fingerprint">One-Touch Unlock</string>
+    <string name="desc_fingerprint">Please place your fingertip on the scanner to verify your identity</string>
+    <string name="note">(This app has fingerprint lock method. Your device should have at least one fingerprint registered in device settings)</string>
+    <string name="activity_home_desc">You have successfully logged in with fingerprint authentication</string>
+    <string name="activity_home_note">Close and re-open the app to see the fingerprint auth screen again</string>
+    <string name="fingerprint_help">Fingerprint Authentication help</string>
+    <string name="fingerprint_succeded">Fingerprint Authentication succeeded.</string>
+    <string name="fingerprint_failed">Fingerprint Authentication failed.</string>
+    <string name="fingerprint_error">Fingerprint Authentication error</string>
+
+    <!-- Password -->
+    <string name="title_password">Password Unlock</string>
+    <string name="desc_password">Please enter your password to verify your identity</string>
+    
 </resources>

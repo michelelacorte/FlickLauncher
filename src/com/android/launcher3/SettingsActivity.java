@@ -16,25 +16,15 @@
 
 package com.android.launcher3;
 
-import android.*;
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,35 +32,35 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.provider.Settings;
 import android.provider.Settings.System;
-import android.provider.Telephony;
-import android.support.v4.app.ActivityCompat;
+import android.support.annotation.IntegerRes;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.IntentCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.util.ListUpdateCallback;
+import android.util.IntProperty;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.launcher3.fingerprint.FingerprintActivity;
+import com.android.launcher3.fingerprint.FingerprintHandler;
+import com.android.launcher3.fingerprint.settings.FingerprintActivitySettings;
 import com.android.launcher3.util.ApplicationInfo;
 import com.android.launcher3.util.ArrayAdapterWithIcon;
-import com.android.launcher3.util.StringFilter;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import it.michelelacorte.androidshortcuts.util.Utils;
 
@@ -95,6 +85,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         private SystemDisplayRotationLockObserver mRotationLockObserver;
         private Context context;
+        private int themeInt;
+        private CharSequence[] items = null;
+        private boolean[] selectedItemsBool = null;
 
 
         @Override
@@ -102,6 +95,15 @@ public class SettingsActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             getPreferenceManager().setSharedPreferencesName(LauncherFiles.SHARED_PREFERENCES_KEY);
             addPreferencesFromResource(R.xml.launcher_preferences);
+
+            final ArrayList<AppInfo> apps = new ArrayList<>(AllAppsList.data);
+
+            Collections.sort(apps, new Comparator<AppInfo>() {
+                @Override
+                public int compare(AppInfo appInfo, AppInfo t1) {
+                    return appInfo.title.toString().compareTo(t1.title.toString());
+                }
+            });
 
             //((AppCompatActivity)getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5e8bff")));
 
@@ -142,17 +144,21 @@ public class SettingsActivity extends AppCompatActivity {
             } else {
                 theme = new ContextThemeWrapper(activity, R.style.AlertDialogCustom);
             }
-            final int themeInt;
+            //final int themeInt;
             if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
                 themeInt = R.style.AlertDialogCustomAPI23;
             } else {
                 themeInt = R.style.AlertDialogCustom;
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 context = getContext();
             } else {
-                context = activity.getApplicationContext();
+                if(Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP_MR1){
+                    context = getPreferenceScreen().getContext();
+                }else {
+                    context = activity.getApplicationContext();
+                }
             }
 
             gridPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -255,7 +261,7 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     if (!ApplicationInfo.isMyLauncherDefault(activity.getApplicationContext())) {
-                        Utilities.answerToChangeDefaultLauncher(activity.getApplicationContext());
+                        Utilities.answerToChangeDefaultLauncher(context);
                     } else {
                         Toast.makeText(activity.getApplicationContext(), getResources().getString(R.string.default_launcher_already_set), Toast.LENGTH_LONG).show();
                     }
@@ -267,7 +273,7 @@ public class SettingsActivity extends AppCompatActivity {
             restartLauncherPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Utilities.answerToRestartLauncher(Launcher.getLauncherActivity(), activity.getApplicationContext(), 2000);
+                    Utilities.answerToRestartLauncher(Launcher.getLauncherActivity(), context, 2000);
                     return true;
                 }
             });
@@ -326,9 +332,38 @@ public class SettingsActivity extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference preference) {
                     final List<String> items = new ArrayList<String>();
                     final List<Bitmap> icons = new ArrayList<Bitmap>();
+
                     items.add(getString(R.string.nothing));
                     icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_clear_black_24dp)));
-                    for (AppInfo app : AllAppsList.data) {
+
+                    items.add(getString(R.string.wifi));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_wifi_black_24dp)));
+
+                    items.add(getString(R.string.torch));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_lightbulb_outline_black_24dp)));
+
+                    items.add(getString(R.string.bluetooth));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_bluetooth_black_24dp)));
+
+                    items.add(getString(R.string.screenshot));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_photo_black_24dp)));
+
+                    items.add(getString(R.string.sleep));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_screen_lock_portrait_black_24dp)));
+
+                    items.add(getString(R.string.mode_silent));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_volume_off_black_24dp)));
+
+                    items.add(getString(R.string.mode_vibrate));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_vibration_black_24dp)));
+
+                    items.add(getString(R.string.mode_normal));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_volume_up_black_24dp)));
+
+                    items.add(getString(R.string.settings));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_settings_black_24dp)));
+
+                    for (AppInfo app : apps) {
                         items.add(app.title.toString());
                         icons.add(app.iconBitmap);
                     }
@@ -337,7 +372,34 @@ public class SettingsActivity extends AppCompatActivity {
                     new AlertDialog.Builder(getActivity()).setTitle(getString(R.string.alert_choose_app))
                             .setAdapter(adapter, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int item) {
-                                    if (items.get(item).equals(getString(R.string.nothing))) {
+                                    if (items.get(item).equals(getString(R.string.torch))) {
+                                        doubleTapAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppDoubleTapValue(activity.getApplicationContext(), items.get(item), Utilities.TORCH, Utilities.TORCH);
+                                    } else if(items.get(item).equals(getString(R.string.bluetooth))){
+                                        doubleTapAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppDoubleTapValue(activity.getApplicationContext(), items.get(item), Utilities.BLUETOOTH, Utilities.BLUETOOTH);
+                                    } else if(items.get(item).equals(getString(R.string.settings))){
+                                        doubleTapAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppDoubleTapValue(activity.getApplicationContext(), items.get(item), Utilities.SETTINGS, Utilities.SETTINGS);
+                                    } else if(items.get(item).equals(getString(R.string.wifi))){
+                                        doubleTapAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppDoubleTapValue(activity.getApplicationContext(), items.get(item), Utilities.WIFI, Utilities.WIFI);
+                                    } else if(items.get(item).equals(getString(R.string.screenshot))){
+                                        doubleTapAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppDoubleTapValue(activity.getApplicationContext(), items.get(item), Utilities.SCREENSHOT, Utilities.SCREENSHOT);
+                                    } else if(items.get(item).equals(getString(R.string.sleep))){
+                                        doubleTapAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppDoubleTapValue(activity.getApplicationContext(), items.get(item), Utilities.SLEEP, Utilities.SLEEP);
+                                    }else if(items.get(item).equals(getString(R.string.mode_silent))){
+                                        doubleTapAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppDoubleTapValue(activity.getApplicationContext(), items.get(item), Utilities.MODE_SILENT, Utilities.MODE_SILENT);
+                                    }else if(items.get(item).equals(getString(R.string.mode_vibrate))){
+                                        doubleTapAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppDoubleTapValue(activity.getApplicationContext(), items.get(item), Utilities.MODE_VIBRATE, Utilities.MODE_VIBRATE);
+                                    }else if(items.get(item).equals(getString(R.string.mode_normal))){
+                                        doubleTapAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppDoubleTapValue(activity.getApplicationContext(), items.get(item), Utilities.MODE_NORMAL, Utilities.MODE_NORMAL);
+                                    }else if (items.get(item).equals(getString(R.string.nothing))) {
                                         doubleTapAppPref.setSummary(getString(R.string.choose_double_tap_summary));
                                         Utilities.setAppDoubleTapValue(activity.getApplicationContext(), null, null, null);
                                     } else {
@@ -364,11 +426,37 @@ public class SettingsActivity extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference preference) {
                     final List<String> items = new ArrayList<String>();
                     final List<Bitmap> icons = new ArrayList<Bitmap>();
-                    //items.add("Wi-Fi");
-                    //icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_wifi_black_24dp)));
                     items.add(getString(R.string.nothing));
                     icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_clear_black_24dp)));
-                    for (AppInfo app : AllAppsList.data) {
+
+                    items.add(getString(R.string.wifi));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_wifi_black_24dp)));
+
+                    items.add(getString(R.string.torch));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_lightbulb_outline_black_24dp)));
+
+                    items.add(getString(R.string.bluetooth));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_bluetooth_black_24dp)));
+
+                    items.add(getString(R.string.screenshot));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_photo_black_24dp)));
+
+                    items.add(getString(R.string.sleep));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_screen_lock_portrait_black_24dp)));
+
+                    items.add(getString(R.string.mode_silent));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_volume_off_black_24dp)));
+
+                    items.add(getString(R.string.mode_vibrate));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_vibration_black_24dp)));
+
+                    items.add(getString(R.string.mode_normal));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_volume_up_black_24dp)));
+
+                    items.add(getString(R.string.settings));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_settings_black_24dp)));
+
+                    for (AppInfo app : apps) {
                         items.add(app.title.toString());
                         icons.add(app.iconBitmap);
                     }
@@ -377,9 +465,33 @@ public class SettingsActivity extends AppCompatActivity {
                     new AlertDialog.Builder(getActivity()).setTitle(getString(R.string.alert_choose_app))
                             .setAdapter(adapter, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int item) {
-                                    if (items.get(item).equals("Wi-Fi")) {
-                                        swipeUpAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": Wi-Fi");
-                                        Utilities.setAppSwipeUpValue(activity.getApplicationContext(), items.get(item), "WIFI", "WIFI");
+                                    if (items.get(item).equals(getString(R.string.torch))) {
+                                        swipeUpAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpValue(activity.getApplicationContext(), items.get(item), Utilities.TORCH, Utilities.TORCH);
+                                    } else if(items.get(item).equals(getString(R.string.bluetooth))){
+                                        swipeUpAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpValue(activity.getApplicationContext(), items.get(item), Utilities.BLUETOOTH, Utilities.BLUETOOTH);
+                                    } else if(items.get(item).equals(getString(R.string.settings))){
+                                        swipeUpAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpValue(activity.getApplicationContext(), items.get(item), Utilities.SETTINGS, Utilities.SETTINGS);
+                                    } else if(items.get(item).equals(getString(R.string.wifi))){
+                                        swipeUpAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpValue(activity.getApplicationContext(), items.get(item), Utilities.WIFI, Utilities.WIFI);
+                                    } else if(items.get(item).equals(getString(R.string.screenshot))){
+                                        swipeUpAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpValue(activity.getApplicationContext(), items.get(item), Utilities.SCREENSHOT, Utilities.SCREENSHOT);
+                                    } else if(items.get(item).equals(getString(R.string.sleep))){
+                                        swipeUpAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpValue(activity.getApplicationContext(), items.get(item), Utilities.SLEEP, Utilities.SLEEP);
+                                    }else if(items.get(item).equals(getString(R.string.mode_silent))){
+                                        swipeUpAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpValue(activity.getApplicationContext(), items.get(item), Utilities.MODE_SILENT, Utilities.MODE_SILENT);
+                                    }else if(items.get(item).equals(getString(R.string.mode_vibrate))){
+                                        swipeUpAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpValue(activity.getApplicationContext(), items.get(item), Utilities.MODE_VIBRATE, Utilities.MODE_VIBRATE);
+                                    }else if(items.get(item).equals(getString(R.string.mode_normal))){
+                                        swipeUpAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpValue(activity.getApplicationContext(), items.get(item), Utilities.MODE_NORMAL, Utilities.MODE_NORMAL);
                                     } else if (items.get(item).equals(getString(R.string.nothing))) {
                                         swipeUpAppPref.setSummary(getString(R.string.choose_double_tap_summary));
                                         Utilities.setAppSwipeUpValue(activity.getApplicationContext(), null, null, null);
@@ -409,7 +521,34 @@ public class SettingsActivity extends AppCompatActivity {
                     final List<Bitmap> icons = new ArrayList<Bitmap>();
                     items.add(getString(R.string.nothing));
                     icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_clear_black_24dp)));
-                    for (AppInfo app : AllAppsList.data) {
+
+                    items.add(getString(R.string.wifi));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_wifi_black_24dp)));
+
+                    items.add(getString(R.string.torch));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_lightbulb_outline_black_24dp)));
+
+                    items.add(getString(R.string.bluetooth));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_bluetooth_black_24dp)));
+
+                    items.add(getString(R.string.screenshot));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_photo_black_24dp)));
+
+                    items.add(getString(R.string.sleep));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_screen_lock_portrait_black_24dp)));
+
+                    items.add(getString(R.string.mode_silent));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_volume_off_black_24dp)));
+
+                    items.add(getString(R.string.mode_vibrate));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_vibration_black_24dp)));
+
+                    items.add(getString(R.string.mode_normal));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_volume_up_black_24dp)));
+
+                    items.add(getString(R.string.settings));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_settings_black_24dp)));
+                    for (AppInfo app : apps) {
                         items.add(app.title.toString());
                         icons.add(app.iconBitmap);
                     }
@@ -418,7 +557,34 @@ public class SettingsActivity extends AppCompatActivity {
                     new AlertDialog.Builder(getActivity()).setTitle(getString(R.string.alert_choose_app))
                             .setAdapter(adapter, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int item) {
-                                    if (items.get(item).equals(getString(R.string.nothing))) {
+                                    if (items.get(item).equals(getString(R.string.torch))) {
+                                        swipeBottomAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomValue(activity.getApplicationContext(), items.get(item), Utilities.TORCH, Utilities.TORCH);
+                                    } else if(items.get(item).equals(getString(R.string.bluetooth))){
+                                        swipeBottomAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomValue(activity.getApplicationContext(), items.get(item), Utilities.BLUETOOTH, Utilities.BLUETOOTH);
+                                    } else if(items.get(item).equals(getString(R.string.settings))){
+                                        swipeBottomAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomValue(activity.getApplicationContext(), items.get(item), Utilities.SETTINGS, Utilities.SETTINGS);
+                                    } else if(items.get(item).equals(getString(R.string.wifi))){
+                                        swipeBottomAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomValue(activity.getApplicationContext(), items.get(item), Utilities.WIFI, Utilities.WIFI);
+                                    } else if(items.get(item).equals(getString(R.string.screenshot))){
+                                        swipeBottomAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomValue(activity.getApplicationContext(), items.get(item), Utilities.SCREENSHOT, Utilities.SCREENSHOT);
+                                    } else if(items.get(item).equals(getString(R.string.sleep))){
+                                        swipeBottomAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomValue(activity.getApplicationContext(), items.get(item), Utilities.SLEEP, Utilities.SLEEP);
+                                    }else if(items.get(item).equals(getString(R.string.mode_silent))){
+                                        swipeBottomAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomValue(activity.getApplicationContext(), items.get(item), Utilities.MODE_SILENT, Utilities.MODE_SILENT);
+                                    }else if(items.get(item).equals(getString(R.string.mode_vibrate))){
+                                        swipeBottomAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomValue(activity.getApplicationContext(), items.get(item), Utilities.MODE_VIBRATE, Utilities.MODE_VIBRATE);
+                                    }else if(items.get(item).equals(getString(R.string.mode_normal))){
+                                        swipeBottomAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomValue(activity.getApplicationContext(), items.get(item), Utilities.MODE_NORMAL, Utilities.MODE_NORMAL);
+                                    }else if (items.get(item).equals(getString(R.string.nothing))) {
                                         swipeBottomAppPref.setSummary(getString(R.string.choose_double_tap_summary));
                                         Utilities.setAppSwipeBottomValue(activity.getApplicationContext(), null, null, null);
                                     } else {
@@ -446,7 +612,34 @@ public class SettingsActivity extends AppCompatActivity {
                     final List<Bitmap> icons = new ArrayList<Bitmap>();
                     items.add(getString(R.string.nothing));
                     icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_clear_black_24dp)));
-                    for (AppInfo app : AllAppsList.data) {
+
+                    items.add(getString(R.string.wifi));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_wifi_black_24dp)));
+
+                    items.add(getString(R.string.torch));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_lightbulb_outline_black_24dp)));
+
+                    items.add(getString(R.string.bluetooth));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_bluetooth_black_24dp)));
+
+                    items.add(getString(R.string.screenshot));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_photo_black_24dp)));
+
+                    items.add(getString(R.string.sleep));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_screen_lock_portrait_black_24dp)));
+
+                    items.add(getString(R.string.mode_silent));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_volume_off_black_24dp)));
+
+                    items.add(getString(R.string.mode_vibrate));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_vibration_black_24dp)));
+
+                    items.add(getString(R.string.mode_normal));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_volume_up_black_24dp)));
+
+                    items.add(getString(R.string.settings));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_settings_black_24dp)));
+                    for (AppInfo app : apps) {
                         items.add(app.title.toString());
                         icons.add(app.iconBitmap);
                     }
@@ -455,7 +648,34 @@ public class SettingsActivity extends AppCompatActivity {
                     new AlertDialog.Builder(getActivity()).setTitle(getString(R.string.alert_choose_app))
                             .setAdapter(adapter, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int item) {
-                                    if (items.get(item).equals(getString(R.string.nothing))) {
+                                    if (items.get(item).equals(getString(R.string.torch))) {
+                                        swipeBottomTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.TORCH, Utilities.TORCH);
+                                    } else if(items.get(item).equals(getString(R.string.bluetooth))){
+                                        swipeBottomTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.BLUETOOTH, Utilities.BLUETOOTH);
+                                    } else if(items.get(item).equals(getString(R.string.settings))){
+                                        swipeBottomTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.SETTINGS, Utilities.SETTINGS);
+                                    } else if(items.get(item).equals(getString(R.string.wifi))){
+                                        swipeBottomTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.WIFI, Utilities.WIFI);
+                                    } else if(items.get(item).equals(getString(R.string.screenshot))){
+                                        swipeBottomTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.SCREENSHOT, Utilities.SCREENSHOT);
+                                    } else if(items.get(item).equals(getString(R.string.sleep))){
+                                        swipeBottomTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.SLEEP, Utilities.SLEEP);
+                                    }else if(items.get(item).equals(getString(R.string.mode_silent))){
+                                        swipeBottomTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.MODE_SILENT, Utilities.MODE_SILENT);
+                                    }else if(items.get(item).equals(getString(R.string.mode_vibrate))){
+                                        swipeBottomTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.MODE_VIBRATE, Utilities.MODE_VIBRATE);
+                                    }else if(items.get(item).equals(getString(R.string.mode_normal))){
+                                        swipeBottomTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeBottomTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.MODE_NORMAL, Utilities.MODE_NORMAL);
+                                    }else if (items.get(item).equals(getString(R.string.nothing))) {
                                         swipeBottomTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary));
                                         Utilities.setAppSwipeBottomTwoFingersValue(activity.getApplicationContext(), null, null, null);
                                     } else {
@@ -483,7 +703,34 @@ public class SettingsActivity extends AppCompatActivity {
                     final List<Bitmap> icons = new ArrayList<Bitmap>();
                     items.add(getString(R.string.nothing));
                     icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_clear_black_24dp)));
-                    for (AppInfo app : AllAppsList.data) {
+
+                    items.add(getString(R.string.wifi));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_wifi_black_24dp)));
+
+                    items.add(getString(R.string.torch));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_lightbulb_outline_black_24dp)));
+
+                    items.add(getString(R.string.bluetooth));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_bluetooth_black_24dp)));
+
+                    items.add(getString(R.string.screenshot));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_photo_black_24dp)));
+
+                    items.add(getString(R.string.sleep));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_screen_lock_portrait_black_24dp)));
+
+                    items.add(getString(R.string.mode_silent));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_volume_off_black_24dp)));
+
+                    items.add(getString(R.string.mode_vibrate));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_vibration_black_24dp)));
+
+                    items.add(getString(R.string.mode_normal));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_volume_up_black_24dp)));
+
+                    items.add(getString(R.string.settings));
+                    icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_settings_black_24dp)));
+                    for (AppInfo app : apps) {
                         items.add(app.title.toString());
                         icons.add(app.iconBitmap);
                     }
@@ -492,7 +739,34 @@ public class SettingsActivity extends AppCompatActivity {
                     new AlertDialog.Builder(getActivity()).setTitle(getString(R.string.alert_choose_app))
                             .setAdapter(adapter, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int item) {
-                                    if (items.get(item).equals(getString(R.string.nothing))) {
+                                    if (items.get(item).equals(getString(R.string.torch))) {
+                                        swipeUpTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.TORCH, Utilities.TORCH);
+                                    } else if(items.get(item).equals(getString(R.string.bluetooth))){
+                                        swipeUpTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.BLUETOOTH, Utilities.BLUETOOTH);
+                                    } else if(items.get(item).equals(getString(R.string.settings))){
+                                        swipeUpTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.SETTINGS, Utilities.SETTINGS);
+                                    } else if(items.get(item).equals(getString(R.string.wifi))){
+                                        swipeUpTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.WIFI, Utilities.WIFI);
+                                    } else if(items.get(item).equals(getString(R.string.screenshot))){
+                                        swipeUpTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.SCREENSHOT, Utilities.SCREENSHOT);
+                                    } else if(items.get(item).equals(getString(R.string.sleep))){
+                                        swipeUpTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.SLEEP, Utilities.SLEEP);
+                                    }else if(items.get(item).equals(getString(R.string.mode_silent))){
+                                        swipeUpTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.MODE_SILENT, Utilities.MODE_SILENT);
+                                    }else if(items.get(item).equals(getString(R.string.mode_vibrate))){
+                                        swipeUpTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.MODE_VIBRATE, Utilities.MODE_VIBRATE);
+                                    }else if(items.get(item).equals(getString(R.string.mode_normal))){
+                                        swipeUpTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + items.get(item));
+                                        Utilities.setAppSwipeUpTwoFingersValue(activity.getApplicationContext(), items.get(item), Utilities.MODE_NORMAL, Utilities.MODE_NORMAL);
+                                    }else if (items.get(item).equals(getString(R.string.nothing))) {
                                         swipeUpTwoFingersAppPref.setSummary(getString(R.string.choose_double_tap_summary));
                                         Utilities.setAppSwipeUpTwoFingersValue(activity.getApplicationContext(), null, null, null);
                                     } else {
@@ -721,6 +995,89 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 }
             });
+
+
+            final Preference fingerprintPref = findPreference(Utilities.FINGERPRINT);
+
+            if(!Utilities.checkFingerprintHardwareAndPermission(context, Launcher.getFingerprintManager())){
+                fingerprintPref.setEnabled(false);
+            }
+
+            fingerprintPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    int i = 0;
+                    boolean needAuth = false;
+                    selectedItemsBool = new boolean[AllAppsList.data.size()];
+                    items = new CharSequence[AllAppsList.data.size()];
+
+                    for (AppInfo app : apps) {
+                        items[i] = app.title;
+                        i++;
+                    }
+
+                    for(int j = 0; j < selectedItemsBool.length; j++){
+                        if(Utilities.getFingerprintPosPrefEnabled(activity.getApplicationContext(), j) != -1){
+                            selectedItemsBool[j] = true;
+                            needAuth = true;
+                        }else{
+                            selectedItemsBool[j] = false;
+                        }
+                    }
+
+                    if(needAuth){
+                        startActivityForResult(new Intent(context, FingerprintActivitySettings.class), 200);
+                    }else{
+                        showFingerprintDialog(context, themeInt, items, selectedItemsBool);
+                    }
+                    return true;
+                }
+            });
+
+        }
+
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+            if (requestCode == 200) {
+                if(resultCode == Activity.RESULT_OK){
+                    boolean result=data.getBooleanExtra("result", false);
+                    if(result){
+                        showFingerprintDialog(context, themeInt, items, selectedItemsBool);
+                    }
+                }
+            }
+        }
+
+        public static void showFingerprintDialog(final Context context, int themeInt, final CharSequence[] items, final boolean[] selectedItemsBool){
+            AlertDialog dialog = new AlertDialog.Builder(context, themeInt)
+                    .setTitle(context.getString(R.string.select_apps))
+                    .setMultiChoiceItems(items, selectedItemsBool, new DialogInterface.OnMultiChoiceClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int indexSelected, boolean isChecked) {
+                            for (int i = 0; i < AllAppsList.data.size(); i++) {
+                                if (i == indexSelected && isChecked) {
+                                    CharSequence selectedName = items[indexSelected];
+                                    String packageName = AllAppsList.data.get(i).componentName.getPackageName();
+                                    String className = AllAppsList.data.get(i).componentName.getClassName();
+                                    Utilities.setFingerprintAppsValue(context, selectedName, packageName, className, i);
+                                } else if (i == indexSelected && !isChecked) {
+                                    Utilities.setFingerprintNullAppsValue(context, i);
+                                }
+                            }
+                        }
+                    }).setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            //Do nothing
+                        }
+                    }).setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            //Do nothing
+                        }
+                    }).create();
+            dialog.show();
         }
 
 

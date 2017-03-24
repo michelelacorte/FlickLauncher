@@ -195,5 +195,31 @@
     <string name="folder_circle_color_summary">Cambia il colore del cerchio della cartella nel launcher</string>
     <string name="choose_color">Scegli il colore</string>
     <string name="license">Licenze</string>
-    <string name="disclaimer_dialog_message">Benvenuto in &app_name;!\n\nQuesto è un progetto open source e disponibile su <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>.\n\nUniversal Launcher è inspirato al Google Pixel launcher, noi abbiamo aggiunto alcune modifiche.\nPer maggiori dettagli visitate la pagina <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>.\n\nQuesto progetto è sotto <a href="https://github.com/michelelacorte/UniversalLauncher/blob/master/LICENSE">Licenza Apache v2</a>, tutti i diritti sono riservati a Michele Lacorte.\n\nSe ti piace il progetto, aiuta lo sviluppatore scaricando l\'<a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">App Donazione</a>.\n\n\n\nVersione App v0.1.0 Build 9</string>
+    <string name="torch">Torcia</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="settings">Impostazioni</string>
+    <string name="wifi">Wifi</string>
+    <string name="screenshot">Screenshot</string>
+    <string name="sleep">Spegni Schermo</string>
+    <string name="mode_silent">Modalità Silenzioso</string>
+    <string name="mode_normal">Modalità Normale</string>
+    <string name="mode_vibrate">Modalità Vibrazione</string>
+    <string name="preferences_security">Sicurezza</string>
+    <string name="fingerprint">Blocca app con l\'impronta digitale</string>
+    <string name="fingerprint_summary">Blocca le tue app con l\'impronta digitale</string>
+    <string name="select_apps">Seleziona app</string>
+
+    <!-- Fingerprint -->
+    <string name="title_fingerprint">Sblocco One-Touch</string>
+    <string name="desc_fingerprint">Per favore metti il tuo dito sullo scanner per verificare l\'identità</string>
+    <string name="note">(Questa app necessita dell\'autenticazione con l\'impronta digitale. Il dispositivo deve avere almeno un\'impronta digitale registrata nelle impostazioni)</string>
+    <string name="activity_home_desc">Accesso eseguito correttamente con l\'impronta digitale</string>
+    <string name="activity_home_note">Chiudi e riapri l\'app per vedere di nuovo l\'autenticazione.</string>
+    <string name="fingerprint_help">Informazione.</string>
+    <string name="fingerprint_succeded">Successo.</string>
+    <string name="fingerprint_failed">Fallito.</string>
+    <string name="fingerprint_error">Errore.</string>
+
+    <!-- disclaimer -->
+    <string name="disclaimer_dialog_message">Benvenuto in &app_name;!\n\nQuesto è un progetto open source e disponibile su <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>.\n\nUniversal Launcher è inspirato al Google Pixel launcher, noi abbiamo aggiunto alcune modifiche.\nPer maggiori dettagli visitate la pagina <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>.\n\nQuesto progetto è sotto <a href="https://github.com/michelelacorte/UniversalLauncher/blob/master/LICENSE">Licenza Apache v2</a>, tutti i diritti sono riservati a Michele Lacorte.\n\nSe ti piace il progetto, aiuta lo sviluppatore scaricando l\'<a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">App Donazione</a>.\n\n\n\nVersione App v0.1.0 Build 15</string>
 </resources>

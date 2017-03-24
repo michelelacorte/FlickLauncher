@@ -16,12 +16,16 @@
 
 package com.android.launcher3;
 
+import android.*;
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.WallpaperManager;
+import android.bluetooth.BluetoothAdapter;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
@@ -43,14 +47,25 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
+import android.hardware.Camera;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
+import android.hardware.fingerprint.FingerprintManager;
+import android.media.AudioManager;
+import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.PowerManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -62,6 +77,7 @@ import android.util.Pair;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -74,16 +90,21 @@ import android.widget.Toast;
 import com.android.launcher3.compat.UserHandleCompat;
 import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.config.ProviderConfig;
+import com.android.launcher3.fingerprint.FingerprintActivity;
 import com.android.launcher3.graphics.ShadowGenerator;
 import com.android.launcher3.util.IconNormalizer;
 import com.android.launcher3.util.StringFilter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.Executor;
@@ -215,6 +236,69 @@ public final class Utilities {
     public static final String FOLDER_PREVIEW_BACKGROUND = "pref_folderPreviewBackground";
     public static final String FOLDER_PREVIEW_CIRCLE = "pref_folderPreviewCircleColor";
 
+    // Custom gesture
+    public static final String TORCH = "TORCH";
+    public static final String BLUETOOTH = "BLUETOOTH";
+    public static final String SETTINGS = "SETTINGS";
+    public static final String WIFI = "WIFI";
+    public static final String SCREENSHOT = "SCREENSHOT";
+    public static final String SLEEP = "SLEEP";
+    public static final String MODE_SILENT = "MODESILENT";
+    public static final String MODE_VIBRATE = "MODEVIBRATE";
+    public static final String MODE_NORMAL = "MODENORMAL";
+
+    // Fingerptint Preference
+    public static final String FINGERPRINT = "pref_fingerprint";
+    public static final String FINGERPRINT_PACKAGE = "pref_fingerprintPackage";
+    public static final String FINGERPRINT_CLASS = "pref_fingerprintClass";
+    public static final String FINGERPRINT_POS = "pref_fingerprintPos";
+
+    private static boolean isFlashLightOn = false;
+    private static boolean isBluetoothOn = false;
+    private static boolean isWifiOn = false;
+    private static int mobileModeSilentPrevious = -1;
+    private static boolean isModeSilent = false;
+    private static int mobileModeVibratePrevious = -1;
+    private static boolean isModeVibrate = false;
+    private static int mobileModeNormalPrevious = -1;
+    private static boolean isModeNormal = false;
+
+    private static Camera cam = null;
+
+
+    public static void setFingerprintAppsValue(Context context, CharSequence name, String packageName, String className, int pos) {
+        getPrefs(context).edit().putString(FINGERPRINT+String.valueOf(pos), name.toString()).apply();
+        getPrefs(context).edit().putString(FINGERPRINT_PACKAGE+String.valueOf(pos), packageName).apply();
+        getPrefs(context).edit().putString(FINGERPRINT_CLASS+String.valueOf(pos), className).apply();
+        getPrefs(context).edit().putInt(FINGERPRINT_POS+String.valueOf(pos), pos).apply();
+    }
+
+    public static void setFingerprintNullAppsValue(Context context, int pos) {
+        getPrefs(context).edit().putString(FINGERPRINT+String.valueOf(pos), null).apply();
+        getPrefs(context).edit().putString(FINGERPRINT_PACKAGE+String.valueOf(pos), null).apply();
+        getPrefs(context).edit().putString(FINGERPRINT_CLASS+String.valueOf(pos), null).apply();
+        getPrefs(context).edit().putInt(FINGERPRINT_POS+String.valueOf(pos), -1).apply();
+    }
+
+    public static String getFingerprintPrefEnabled(Context context, int pos) {
+        return getPrefs(context).getString(FINGERPRINT+String.valueOf(pos),
+                null);
+    }
+
+    public static String getFingerprintClassPrefEnabled(Context context, int pos) {
+        return getPrefs(context).getString(FINGERPRINT_CLASS+String.valueOf(pos),
+                null);
+    }
+
+    public static String getFingerprintPackagePrefEnabled(Context context, int pos) {
+        return getPrefs(context).getString(FINGERPRINT_PACKAGE+String.valueOf(pos),
+                null);
+    }
+
+    public static int getFingerprintPosPrefEnabled(Context context, int pos) {
+        return getPrefs(context).getInt(FINGERPRINT_POS+String.valueOf(pos),
+                -1);
+    }
 
 
     public static void setFolderPreviewCircleValue(Context context, int color) {
@@ -1289,4 +1373,266 @@ public final class Utilities {
         ((TextView)builder.findViewById(android.R.id.message)).setGravity(Gravity.CENTER_VERTICAL);
         builder.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
     }
+
+    public static void turnOnFlashLight(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            CameraManager camManager = (CameraManager) context.getApplicationContext().getSystemService(Context.CAMERA_SERVICE);
+            String cameraId = null;
+            try {
+                cameraId = camManager.getCameraIdList()[0];
+                camManager.setTorchMode(cameraId, true);
+                isFlashLightOn = true;
+            } catch (CameraAccessException e) {
+                isFlashLightOn = false;
+                e.printStackTrace();
+            }
+        }else {
+            try {
+                if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+                    Camera cam = Camera.open();
+                    Camera.Parameters p = cam.getParameters();
+                    p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                    cam.setParameters(p);
+                    cam.startPreview();
+                    isFlashLightOn = true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                isFlashLightOn = false;
+            }
+        }
+    }
+
+    public static void turnOffFlashLight(Context context){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            CameraManager camManager = (CameraManager) context.getApplicationContext().getSystemService(Context.CAMERA_SERVICE);
+            String cameraId = null;
+            try {
+                cameraId = camManager.getCameraIdList()[0];
+                camManager.setTorchMode(cameraId, false);
+                isFlashLightOn = false;
+            } catch (CameraAccessException e) {
+                isFlashLightOn = true;
+                e.printStackTrace();
+            }
+        }else {
+            try {
+                if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+                    cam.stopPreview();
+                    cam.release();
+                    cam = null;
+                    isFlashLightOn = false;
+                }
+            } catch (Exception e) {
+                isFlashLightOn = true;
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static boolean setBluetooth(boolean enable) {
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        boolean isEnabled = bluetoothAdapter.isEnabled();
+        if (enable && !isEnabled) {
+            isBluetoothOn = true;
+            return bluetoothAdapter.enable();
+        }
+        else if(!enable && isEnabled) {
+            isBluetoothOn = false;
+            return bluetoothAdapter.disable();
+        }
+        // No need to change bluetooth state
+        return true;
+    }
+
+    public static void openSettings(Activity activity){
+        activity.startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
+    }
+
+
+    public static void turnOnWifi(Activity activity){
+        WifiManager wifimanager = (WifiManager) activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifimanager.setWifiEnabled(true);
+        isWifiOn = true;
+    }
+
+    public static void turnOffWifi(Activity activity){
+        WifiManager wifimanager = (WifiManager) activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifimanager.setWifiEnabled(false);
+        isWifiOn = false;
+    }
+
+    private static Bitmap takeShot(Activity activity) {
+        View view = activity.getWindow().getDecorView();
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+        Bitmap b1 = view.getDrawingCache();
+        Rect frame = new Rect();
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+        int statusBarHeight = frame.top;
+
+
+        int width = activity.getWindowManager().getDefaultDisplay().getWidth();
+        int height = activity.getWindowManager().getDefaultDisplay().getHeight();
+
+
+        Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height - statusBarHeight);
+        view.destroyDrawingCache();
+        return b;
+    }
+
+    private static void savePic(Bitmap b, String strFileName, Activity activity) {
+        FileOutputStream fos;
+        try {
+            fos = new FileOutputStream(strFileName);
+            b.compress(Bitmap.CompressFormat.PNG, 90, fos);
+            fos.flush();
+            fos.close();
+            Toast.makeText(activity.getApplicationContext(), "Screenshot Saved", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Log.e("TAG", e.toString());
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void takeScreenshot(Activity activity) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            checkPermission(activity);
+        }
+        try {
+
+            File cacheDir = new File(
+                    android.os.Environment.getExternalStorageDirectory(),
+                    "FlickLauncher");
+
+            if (!cacheDir.exists()) {
+                cacheDir.mkdirs();
+            }
+
+            String path = new File(
+                    android.os.Environment.getExternalStorageDirectory(),
+                    "FlickLauncher") + "/Screenshot-" + System.currentTimeMillis() + ".jpg";
+
+            savePic(takeShot(activity), path, activity);
+
+        } catch (NullPointerException ignored) {
+            ignored.printStackTrace();
+        }
+    }
+
+    /**
+     * Check if user had permission
+     * @param activity Activity
+     */
+    private static void checkPermission(Activity activity) {
+        int result = ContextCompat.checkSelfPermission(activity, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (result != PackageManager.PERMISSION_GRANTED) {
+            requestPermission(activity);
+        }
+    }
+
+    /**
+     * Make request permission
+     * @param activity Activity
+     */
+    private static void requestPermission(Activity activity) {
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            Log.d(TAG, "Write External Storage permission allows us to do store shortcuts data. Please allow this permission in App Settings.");
+        } else {
+            ActivityCompat.requestPermissions(activity, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 111);
+            Log.d(TAG, "Write External Storage permission allows us to do store shortcuts data.");
+        }
+    }
+
+    public static void modeSilent(Activity activity){
+        checkPermissionForRingtone(activity);
+        AudioManager mobilemode = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
+        if(isModeSilent){
+            mobilemode.setRingerMode(mobileModeSilentPrevious);
+            isModeSilent = false;
+        }else {
+            isModeSilent = true;
+            mobileModeSilentPrevious = mobilemode.getRingerMode();
+            mobilemode.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+        }
+    }
+
+    public static void modeVibrate(Activity activity){
+        checkPermissionForRingtone(activity);
+        AudioManager mobilemode = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
+        if(isModeVibrate){
+            mobilemode.setRingerMode(mobileModeVibratePrevious);
+            isModeVibrate = false;
+        }else {
+            isModeVibrate = true;
+            mobileModeVibratePrevious = mobilemode.getRingerMode();
+            mobilemode.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+        }
+    }
+
+    public static void modeNormal(Activity activity){
+        checkPermissionForRingtone(activity);
+        AudioManager mobilemode = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
+        if(isModeNormal){
+            mobilemode.setRingerMode(mobileModeNormalPrevious);
+            isModeNormal = false;
+        }else {
+            isModeNormal = true;
+            mobileModeNormalPrevious = mobilemode.getRingerMode();
+            mobilemode.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+        }
+    }
+
+    private static void checkPermissionForRingtone(Activity activity){
+        NotificationManager notificationManager =
+                (NotificationManager) activity.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                && !notificationManager.isNotificationPolicyAccessGranted()) {
+
+            Intent intent = new Intent(
+                    android.provider.Settings
+                            .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+
+            activity.startActivity(intent);
+        }
+    }
+
+    public static ArrayList<String> getAppHasFingerprint(Context context){
+        ArrayList<String> result = new ArrayList<>();
+        for (int i = 0; i < AllAppsList.data.size(); i++) {
+            if(Utilities.getFingerprintPrefEnabled(context, i) != null){
+                result.add(Utilities.getFingerprintPrefEnabled(context, i));
+            }
+        }
+        return  result;
+    }
+
+    @TargetApi(23)
+    public static boolean checkFingerprintHardwareAndPermission(Context context, FingerprintManager fingerprintManager){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.USE_FINGERPRINT) == PackageManager.PERMISSION_GRANTED) {
+                if (fingerprintManager.isHardwareDetected()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean isFlashLightOn() {
+        return isFlashLightOn;
+    }
+
+    public static boolean isBluetoothOn() {
+        return isBluetoothOn;
+    }
+
+    public static boolean isWifiOn() {
+        return isWifiOn;
+    }
+
+
 }

@@ -54,6 +54,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.hardware.fingerprint.FingerprintManager;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -112,6 +113,7 @@ import com.android.launcher3.dragndrop.DragLayer;
 import com.android.launcher3.dragndrop.DragOptions;
 import com.android.launcher3.dragndrop.DragView;
 import com.android.launcher3.dynamicui.ExtractedColors;
+import com.android.launcher3.fingerprint.FingerprintActivity;
 import com.android.launcher3.folder.Folder;
 import com.android.launcher3.folder.FolderIcon;
 import com.android.launcher3.keyboard.ViewGroupFocusHelper;
@@ -392,6 +394,15 @@ public class Launcher extends Activity
     private static DevicePolicyManager devicePolicyManager;
     private static ComponentName adminComponent;
 
+    //Fingerprint
+    private static ArrayList<String> appHasFingerprint = new ArrayList();
+
+    public static FingerprintManager getFingerprintManager() {
+        return fingerprintManager;
+    }
+
+    private static FingerprintManager fingerprintManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (DEBUG_STRICT_MODE) {
@@ -514,6 +525,11 @@ public class Launcher extends Activity
 
         adminComponent = new ComponentName(Launcher.this, DarClass.class);
         devicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+
+        appHasFingerprint = Utilities.getAppHasFingerprint(getApplicationContext());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
+        }
     }
 
 
@@ -1007,7 +1023,7 @@ public class Launcher extends Activity
 
         super.onResume();
         getUserEventDispatcher().resetElapsedSessionMillis();
-
+        appHasFingerprint = Utilities.getAppHasFingerprint(getApplicationContext());
         // Restore the previous launcher state
         if (mOnResumeState == State.WORKSPACE) {
             showWorkspace(false);
@@ -2453,8 +2469,30 @@ public class Launcher extends Activity
         }
 
         Object tag = v.getTag();
+        appHasFingerprint = Utilities.getAppHasFingerprint(getApplicationContext());
         if (tag instanceof ShortcutInfo) {
-            onClickAppShortcut(v);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Utilities.checkFingerprintHardwareAndPermission(getApplicationContext(), fingerprintManager)) {
+                    ShortcutInfo fingerApps = (ShortcutInfo) tag;
+                    if(appHasFingerprint.size() > 0) {
+                        for (int i = 0; i < appHasFingerprint.size(); i++) {
+                            if (appHasFingerprint.get(i).equals(fingerApps.title.toString())) {
+                                FingerprintActivity.setShortcutInfo(v);
+                                startActivity(new Intent(Launcher.this, FingerprintActivity.class));
+                                break;
+                            } else {
+                                onClickAppShortcut(v);
+                            }
+                        }
+                    }else{
+                        onClickAppShortcut(v);
+                    }
+                }else{
+                    onClickAppShortcut(v);
+                }
+            } else {
+                onClickAppShortcut(v);
+            }
         } else if (tag instanceof FolderInfo) {
             if (v instanceof FolderIcon) {
                 onClickFolderIcon(v);
@@ -2463,7 +2501,26 @@ public class Launcher extends Activity
                 (v == mAllAppsButton && mAllAppsButton != null)) {
             onClickAllAppsButton(v);
         } else if (tag instanceof AppInfo) {
-            startAppShortcutOrInfoActivity(v);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Utilities.checkFingerprintHardwareAndPermission(getApplicationContext(), fingerprintManager)) {
+                    AppInfo fingerApps = (AppInfo) tag;
+                    if(appHasFingerprint.size() > 0) {
+                        for (int i = 0; i < appHasFingerprint.size(); i++) {
+                            if (appHasFingerprint.get(i).equals(fingerApps.title.toString())) {
+                                FingerprintActivity.setShortcutInfo(v);
+                                startActivity(new Intent(Launcher.this, FingerprintActivity.class));
+                                break;
+                            } else {
+                                startAppShortcutOrInfoActivity(v);
+                            }
+                        }
+                    }else{
+                        startAppShortcutOrInfoActivity(v);
+                    }
+                }
+            } else {
+                startAppShortcutOrInfoActivity(v);
+            }
         } else if (tag instanceof LauncherAppWidgetInfo) {
             if (v instanceof PendingAppWidgetHostView) {
                 onClickPendingWidget((PendingAppWidgetHostView) v);

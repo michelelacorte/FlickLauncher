@@ -38,12 +38,31 @@
         android:description="@string/permdesc_install_shortcut" />
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
     <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
     <uses-permission android:name="android.permission.BIND_APPWIDGET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS"/>
+
 
     <application
         android:backupAgent="com.android.launcher3.LauncherBackupAgent"
@@ -73,6 +92,23 @@
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.MONKEY" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".fingerprint.FingerprintActivity"
+            android:theme="@style/Theme.AppCompat">
+            <intent-filter>
+                <action android:name=".fingerprint.FingerprintActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name=".fingerprint.settings.FingerprintActivitySettings"
+            android:theme="@style/Theme.AppCompat">
+            <intent-filter>
+                <action android:name=".fingerprint.settings.FingerprintActivitySettings" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
