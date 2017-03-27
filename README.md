@@ -20,7 +20,7 @@ We want to create a launcher for google pixels style stock, with a few tweaks.
 
 ## PREVIEW
 
-### v0.1.0 (Coming Soon!)
+### v0.1.0 Alpha
 
 <h1 align="center"><img src="https://s7.postimg.org/6z20p8xor/Screenshot_2017_02_26_20_28_47_framed.png" height="500"/></h1>
 
@@ -38,7 +38,7 @@ Android API 14+
 
 ## CHANGELOG
 
-**v0.1.0 Alpha**
+**v0.1.0 Alpha 19**
 * App Shortcuts on Launcher working on device screen:
     * 1440x2560 (Portrait).
     * 1080x1920 (Portrait).
@@ -53,7 +53,9 @@ Android API 14+
 * Possibility to change number of icon in dock.
 * Added circular icon in launcher.
 * Possibility to change color of folder.
-* Added Gesture.
+* Added Gesture (swipe up, swipe down, double tap, also with two fingers).
+* Added Password lock app.
+* Added Fingerprint lock app.
 
 **v0**
 * Initial commit.
