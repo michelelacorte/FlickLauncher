@@ -16,33 +16,39 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.android.launcher3.util.CustomPreferenceCategory
-        android:title="@string/preferences_layout_option">
+    <com.android.launcher3.util.CustomPreferenceCategory android:title="@string/preferences_layout_option">
 
-    <SwitchPreference
-            android:key="pref_allowRotation"
-            android:title="@string/allow_rotation_title"
+        <SwitchPreference
             android:defaultValue="@bool/allow_rotation"
-            android:persistent="true" />
+            android:key="pref_allowRotation"
+            android:persistent="true"
+            android:title="@string/allow_rotation_title" />
 
-    <SwitchPreference
-        android:key="pref_allowCircularIcon"
-        android:title="@string/allow_icon_title"
-        android:defaultValue="@bool/allow_circular_icon"
-        android:summary="@string/allow_icon_summary"
-        android:persistent="true" />
+        <SwitchPreference
+            android:defaultValue="@bool/allow_circular_icon"
+            android:key="pref_allowCircularIcon"
+            android:persistent="true"
+            android:summary="@string/allow_icon_summary"
+            android:title="@string/allow_icon_title" />
 
-    <Preference
-        android:key="pref_gridSize"
-        android:title="@string/grid_size"
-        android:summary="@string/grid_size_summary"
-        android:persistent="true" />
+        <SwitchPreference
+            android:defaultValue="@bool/allow_persistent_search_bar"
+            android:key="pref_allowPersistentSearchBar"
+            android:persistent="true"
+            android:summary="@string/allow_persistent_search_bar_summary"
+            android:title="@string/allow_persistent_search_bar" />
 
-    <Preference
-        android:key="pref_allAppsSize"
-        android:title="@string/all_apps_size"
-        android:summary="@string/all_apps_size_summary"
-        android:persistent="true" />
+        <Preference
+            android:key="pref_gridSize"
+            android:persistent="true"
+            android:summary="@string/grid_size_summary"
+            android:title="@string/grid_size" />
+
+        <Preference
+            android:key="pref_allAppsSize"
+            android:persistent="true"
+            android:summary="@string/all_apps_size_summary"
+            android:title="@string/all_apps_size" />
 
     </com.android.launcher3.util.CustomPreferenceCategory>
 
@@ -54,6 +60,12 @@
             android:key="pref_dockSize"
             android:title="@string/dock_size"
             android:summary="@string/dock_size_summary"
+            android:persistent="true" />
+
+        <Preference
+            android:key="pref_dockBackground"
+            android:title="@string/dock_background"
+            android:summary="@string/dock_background_summary"
             android:persistent="true" />
 
     </com.android.launcher3.util.CustomPreferenceCategory>
@@ -138,6 +150,17 @@
             android:key="pref_fingerprint"
             android:title="@string/fingerprint"
             android:summary="@string/fingerprint_summary"
+            android:persistent="true" />
+
+        <Preference
+            android:key="pref_password"
+            android:title="@string/password"
+            android:summary="@string/password_summary"
+            android:persistent="true" />
+
+        <Preference
+            android:key="pref_resetPassword"
+            android:title="@string/password_reset"
             android:persistent="true" />
 
     </com.android.launcher3.util.CustomPreferenceCategory>

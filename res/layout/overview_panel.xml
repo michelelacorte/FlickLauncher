@@ -51,21 +51,21 @@
         android:textAllCaps="true"
         android:textColor="@android:color/white"
         android:textSize="12sp" />
-<!--
+
     <TextView
-        android:id="@+id/extension_button"
+        android:id="@+id/add_new_page_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:drawablePadding="4dp"
-        android:drawableTop="@drawable/ic_extension_black_24dp"
+        android:drawableTop="@drawable/ic_add_page"
         android:fontFamily="sans-serif-condensed"
         android:gravity="center_horizontal"
         android:stateListAnimator="@animator/overview_button_anim"
-        android:text="Extension"
+        android:text="@string/add_page"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
-        android:textSize="12sp" /> -->
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/settings_button"

@@ -16,7 +16,6 @@
 
 package com.android.launcher3;
 
-import android.*;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -47,7 +46,6 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
@@ -58,11 +56,9 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -71,13 +67,13 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.TtsSpan;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -90,21 +86,18 @@ import android.widget.Toast;
 import com.android.launcher3.compat.UserHandleCompat;
 import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.config.ProviderConfig;
-import com.android.launcher3.fingerprint.FingerprintActivity;
 import com.android.launcher3.graphics.ShadowGenerator;
+import com.android.launcher3.security.password.PasswordActivity;
 import com.android.launcher3.util.IconNormalizer;
-import com.android.launcher3.util.StringFilter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.Executor;
@@ -192,13 +185,15 @@ public final class Utilities {
 
     public static final String ALL_APPS_SIZE_ITEM = "pref_allAppsSizeItem";
 
+    //Dock Preferences
     public static final String DOCK_SIZE = "pref_dockSize";
-
+    public static final String DOCK_BACKGROUND = "pref_dockBackground";
     public static final String DOCK_SIZE_ITEM = "pref_dockSizeItem";
 
+    // Various
     public static final String DEFAULT_LAUNCHER = "pref_askDefaultLauncher";
-
     public static final String RESTART_LAUNCHER = "pref_askRestartLauncher";
+    public static final String PERSISENT_SEARCH_BAR = "pref_allowPersistentSearchBar";
 
     // Gesture Preferences
     public static final String DOUBLE_TAP_TO_SLEEP = "pref_allowSleep";
@@ -253,6 +248,14 @@ public final class Utilities {
     public static final String FINGERPRINT_CLASS = "pref_fingerprintClass";
     public static final String FINGERPRINT_POS = "pref_fingerprintPos";
 
+    // Password Preference
+    public static final String PASSWORD_SHARED_PREF = "pref_passwordSaved";
+    public static final String PASSWORD = "pref_password";
+    public static final String PASSWORD_PACKAGE = "pref_passwordPackage";
+    public static final String PASSWORD_CLASS = "pref_passwordClass";
+    public static final String PASSWORD_POS = "pref_passwordPos";
+    public static final String PASSWORD_RESET = "pref_resetPassword";
+
     private static boolean isFlashLightOn = false;
     private static boolean isBluetoothOn = false;
     private static boolean isWifiOn = false;
@@ -285,20 +288,37 @@ public final class Utilities {
                 null);
     }
 
-    public static String getFingerprintClassPrefEnabled(Context context, int pos) {
-        return getPrefs(context).getString(FINGERPRINT_CLASS+String.valueOf(pos),
-                null);
-    }
-
-    public static String getFingerprintPackagePrefEnabled(Context context, int pos) {
-        return getPrefs(context).getString(FINGERPRINT_PACKAGE+String.valueOf(pos),
-                null);
-    }
-
     public static int getFingerprintPosPrefEnabled(Context context, int pos) {
         return getPrefs(context).getInt(FINGERPRINT_POS+String.valueOf(pos),
                 -1);
     }
+
+
+    public static void setPasswordAppsValue(Context context, CharSequence name, String packageName, String className, int pos) {
+        getPrefs(context).edit().putString(PASSWORD+String.valueOf(pos), name.toString()).apply();
+        getPrefs(context).edit().putString(PASSWORD_PACKAGE+String.valueOf(pos), packageName).apply();
+        getPrefs(context).edit().putString(PASSWORD_CLASS+String.valueOf(pos), className).apply();
+        getPrefs(context).edit().putInt(PASSWORD_POS+String.valueOf(pos), pos).apply();
+    }
+
+    public static void setPasswordNullAppsValue(Context context, int pos) {
+        getPrefs(context).edit().putString(PASSWORD+String.valueOf(pos), null).apply();
+        getPrefs(context).edit().putString(PASSWORD_PACKAGE+String.valueOf(pos), null).apply();
+        getPrefs(context).edit().putString(PASSWORD_CLASS+String.valueOf(pos), null).apply();
+        getPrefs(context).edit().putInt(PASSWORD_POS+String.valueOf(pos), -1).apply();
+    }
+
+    public static String getPasswordPrefEnabled(Context context, int pos) {
+        return getPrefs(context).getString(PASSWORD+String.valueOf(pos),
+                null);
+    }
+
+    public static int getPasswordPosPrefEnabled(Context context, int pos) {
+        return getPrefs(context).getInt(PASSWORD_POS+String.valueOf(pos),
+                -1);
+    }
+
+
 
 
     public static void setFolderPreviewCircleValue(Context context, int color) {
@@ -338,6 +358,14 @@ public final class Utilities {
                 -1);
     }
 
+    public static void setDockBackgroundValue(Context context, int color) {
+        getPrefs(context).edit().putInt(DOCK_BACKGROUND, color).apply();
+    }
+
+    public static int getDockBackgroundPrefEnabled(Context context) {
+        return getPrefs(context).getInt(DOCK_BACKGROUND,
+                -1);
+    }
 
     public static boolean isPropertyEnabled(String propertyName) {
         return Log.isLoggable(propertyName, Log.VERBOSE);
@@ -368,6 +396,16 @@ public final class Utilities {
         return getPrefs(context).getBoolean(DOUBLE_TAP_TO_SLEEP,
                 getAllowDoubleTapToSleepDefaultValue());
     }
+
+    public static boolean getAllowPersisentSearchBarDefaultValue() {
+        return true;
+    }
+
+    public static boolean isAllowPersisentSearchBarPrefEnabled(Context context) {
+        return getPrefs(context).getBoolean(PERSISENT_SEARCH_BAR,
+                getAllowPersisentSearchBarDefaultValue());
+    }
+
 
     public static boolean getAllowCircularIconDefaultValue() {
         return true;
@@ -1610,12 +1648,100 @@ public final class Utilities {
         return  result;
     }
 
+    public static ArrayList<String> getAppHasPassword(Context context){
+        ArrayList<String> result = new ArrayList<>();
+        for (int i = 0; i < AllAppsList.data.size(); i++) {
+            if(Utilities.getPasswordPrefEnabled(context, i) != null){
+                result.add(Utilities.getPasswordPrefEnabled(context, i));
+            }
+        }
+        return  result;
+    }
+
     @TargetApi(23)
     public static boolean checkFingerprintHardwareAndPermission(Context context, FingerprintManager fingerprintManager){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.USE_FINGERPRINT) == PackageManager.PERMISSION_GRANTED) {
                 if (fingerprintManager.isHardwareDetected()) {
                     return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static String encrypt(String input) {
+        return Base64.encodeToString(input.getBytes(), Base64.CRLF);
+    }
+
+    public static String decrypt(String input) {
+        return new String(Base64.decode(input, Base64.CRLF));
+    }
+
+    public static boolean startAppHasPassword(ArrayList<String> appHasPassword, View v){
+        Object tag = v.getTag();
+        if(appHasPassword.size() > 0) {
+            ShortcutInfo passwordApps = (ShortcutInfo) tag;
+            for (int i = 0; i < appHasPassword.size(); i++) {
+                if (appHasPassword.get(i).equals(passwordApps.title.toString())) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public static boolean startAppHasFingerprint(ArrayList<String> appHasFingerprint, View v) {
+        Object tag = v.getTag();
+        ShortcutInfo fingerApps = (ShortcutInfo) tag;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Utilities.checkFingerprintHardwareAndPermission(Launcher.getLauncherActivity(), Launcher.getFingerprintManager())) {
+                if (appHasFingerprint.size() > 0) {
+                    for (int i = 0; i < appHasFingerprint.size(); i++) {
+                        if (appHasFingerprint.get(i).equals(fingerApps.title.toString())) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean startAppHasPasswordAppInfo(ArrayList<String> appHasPassword, View v){
+        Object tag = v.getTag();
+        AppInfo passwordApps = (AppInfo) tag;
+        if(appHasPassword.size() > 0) {
+            for (int i = 0; i < appHasPassword.size(); i++) {
+                if (appHasPassword.get(i).equals(passwordApps.title.toString())) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public static boolean startAppHasFingerprintAppInfo(ArrayList<String> appHasFingerprint, View v) {
+        Object tag = v.getTag();
+        AppInfo fingerApps = (AppInfo) tag;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Utilities.checkFingerprintHardwareAndPermission(Launcher.getLauncherActivity(), Launcher.getFingerprintManager())) {
+                if (appHasFingerprint.size() > 0) {
+                    for (int i = 0; i < appHasFingerprint.size(); i++) {
+                        if (appHasFingerprint.get(i).equals(fingerApps.title.toString())) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
                 }
             }
         }

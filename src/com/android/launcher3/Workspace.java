@@ -585,7 +585,10 @@ public class Workspace extends PagedView
      * @param qsb an exisitng qsb to recycle or null.
      */
     public void bindAndInitFirstWorkspaceScreen(View qsb) {
-        if (!FeatureFlags.QSB_ON_FIRST_SCREEN) {
+        /*if (!FeatureFlags.QSB_ON_FIRST_SCREEN) {
+            return;
+        }*/
+        if(!Utilities.isAllowPersisentSearchBarPrefEnabled(getContext())){
             return;
         }
         // Add the first page
@@ -617,6 +620,7 @@ public class Workspace extends PagedView
                 }
             });
         }
+
         // Always add a QSB on the first screen.
         if (qsb == null) {
             // In transposed layout, we add the QSB in the Grid. As workspace does not touch the
@@ -629,8 +633,10 @@ public class Workspace extends PagedView
 
         CellLayout.LayoutParams lp = new CellLayout.LayoutParams(0, 0, firstPage.getCountX(), 1);
         lp.canReorder = false;
-        if (!firstPage.addViewToCellLayout(qsb, 0, getEmbeddedQsbId(), lp, true)) {
-            Log.e(TAG, "Failed to add to item at (0, 0) to CellLayout");
+        if(Utilities.isAllowPersisentSearchBarPrefEnabled(getContext())){
+            if (!firstPage.addViewToCellLayout(qsb, 0, getEmbeddedQsbId(), lp, true)) {
+                Log.e(TAG, "Failed to add to item at (0, 0) to CellLayout");
+            }
         }
     }
 

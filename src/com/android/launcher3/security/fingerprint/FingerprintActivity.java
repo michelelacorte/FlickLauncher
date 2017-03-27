@@ -1,4 +1,4 @@
-package com.android.launcher3.fingerprint.settings;
+package com.android.launcher3.security.fingerprint;
 
 /**
  * Created by Michele on 20/03/2017.
@@ -11,12 +11,12 @@ import android.app.KeyguardManager;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,27 +31,35 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
 
-public class FingerprintActivitySettings extends AppCompatActivity {
+public class FingerprintActivity extends AppCompatActivity {
 
 
     private KeyStore keyStore;
     // Variable used for storing the key in the Android Keystore container
-    private static final String KEY_NAME = "FlickLauncherSettings";
+    private static final String KEY_NAME = "FlickLauncher";
     private Cipher cipher;
     private TextView textView;
+    private static View shortcutInfo;
 
     public static Activity getActivity() {
         return activity;
     }
 
     private static Activity activity;
+
+    public static View getShortcutInfo() {
+        return shortcutInfo;
+    }
+
+    public static void setShortcutInfo(View shortcutInfo) {
+        FingerprintActivity.shortcutInfo = shortcutInfo;
+    }
 
     @Override
     @TargetApi(23)
@@ -99,7 +107,7 @@ public class FingerprintActivitySettings extends AppCompatActivity {
 
                         if (cipherInit()) {
                             FingerprintManager.CryptoObject cryptoObject = new FingerprintManager.CryptoObject(cipher);
-                            FingerprintHandlerSettings helper = new FingerprintHandlerSettings(this);
+                            FingerprintHandler helper = new FingerprintHandler(this, shortcutInfo);
                             helper.startAuth(fingerprintManager, cryptoObject);
                         }
                     }

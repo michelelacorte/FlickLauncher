@@ -22,8 +22,11 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,23 +35,21 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.provider.Settings;
 import android.provider.Settings.System;
-import android.support.annotation.IntegerRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.IntProperty;
-import android.util.Log;
+import android.text.InputType;
 import android.view.ContextThemeWrapper;
-import android.widget.CheckedTextView;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.launcher3.fingerprint.FingerprintActivity;
-import com.android.launcher3.fingerprint.FingerprintHandler;
-import com.android.launcher3.fingerprint.settings.FingerprintActivitySettings;
+import com.android.launcher3.security.fingerprint.settings.FingerprintActivitySettings;
+import com.android.launcher3.security.password.settings.PasswordActivitySettings;
 import com.android.launcher3.util.ApplicationInfo;
 import com.android.launcher3.util.ArrayAdapterWithIcon;
 import com.flask.colorpicker.ColorPickerView;
@@ -60,8 +61,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
+import it.michelelacorte.androidshortcuts.Shortcuts;
+import it.michelelacorte.androidshortcuts.ShortcutsCreation;
 import it.michelelacorte.androidshortcuts.util.Utils;
 
 /**
@@ -86,6 +88,7 @@ public class SettingsActivity extends AppCompatActivity {
         private SystemDisplayRotationLockObserver mRotationLockObserver;
         private Context context;
         private int themeInt;
+        private ContextThemeWrapper theme;
         private CharSequence[] items = null;
         private boolean[] selectedItemsBool = null;
 
@@ -138,7 +141,6 @@ public class SettingsActivity extends AppCompatActivity {
             final Preference gridPref = findPreference(Utilities.GRID_SIZE);
             final Activity activity = this.getActivity();
 
-            final ContextThemeWrapper theme;
             if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
                 theme = new ContextThemeWrapper(activity, R.style.AlertDialogCustomAPI23);
             } else {
@@ -1034,6 +1036,108 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
+            final Preference persistentSearchBarPref = findPreference(Utilities.PERSISENT_SEARCH_BAR);
+            if (getResources().getBoolean(R.bool.allow_persistent_search_bar)) {
+                getPreferenceScreen().removePreference(persistentSearchBarPref);
+            } else {
+                persistentSearchBarPref.setDefaultValue(true);
+            }
+
+
+            final Preference dockBackgroundPref = findPreference(Utilities.DOCK_BACKGROUND);
+            dockBackgroundPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    int initialColor;
+                    if ((initialColor = Utilities.getDockBackgroundPrefEnabled(activity.getApplicationContext())) == -1) {
+                        initialColor = 0xffffffff;
+                    }
+                    ColorPickerDialogBuilder
+                            .with(context, themeInt)
+                            .setTitle(getString(R.string.choose_color))
+                            .initialColor(initialColor)
+                            .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                            .setOnColorSelectedListener(new OnColorSelectedListener() {
+                                @Override
+                                public void onColorSelected(int selectedColor) {
+                                    //Integer.toHexString(selectedColor);
+                                }
+                            })
+                            .setPositiveButton(getString(R.string.ok), new ColorPickerClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
+                                    Utilities.setDockBackgroundValue(activity.getApplicationContext(), selectedColor);
+                                }
+                            })
+                            .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .build()
+                            .show();
+                    return true;
+                }
+            });
+
+
+            final Preference passwordPref = findPreference(Utilities.PASSWORD);
+
+            passwordPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    int i = 0;
+                    boolean needAuth = false;
+                    selectedItemsBool = new boolean[AllAppsList.data.size()];
+                    items = new CharSequence[AllAppsList.data.size()];
+
+                    for (AppInfo app : apps) {
+                        items[i] = app.title;
+                        i++;
+                    }
+
+                    for(int j = 0; j < selectedItemsBool.length; j++){
+                        if(Utilities.getPasswordPosPrefEnabled(activity.getApplicationContext(), j) != -1){
+                            selectedItemsBool[j] = true;
+                            needAuth = true;
+                        }else{
+                            selectedItemsBool[j] = false;
+                        }
+                    }
+
+                    SharedPreferences preferences = context.getSharedPreferences(Utilities.PASSWORD_SHARED_PREF, MODE_PRIVATE);
+                    String passEncrypted = preferences.getString(Utilities.encrypt("password"), Utilities.encrypt("NULLPASS"));
+                    String pass = Utilities.decrypt(passEncrypted);
+                    if(pass.equals("NULLPASS")){
+                        showPasswordInputDialog(theme, context);
+                    }else {
+                        if (needAuth) {
+                            startActivityForResult(new Intent(context, PasswordActivitySettings.class), 300);
+                        } else {
+                            showPasswordDialog(context, themeInt, items, selectedItemsBool);
+                        }
+                    }
+                    return true;
+                }
+            });
+
+            final Preference passwordResetPref = findPreference(Utilities.PASSWORD_RESET);
+            passwordResetPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    SharedPreferences preferences = context.getSharedPreferences(Utilities.PASSWORD_SHARED_PREF, MODE_PRIVATE);
+                    String passEncrypted = preferences.getString(Utilities.encrypt("password"), Utilities.encrypt("NULLPASS"));
+                    String pass = Utilities.decrypt(passEncrypted);
+                    if(pass.equals("NULLPASS")){
+                        showPasswordInputDialog(theme, context);
+                    }else {
+                        startActivityForResult(new Intent(context, PasswordActivitySettings.class), 301);
+                    }
+                    return true;
+                }
+            });
+
+
         }
 
         @Override
@@ -1044,6 +1148,24 @@ public class SettingsActivity extends AppCompatActivity {
                     boolean result=data.getBooleanExtra("result", false);
                     if(result){
                         showFingerprintDialog(context, themeInt, items, selectedItemsBool);
+                    }
+                }
+            }
+
+            if (requestCode == 300) {
+                if(resultCode == Activity.RESULT_OK){
+                    boolean result=data.getBooleanExtra("resultPassword", false);
+                    if(result){
+                        showPasswordDialog(context, themeInt, items, selectedItemsBool);
+                    }
+                }
+            }
+
+            if (requestCode == 301) {
+                if(resultCode == Activity.RESULT_OK){
+                    boolean result=data.getBooleanExtra("resultPassword", false);
+                    if(result){
+                        showPasswordInputDialog(theme, context);
                     }
                 }
             }
@@ -1078,6 +1200,82 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                     }).create();
             dialog.show();
+        }
+
+        public static void showPasswordDialog(final Context context, int themeInt, final CharSequence[] items, final boolean[] selectedItemsBool){
+            AlertDialog dialog = new AlertDialog.Builder(context, themeInt)
+                    .setTitle(context.getString(R.string.select_apps))
+                    .setMultiChoiceItems(items, selectedItemsBool, new DialogInterface.OnMultiChoiceClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int indexSelected, boolean isChecked) {
+                            for (int i = 0; i < AllAppsList.data.size(); i++) {
+                                if (i == indexSelected && isChecked) {
+                                    CharSequence selectedName = items[indexSelected];
+                                    String packageName = AllAppsList.data.get(i).componentName.getPackageName();
+                                    String className = AllAppsList.data.get(i).componentName.getClassName();
+                                    Utilities.setPasswordAppsValue(context, selectedName, packageName, className, i);
+                                } else if (i == indexSelected && !isChecked) {
+                                    Utilities.setPasswordNullAppsValue(context, i);
+                                }
+                            }
+                        }
+                    }).setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            //Do nothing
+                        }
+                    }).setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            //Do nothing
+                        }
+                    }).create();
+            dialog.show();
+        }
+
+        public static void showPasswordInputDialog(ContextThemeWrapper theme, final Context context){
+            AlertDialog.Builder alert = new AlertDialog.Builder(theme);
+            LinearLayout layout = new LinearLayout(context);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.setPadding(100, 50, 100, 100);
+
+
+            final EditText passwordBox = new EditText(context);
+            passwordBox.setHint(context.getResources().getString(R.string.dialog_password));
+            passwordBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            passwordBox.getBackground().mutate().setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+            layout.addView(passwordBox);
+
+
+            final EditText passwordCheckBox = new EditText(context);
+            passwordCheckBox.setHint(context.getResources().getString(R.string.dialog_password));
+            passwordBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            passwordCheckBox.getBackground().mutate().setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+            layout.addView(passwordCheckBox);
+
+            alert.setTitle(context.getResources().getString(R.string.dialog_password_title));
+
+            alert.setView(layout);
+
+            alert.setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    if(passwordBox.getText() != null && passwordCheckBox.getText() != null){
+                        if(passwordBox.getText().toString().equals(passwordCheckBox.getText().toString())){
+                            SharedPreferences preferences = context.getSharedPreferences(Utilities.PASSWORD_SHARED_PREF, MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString(Utilities.encrypt("password"), Utilities.encrypt(passwordBox.getText().toString()));
+                            editor.apply();
+                        }
+                    }
+                }
+            });
+
+            alert.setNegativeButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    //Do nothing
+                }
+            });
+            alert.show();
         }
 
 

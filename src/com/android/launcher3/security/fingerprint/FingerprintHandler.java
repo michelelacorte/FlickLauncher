@@ -1,4 +1,4 @@
-package com.android.launcher3.fingerprint.settings;
+package com.android.launcher3.security.fingerprint;
 
 /**
  * Created by Michele on 20/03/2017.
@@ -19,21 +19,21 @@ import android.widget.TextView;
 
 import com.android.launcher3.ItemInfo;
 import com.android.launcher3.R;
-import com.android.launcher3.fingerprint.FingerprintActivity;
 
 
 /**
  * Created by whit3hawks on 11/16/16.
  */
 @TargetApi(23)
-public class FingerprintHandlerSettings extends FingerprintManager.AuthenticationCallback {
+public class FingerprintHandler extends FingerprintManager.AuthenticationCallback {
 
 
     private Context context;
-
+    private View shortcutInfo;
     // Constructor
-    public FingerprintHandlerSettings(Context mContext) {
+    public FingerprintHandler(Context mContext, View mShortcutInfo) {
         context = mContext;
+        shortcutInfo = mShortcutInfo;
     }
 
 
@@ -74,12 +74,15 @@ public class FingerprintHandlerSettings extends FingerprintManager.Authenticatio
     public void update(String e, Boolean success){
         TextView textView = (TextView) ((Activity)context).findViewById(R.id.errorText);
         textView.setText(e);
-        if(success){
+        if(success && shortcutInfo != null){
             textView.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDarkFinger));
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("result", true);
-            FingerprintActivitySettings.getActivity().setResult(Activity.RESULT_OK, returnIntent);
-            FingerprintActivitySettings.getActivity().finish();
+            ItemInfo item = (ItemInfo) shortcutInfo.getTag();
+            Intent intent = item.getIntent();
+            if (intent == null) {
+                throw new IllegalArgumentException("Input must have a valid intent");
+            }
+            FingerprintActivity.getActivity().startActivity(intent);
+            FingerprintActivity.getActivity().finish();
         }
     }
 }

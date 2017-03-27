@@ -49,7 +49,7 @@ public class ShortcutsManager {
                 bitmap = getBitmap(R.drawable.ic_visibility_off_black_24dp, context);
                 bitmap = Utils.setColorOnBitmap(bitmap, ContextCompat.getColor(context, R.color.chrome_blue));
                 shortcutses.add(new Shortcuts(bitmap, context.getResources().getString(R.string.new_incognito_tab), shortcutInfo.getTargetComponent().getClassName(), shortcutInfo.getTargetComponent().getPackageName(), "chromium.shortcut.action.OPEN_NEW_INCOGNITO_TAB"));
-                bitmap = getBitmap(R.drawable.ic_add_black_24dp, context);
+                bitmap = getBitmap(R.drawable.ic_add_page, context);
                 bitmap = Utils.setColorOnBitmap(bitmap, ContextCompat.getColor(context, R.color.chrome_blue));
                 shortcutses.add(new Shortcuts(bitmap, context.getResources().getString(R.string.new_tab), shortcutInfo.getTargetComponent().getClassName(), shortcutInfo.getTargetComponent().getPackageName(), ""));
                 break;
@@ -102,7 +102,7 @@ public class ShortcutsManager {
                 shortcutses.add(new Shortcuts(bitmap, context.getResources().getString(R.string.gmail_compose), "com.google.android.gm.ConversationListActivityGmail", shortcutInfo.getTargetComponent().getPackageName(), ""));
                 break;
             case "com.google.android.apps.fireball":
-                bitmap = getBitmap(R.drawable.ic_add_black_24dp, context);
+                bitmap = getBitmap(R.drawable.ic_add_page, context);
                 bitmap = Utils.setColorOnBitmap(bitmap, Utils.getDominantColor(drawableToBitmap(icon)));
                 shortcutses.add(new Shortcuts(bitmap, context.getResources().getString(R.string.allo_conversation), "com.google.android.apps.fireball.ui.conversationlist.ConversationListActivity", shortcutInfo.getTargetComponent().getPackageName(), ""));
                 break;
@@ -221,7 +221,7 @@ public class ShortcutsManager {
                     theme = new ContextThemeWrapper(activity, R.style.AlertDialogCustom);
                 }
 
-                bitmap = getBitmap(R.drawable.ic_add_black_24dp, context);
+                bitmap = getBitmap(R.drawable.ic_add_page, context);
                 bitmap = Utils.setColorOnBitmap(bitmap, Utils.getDominantColor(drawableToBitmap(icon)));
                 shortcutses.add(new Shortcuts(bitmap, context.getResources().getString(R.string.add_shortcuts), new View.OnClickListener() {
                     @Override

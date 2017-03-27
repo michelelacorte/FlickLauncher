@@ -282,7 +282,7 @@
 
     <string name="all_apps_size_summary">Set your custom number of icon in all apps</string>
 
-    <string name="disclaimer_dialog_message">Welcome to &app_name;!\n\nThis is an Open Source Launcher and available on <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>.\n\nUniversal Launcher project is inspired by Google Pixel style, we add a few tweaks.\nFor more detail visit <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub Page</a>.\n\nThis project is under <a href="https://github.com/michelelacorte/UniversalLauncher/blob/master/LICENSE">Apache v2 License</a>, and all right reserved to Michele Lacorte.\n\nIf you like this app please help developer download <a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">Donation App</a>.\n\n\n\nApp Version v0.1.0 Build 15</string>
+    <string name="disclaimer_dialog_message">Welcome to &app_name;!\n\nThis is an Open Source Launcher and available on <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>.\n\nFlick Launcher project is inspired by Google Pixel style, we add a few tweaks.\nFor more detail visit <a href="https://github.com/michelelacorte/FlickLauncher">GitHub Page</a>.\n\nThis project is under <a href="https://github.com/michelelacorte/FlickLauncher/blob/master/LICENSE">Apache v2 License</a>, and all right reserved to Michele Lacorte.\n\nIf you like this app please help developer download <a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">Donation App</a>.\n\n\n\nApp Version v0.1.0 Build 19</string>
 
 
 
@@ -398,6 +398,15 @@
     <string name="fingerprint">Locks app with Fingerprint</string>
     <string name="fingerprint_summary">Locks your apps with fingerprint authentication</string>
     <string name="select_apps">Select apps</string>
+    <string name="allow_persistent_search_bar">Allow persistent search bar</string>
+    <string name="allow_persistent_search_bar_summary">Set search bar persistent to first screen</string>
+    <string name="dock_background">Dock color background</string>
+    <string name="dock_background_summary">Change background color</string>
+    <string name="add_page">Add page</string>
+    <string name="password">Locks app with Password</string>
+    <string name="password_summary">Locks your apps with password authentication</string>
+
+
     <string name="license_dialog_message"><a href="https://github.com/QuadFlask/colorpicker">colorpicker</a>\n\n
     Copyright 2014-2017 QuadFlask\n\n
     Licensed under the Apache License, Version 2.0 (the "License");\n
@@ -438,5 +447,12 @@
     <!-- Password -->
     <string name="title_password">Password Unlock</string>
     <string name="desc_password">Please enter your password to verify your identity</string>
-    
+    <string name="note_password">(This app has password lock method. Your device should have at least one password registered)</string>
+    <string name="password_succeded">Password Authentication succeeded.</string>
+    <string name="password_failed">Password Authentication failed.</string>
+    <string name="dialog_password">Insert your password</string>
+    <string name="dialog_password_title">Set your password</string>
+    <string name="password_reset">Reset your password</string>
+
+
 </resources>

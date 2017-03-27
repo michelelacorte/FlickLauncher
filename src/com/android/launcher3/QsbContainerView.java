@@ -99,7 +99,9 @@ public class QsbContainerView extends FrameLayout {
                 sSavedWidgetId = savedInstanceState.getInt(QSB_WIDGET_ID, -1);
             }
             mWrapper = new FrameLayout(getActivity());
-            mWrapper.addView(createQsb(inflater, mWrapper));
+            if(Utilities.isAllowPersisentSearchBarPrefEnabled(getActivity().getApplicationContext())) {
+                mWrapper.addView(createQsb(inflater, mWrapper));
+            }
             return mWrapper;
         }
 

@@ -74,8 +74,12 @@ public class Hotseat extends FrameLayout
         mBackgroundColor = ColorUtils.setAlphaComponent(
                 ContextCompat.getColor(context, R.color.all_apps_container_color), 0);
         mBackground = new ColorDrawable(mBackgroundColor);
-        setBackground(mBackground);
-        //TODO: dock color
+
+        if(Utilities.getDockBackgroundPrefEnabled(getContext()) != -1){
+            setBackgroundColor(Utilities.getDockBackgroundPrefEnabled(getContext()));
+        }else{
+            setBackground(mBackground);
+        }
         //setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
     }
 

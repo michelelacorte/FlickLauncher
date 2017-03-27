@@ -55,7 +55,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.hardware.fingerprint.FingerprintManager;
-import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -65,7 +64,6 @@ import android.os.StrictMode;
 import android.os.SystemClock;
 import android.os.Trace;
 import android.os.UserHandle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Selection;
 import android.text.SpannableStringBuilder;
@@ -113,7 +111,7 @@ import com.android.launcher3.dragndrop.DragLayer;
 import com.android.launcher3.dragndrop.DragOptions;
 import com.android.launcher3.dragndrop.DragView;
 import com.android.launcher3.dynamicui.ExtractedColors;
-import com.android.launcher3.fingerprint.FingerprintActivity;
+import com.android.launcher3.security.fingerprint.FingerprintActivity;
 import com.android.launcher3.folder.Folder;
 import com.android.launcher3.folder.FolderIcon;
 import com.android.launcher3.keyboard.ViewGroupFocusHelper;
@@ -121,6 +119,7 @@ import com.android.launcher3.logging.FileLog;
 import com.android.launcher3.logging.UserEventDispatcher;
 import com.android.launcher3.model.WidgetsModel;
 import com.android.launcher3.pageindicators.PageIndicator;
+import com.android.launcher3.security.password.PasswordActivity;
 import com.android.launcher3.shortcuts.DeepShortcutManager;
 import com.android.launcher3.shortcuts.DeepShortcutsContainer;
 import com.android.launcher3.shortcuts.ShortcutKey;
@@ -397,6 +396,9 @@ public class Launcher extends Activity
     //Fingerprint
     private static ArrayList<String> appHasFingerprint = new ArrayList();
 
+    //Password
+    private static ArrayList<String> appHasPassword = new ArrayList();
+
     public static FingerprintManager getFingerprintManager() {
         return fingerprintManager;
     }
@@ -419,8 +421,11 @@ public class Launcher extends Activity
                     .penaltyDeath()
                     .build());
         }
-        if (LauncherAppState.PROFILE_STARTUP) {
-            Trace.beginSection("Launcher-onCreate");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            if (LauncherAppState.PROFILE_STARTUP) {
+                Trace.beginSection("Launcher-onCreate");
+            }
         }
 
         if (mLauncherCallbacks != null) {
@@ -527,6 +532,7 @@ public class Launcher extends Activity
         devicePolicyManager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
 
         appHasFingerprint = Utilities.getAppHasFingerprint(getApplicationContext());
+        appHasPassword = Utilities.getAppHasPassword(getApplicationContext());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
         }
@@ -1024,6 +1030,8 @@ public class Launcher extends Activity
         super.onResume();
         getUserEventDispatcher().resetElapsedSessionMillis();
         appHasFingerprint = Utilities.getAppHasFingerprint(getApplicationContext());
+        appHasPassword = Utilities.getAppHasPassword(getApplicationContext());
+
         // Restore the previous launcher state
         if (mOnResumeState == State.WORKSPACE) {
             showWorkspace(false);
@@ -1488,6 +1496,16 @@ public class Launcher extends Activity
         } else {
             settingsButton.setVisibility(View.GONE);
         }
+
+        View addNewPageButton = findViewById(R.id.add_new_page_button);
+        addNewPageButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mWorkspace.insertNewWorkspaceScreen(System.currentTimeMillis(), mWorkspace.getCurrentPage()+1);
+                mWorkspace.setCurrentPage(mWorkspace.getCurrentPage()+1);
+                showOverviewMode(false);
+            }
+        });
 
         mOverviewPanel.setAlpha(0f);
     }
@@ -2470,27 +2488,21 @@ public class Launcher extends Activity
 
         Object tag = v.getTag();
         appHasFingerprint = Utilities.getAppHasFingerprint(getApplicationContext());
+        appHasPassword = Utilities.getAppHasPassword(getApplicationContext());
         if (tag instanceof ShortcutInfo) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (Utilities.checkFingerprintHardwareAndPermission(getApplicationContext(), fingerprintManager)) {
-                    ShortcutInfo fingerApps = (ShortcutInfo) tag;
-                    if(appHasFingerprint.size() > 0) {
-                        for (int i = 0; i < appHasFingerprint.size(); i++) {
-                            if (appHasFingerprint.get(i).equals(fingerApps.title.toString())) {
-                                FingerprintActivity.setShortcutInfo(v);
-                                startActivity(new Intent(Launcher.this, FingerprintActivity.class));
-                                break;
-                            } else {
-                                onClickAppShortcut(v);
-                            }
-                        }
-                    }else{
-                        onClickAppShortcut(v);
-                    }
-                }else{
-                    onClickAppShortcut(v);
-                }
-            } else {
+            if(Utilities.startAppHasFingerprint(appHasFingerprint, v) && Utilities.startAppHasPassword(appHasPassword, v)){
+                FingerprintActivity.setShortcutInfo(v);
+                startActivity(new Intent(Launcher.this, FingerprintActivity.class));
+            }
+            if(Utilities.startAppHasFingerprint(appHasFingerprint, v)){
+                FingerprintActivity.setShortcutInfo(v);
+                startActivity(new Intent(Launcher.this, FingerprintActivity.class));
+            }
+            if(Utilities.startAppHasPassword(appHasPassword, v)){
+                PasswordActivity.setShortcutInfo(v);
+                startActivity(new Intent(Launcher.this, PasswordActivity.class));
+            }
+            if(!Utilities.startAppHasFingerprint(appHasFingerprint, v) && !Utilities.startAppHasPassword(appHasPassword, v)){
                 onClickAppShortcut(v);
             }
         } else if (tag instanceof FolderInfo) {
@@ -2501,24 +2513,19 @@ public class Launcher extends Activity
                 (v == mAllAppsButton && mAllAppsButton != null)) {
             onClickAllAppsButton(v);
         } else if (tag instanceof AppInfo) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (Utilities.checkFingerprintHardwareAndPermission(getApplicationContext(), fingerprintManager)) {
-                    AppInfo fingerApps = (AppInfo) tag;
-                    if(appHasFingerprint.size() > 0) {
-                        for (int i = 0; i < appHasFingerprint.size(); i++) {
-                            if (appHasFingerprint.get(i).equals(fingerApps.title.toString())) {
-                                FingerprintActivity.setShortcutInfo(v);
-                                startActivity(new Intent(Launcher.this, FingerprintActivity.class));
-                                break;
-                            } else {
-                                startAppShortcutOrInfoActivity(v);
-                            }
-                        }
-                    }else{
-                        startAppShortcutOrInfoActivity(v);
-                    }
-                }
-            } else {
+            if(Utilities.startAppHasFingerprintAppInfo(appHasFingerprint, v) && Utilities.startAppHasPasswordAppInfo(appHasPassword, v)){
+                FingerprintActivity.setShortcutInfo(v);
+                startActivity(new Intent(Launcher.this, FingerprintActivity.class));
+            }
+            if(Utilities.startAppHasFingerprintAppInfo(appHasFingerprint, v)){
+                FingerprintActivity.setShortcutInfo(v);
+                startActivity(new Intent(Launcher.this, FingerprintActivity.class));
+            }
+            if(Utilities.startAppHasPasswordAppInfo(appHasPassword, v)){
+                PasswordActivity.setShortcutInfo(v);
+                startActivity(new Intent(Launcher.this, PasswordActivity.class));
+            }
+            if(!Utilities.startAppHasFingerprintAppInfo(appHasFingerprint, v) && !Utilities.startAppHasPasswordAppInfo(appHasPassword, v)){
                 startAppShortcutOrInfoActivity(v);
             }
         } else if (tag instanceof LauncherAppWidgetInfo) {
@@ -3361,7 +3368,8 @@ public class Launcher extends Activity
                             creation = new ShortcutsCreation(builder);
 
                             creation.init();
-                        }catch (ClassCastException ee){}
+                        }catch (ClassCastException ee){
+                        }
                     }
                 }
             }

@@ -1,4 +1,4 @@
-package com.android.launcher3.fingerprint;
+package com.android.launcher3.security.fingerprint.settings;
 
 /**
  * Created by Michele on 20/03/2017.
@@ -14,28 +14,23 @@ import android.hardware.fingerprint.FingerprintManager;
 import android.os.CancellationSignal;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
 import android.widget.TextView;
 
-import com.android.launcher3.ItemInfo;
-import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
-import com.android.launcher3.SettingsActivity;
 
 
 /**
  * Created by whit3hawks on 11/16/16.
  */
 @TargetApi(23)
-public class FingerprintHandler extends FingerprintManager.AuthenticationCallback {
+public class FingerprintHandlerSettings extends FingerprintManager.AuthenticationCallback {
 
 
     private Context context;
-    private View shortcutInfo;
+
     // Constructor
-    public FingerprintHandler(Context mContext, View mShortcutInfo) {
+    public FingerprintHandlerSettings(Context mContext) {
         context = mContext;
-        shortcutInfo = mShortcutInfo;
     }
 
 
@@ -76,15 +71,12 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     public void update(String e, Boolean success){
         TextView textView = (TextView) ((Activity)context).findViewById(R.id.errorText);
         textView.setText(e);
-        if(success && shortcutInfo != null){
+        if(success){
             textView.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDarkFinger));
-            ItemInfo item = (ItemInfo) shortcutInfo.getTag();
-            Intent intent = item.getIntent();
-            if (intent == null) {
-                throw new IllegalArgumentException("Input must have a valid intent");
-            }
-            FingerprintActivity.getActivity().startActivity(intent);
-            FingerprintActivity.getActivity().finish();
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra("result", true);
+            FingerprintActivitySettings.getActivity().setResult(Activity.RESULT_OK, returnIntent);
+            FingerprintActivitySettings.getActivity().finish();
         }
     }
 }

@@ -95,7 +95,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".fingerprint.FingerprintActivity"
+        <activity android:name=".security.fingerprint.FingerprintActivity"
             android:theme="@style/Theme.AppCompat">
             <intent-filter>
                 <action android:name=".fingerprint.FingerprintActivity" />
@@ -103,8 +103,23 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".security.password.PasswordActivity"
+            android:theme="@style/Theme.AppCompat">
+            <intent-filter>
+                <action android:name=".password.PasswordActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
-        <activity android:name=".fingerprint.settings.FingerprintActivitySettings"
+        <activity android:name=".security.password.settings.PasswordActivitySettings"
+            android:theme="@style/Theme.AppCompat">
+            <intent-filter>
+                <action android:name=".password.PasswordActivitySettings" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".security.fingerprint.settings.FingerprintActivitySettings"
             android:theme="@style/Theme.AppCompat">
             <intent-filter>
                 <action android:name=".fingerprint.settings.FingerprintActivitySettings" />
