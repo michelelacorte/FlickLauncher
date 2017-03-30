@@ -1,7 +1,7 @@
 # Flick Launcher
 
-Flick Launcher is a project started by [Michele Lacorte](https://github.com/michelelacorte) and [HearSilent](https://github.com/hearsilent).
-We want to create a launcher for google pixels style stock, with a few tweaks.
+Flick Launcher is a project started by [Michele Lacorte](https://github.com/michelelacorte).
+I want to create a launcher for google pixels style stock, with a few tweaks.
 
 ## ALPHA
 
@@ -64,8 +64,6 @@ Android API 14+
 ## CREDITS
 
 Author: Michele Lacorte (micky1995g@gmail.com)
-
-Author: HearSilent (https://github.com/hearsilent)
 
 Follow [Michele Lacorte Google+](https://plus.google.com/u/0/collection/McidZB)
 
