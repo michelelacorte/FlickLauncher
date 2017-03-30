@@ -62,7 +62,7 @@ public class AppWidgetResizeFrame extends FrameLayout implements View.OnKeyListe
     private int mBaselineHeight;
     private int mBaselineX;
     private int mBaselineY;
- 
+
     private int mRunningHInc;
     private int mRunningVInc;
     private int mMinHSpan;
@@ -84,7 +84,7 @@ public class AppWidgetResizeFrame extends FrameLayout implements View.OnKeyListe
         mWidgetView = widgetView;
         LauncherAppWidgetProviderInfo info = (LauncherAppWidgetProviderInfo)
                 widgetView.getAppWidgetInfo();
-      
+
         mDragLayer = dragLayer;
 
         mMinHSpan = info.minSpanX;
@@ -138,8 +138,8 @@ public class AppWidgetResizeFrame extends FrameLayout implements View.OnKeyListe
                 .getDimensionPixelSize(R.dimen.resize_frame_background_padding);
         mTouchTargetWidth = 2 * mBackgroundPadding;
 
-        mMinHSpan=1;   
-        mMinVSpan=1;        
+        mMinHSpan=1;
+        mMinVSpan=1;
         // When we create the resize frame, we first mark all cells as unoccupied. The appropriate
         // cells (same if not resized, or different) will be marked as occupied when the resize
         // frame is dismissed.

@@ -408,6 +408,7 @@ public class Launcher extends Activity
     private static FingerprintManager fingerprintManager;
 
     private static final int RECOGNIZER_REQ_CODE = 9939;
+    private static boolean IS_ALLOW_MIC = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -474,6 +475,7 @@ public class Launcher extends Activity
         gridSize = new GridSize((int) app.getInvariantDeviceProfile().numColumns,
                 (int) app.getInvariantDeviceProfile().numRows);
 
+        IS_ALLOW_MIC = Utilities.isAllowVoiceInSearchBarPrefEnabled(getApplicationContext());
 
         setupViews();
         mDeviceProfile.layout(this, false /* notifyListeners */);
@@ -1467,8 +1469,7 @@ public class Launcher extends Activity
         });
 
         ImageView gSearchMic = (ImageView) findViewById(R.id.g_search_mic);
-
-        if(Utilities.isAllowVoiceInSearchBarPrefEnabled(getApplicationContext())) {
+        if(IS_ALLOW_MIC) {
             gSearchMic.setVisibility(View.VISIBLE);
             gSearchMic.setOnClickListener(new OnClickListener() {
                 @Override

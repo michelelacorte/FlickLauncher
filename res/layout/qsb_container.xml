@@ -57,6 +57,8 @@
 
     </RelativeLayout>
 
+
+
     <fragment
         android:name="com.android.launcher3.QsbContainerView$QsbFragment"
         android:layout_width="match_parent"
