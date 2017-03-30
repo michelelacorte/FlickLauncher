@@ -23,7 +23,8 @@ We want to create a launcher for google pixels style stock, with a few tweaks.
 ### v0.1.0 Alpha
 
 <img src="https://s7.postimg.org/6z20p8xor/Screenshot_2017_02_26_20_28_47_framed.png" height="500"/><img src="https://s13.postimg.org/pvp280epz/Screenshot_2017_03_11_19_51_20_framed.png" height="500"/><img src="https://s28.postimg.org/e7wg7wpql/screen5.png" height="500"/><img src="https://s8.postimg.org/mqj5juwc5/screen7.png" height="500"/>
-<img src="https://s16.postimg.org/8wh466sut/screen6.png" height="500"/>
+<img src="https://s16.postimg.org/8wh466sut/screen6.png" height="500"/><img src="https://s27.postimg.org/enpo9ebtv/screen8.png" height="500"/><img src="https://s24.postimg.org/xcghsd5bp/screen9.png" height="500"/><img src="https://s14.postimg.org/4ofg1w4a9/screen10.png" height="500"/>
+
 
 <h1 align="center"><img src="http://i.giphy.com/xUA7b9CtmYCVuAsPT2.gif" height="500"/></h1>
 
