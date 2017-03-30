@@ -193,7 +193,10 @@ public final class Utilities {
     // Various
     public static final String DEFAULT_LAUNCHER = "pref_askDefaultLauncher";
     public static final String RESTART_LAUNCHER = "pref_askRestartLauncher";
+
+    // Search Bar
     public static final String PERSISENT_SEARCH_BAR = "pref_allowPersistentSearchBar";
+    public static final String VOICE_SEARCH_BAR = "pref_allowVoiceInSearchBar";
 
     // Gesture Preferences
     public static final String DOUBLE_TAP_TO_SLEEP = "pref_allowSleep";
@@ -406,9 +409,17 @@ public final class Utilities {
                 getAllowPersisentSearchBarDefaultValue());
     }
 
+    public static boolean getAllowVoiceInSearchBarDefaultValue() {
+        return false;
+    }
+
+    public static boolean isAllowVoiceInSearchBarPrefEnabled(Context context) {
+        return getPrefs(context).getBoolean(VOICE_SEARCH_BAR,
+                getAllowVoiceInSearchBarDefaultValue());
+    }
 
     public static boolean getAllowCircularIconDefaultValue() {
-        return true;
+        return false;
     }
 
     public static boolean isAllowCircularIconPrefEnabled(Context context) {

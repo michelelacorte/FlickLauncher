@@ -198,6 +198,10 @@ public class Utils {
         Bitmap packageIconScaled = null;
         Bitmap shortcutsIconScaled = null;
         switch (getScreenXDimension(activity)) {
+            case 480:
+                packageIconScaled = getResizedBitmap(packageIcon, (int)(bitmap.getWidth()*1.3), (int)(bitmap.getHeight()*1.3));
+                shortcutsIconScaled = getResizedBitmap(bitmap, (int)(bitmap.getWidth()*1.2), (int)(bitmap.getHeight()*1.2));
+                break;
             case 720:
                 packageIconScaled = getResizedBitmap(packageIcon, (int)(bitmap.getWidth()*1.6), (int)(bitmap.getHeight()*1.6));
                 shortcutsIconScaled = getResizedBitmap(bitmap, (int)(bitmap.getWidth()*1.2), (int)(bitmap.getHeight()*1.2));
@@ -239,6 +243,10 @@ public class Utils {
         paintShape.setColor(colorShape);
         paintShape.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OVER));
         switch (getScreenXDimension(activity)) {
+            case 480:
+                canvas.drawCircle(packageIcon.getWidth()/2, packageIcon.getHeight()/2, 35, paint);
+                canvas.drawCircle(packageIcon.getWidth()/2, packageIcon.getHeight()/2+2, 35, paintShape);
+                break;
             case 720:
                 canvas.drawCircle(packageIcon.getWidth()/2, packageIcon.getHeight()/2, 55, paint);
                 canvas.drawCircle(packageIcon.getWidth()/2, packageIcon.getHeight()/2+2, 55, paintShape);
@@ -389,14 +397,14 @@ public class Utils {
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(color);
 
-        //1440 = 120 gradi
-        //1080 = 70 gradi
-        //TODO: completare icone circolari
         DisplayMetrics displayMetrics = activity.getApplicationContext().getResources().getDisplayMetrics();
         int displayDensityDpi = displayMetrics.densityDpi;
         switch(getScreenXDimension(activity)){
+            case 480:
+                canvas.drawCircle(bitmap.getWidth()/2, bitmap.getHeight()/2, 35, paint);
+                break;
             case 720:
-                //
+                canvas.drawCircle(bitmap.getWidth()/2, bitmap.getHeight()/2, 55, paint);
                 break;
             case 1080:
                 canvas.drawCircle(bitmap.getWidth()/2, bitmap.getHeight()/2, 70, paint);

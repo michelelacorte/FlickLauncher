@@ -8,10 +8,11 @@
     <bool name="is_tablet">false</bool>
     <bool name="is_large_tablet">false</bool>
     <bool name="allow_rotation">false</bool>
-    <bool name="allow_circular_icon">true</bool>
+    <bool name="allow_circular_icon">false</bool>
     <bool name="allow_sleep">false</bool>
     <bool name="allow_transparent_folder_on_launcher">false</bool>
     <bool name="allow_persistent_search_bar">true</bool>
+    <bool name="allow_voice_in_search_bar">false</bool>
 
     <!-- A string pointer to the original app name string. This allows derived projects to
      easily override the app name without providing all translations -->

@@ -22,6 +22,41 @@
         android:id="@+id/qsb_container"
         android:padding="0dp" >
 
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/g_bar"
+        android:layout_width="320dp"
+        android:layout_height="45dp"
+        android:background="@drawable/shape"
+        android:elevation="20dp"
+        android:layout_marginTop="0dp"
+        android:clickable="true"
+        android:layout_gravity="center_horizontal"
+        style="@style/Widget.AppCompat.Button.Colored">
+
+        <ImageView
+            android:id="@+id/g_search"
+            android:layout_marginEnd="260dp"
+            android:layout_marginRight="260dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="start|center_vertical"
+            android:layout_centerVertical="true"
+            android:background="@drawable/g_icon"/>
+
+
+        <ImageView
+            android:id="@+id/g_search_mic"
+            android:layout_marginStart="260dp"
+            android:layout_marginLeft="260dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:visibility="gone"
+            android:layout_gravity="start|center_vertical"
+            android:layout_centerVertical="true"
+            android:background="@drawable/mic"/>
+
+    </RelativeLayout>
+
     <fragment
         android:name="com.android.launcher3.QsbContainerView$QsbFragment"
         android:layout_width="match_parent"

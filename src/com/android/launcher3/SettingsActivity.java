@@ -91,6 +91,7 @@ public class SettingsActivity extends AppCompatActivity {
         private ContextThemeWrapper theme;
         private CharSequence[] items = null;
         private boolean[] selectedItemsBool = null;
+        //private Preference persistentSearchBarPref;
 
 
         @Override
@@ -201,7 +202,7 @@ public class SettingsActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             Utilities.setGridSizeColumnDefaultValue(activity.getApplicationContext(), column.getValue());
                             Utilities.setGridSizeRowDefaultValue(activity.getApplicationContext(), row.getValue());
-                            Utilities.restart(Launcher.getLauncherActivity(), 2000);
+                            Utilities.answerToRestartLauncher(Launcher.getLauncherActivity(), context, 2000);
                         }
                     });
 
@@ -244,7 +245,7 @@ public class SettingsActivity extends AppCompatActivity {
                     alert.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             Utilities.setDockSizeDefaultValue(activity.getApplicationContext(), dock.getValue());
-                            Utilities.restart(Launcher.getLauncherActivity(), 2000);
+                            Utilities.answerToRestartLauncher(Launcher.getLauncherActivity(), context, 2000);
                         }
                     });
 
@@ -1036,13 +1037,19 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            final Preference persistentSearchBarPref = findPreference(Utilities.PERSISENT_SEARCH_BAR);
+            /*persistentSearchBarPref = findPreference(Utilities.PERSISENT_SEARCH_BAR);
             if (getResources().getBoolean(R.bool.allow_persistent_search_bar)) {
                 getPreferenceScreen().removePreference(persistentSearchBarPref);
             } else {
                 persistentSearchBarPref.setDefaultValue(true);
-            }
+            }*/
 
+            Preference voiceSearchBarPref = findPreference(Utilities.VOICE_SEARCH_BAR);
+            if (getResources().getBoolean(R.bool.allow_voice_in_search_bar)) {
+                getPreferenceScreen().removePreference(voiceSearchBarPref);
+            } else {
+                voiceSearchBarPref.setDefaultValue(true);
+            }
 
             final Preference dockBackgroundPref = findPreference(Utilities.DOCK_BACKGROUND);
             dockBackgroundPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -1109,11 +1116,17 @@ public class SettingsActivity extends AppCompatActivity {
                     String passEncrypted = preferences.getString(Utilities.encrypt("password"), Utilities.encrypt("NULLPASS"));
                     String pass = Utilities.decrypt(passEncrypted);
                     if(pass.equals("NULLPASS")){
-                        showPasswordInputDialog(theme, context);
+                        showPasswordInputDialog(themeInt, context);
                     }else {
                         if (needAuth) {
                             startActivityForResult(new Intent(context, PasswordActivitySettings.class), 300);
                         } else {
+                            int themeInt;
+                            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
+                                themeInt = R.style.AlertDialogCustomAPI23OnAppSelect;
+                            } else {
+                                themeInt = R.style.AlertDialogCustom;
+                            }
                             showPasswordDialog(context, themeInt, items, selectedItemsBool);
                         }
                     }
@@ -1129,7 +1142,7 @@ public class SettingsActivity extends AppCompatActivity {
                     String passEncrypted = preferences.getString(Utilities.encrypt("password"), Utilities.encrypt("NULLPASS"));
                     String pass = Utilities.decrypt(passEncrypted);
                     if(pass.equals("NULLPASS")){
-                        showPasswordInputDialog(theme, context);
+                        showPasswordInputDialog(themeInt, context);
                     }else {
                         startActivityForResult(new Intent(context, PasswordActivitySettings.class), 301);
                     }
@@ -1156,6 +1169,12 @@ public class SettingsActivity extends AppCompatActivity {
                 if(resultCode == Activity.RESULT_OK){
                     boolean result=data.getBooleanExtra("resultPassword", false);
                     if(result){
+                        int themeInt;
+                        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
+                            themeInt = R.style.AlertDialogCustomAPI23OnAppSelect;
+                        } else {
+                            themeInt = R.style.AlertDialogCustom;
+                        }
                         showPasswordDialog(context, themeInt, items, selectedItemsBool);
                     }
                 }
@@ -1165,7 +1184,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if(resultCode == Activity.RESULT_OK){
                     boolean result=data.getBooleanExtra("resultPassword", false);
                     if(result){
-                        showPasswordInputDialog(theme, context);
+                        showPasswordInputDialog(themeInt, context);
                     }
                 }
             }
@@ -1233,8 +1252,8 @@ public class SettingsActivity extends AppCompatActivity {
             dialog.show();
         }
 
-        public static void showPasswordInputDialog(ContextThemeWrapper theme, final Context context){
-            AlertDialog.Builder alert = new AlertDialog.Builder(theme);
+        public static void showPasswordInputDialog(int themeInt, final Context context){
+            AlertDialog.Builder alert = new AlertDialog.Builder(context, themeInt);
             LinearLayout layout = new LinearLayout(context);
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setPadding(100, 50, 100, 100);
@@ -1249,7 +1268,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             final EditText passwordCheckBox = new EditText(context);
             passwordCheckBox.setHint(context.getResources().getString(R.string.dialog_password));
-            passwordBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            passwordCheckBox.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             passwordCheckBox.getBackground().mutate().setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
             layout.addView(passwordCheckBox);
 
@@ -1265,6 +1284,8 @@ public class SettingsActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString(Utilities.encrypt("password"), Utilities.encrypt(passwordBox.getText().toString()));
                             editor.apply();
+                        }else{
+                            Toast.makeText(context, context.getString(R.string.password_mismatch), Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -1289,6 +1310,7 @@ public class SettingsActivity extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             Launcher.getLauncherActivity().finish();
             startActivity(intent);
+
             super.onDestroy();
         }
 

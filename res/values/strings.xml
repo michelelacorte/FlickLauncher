@@ -240,7 +240,7 @@
 
     <string name="all_apps_dialog">Icon in all apps</string>
 
-    <string name="dock_size_summary">Change number of icon in dock</string>
+    <string name="dock_size_summary">Change number of icons in dock</string>
 
     <string name="preferences_various_option">Various</string>
 
@@ -278,11 +278,11 @@
 
     <string name="donation_summary">We are counting on you!</string>
 
-    <string name="all_apps_size">Change all apps size</string>
+    <string name="all_apps_size">Change app drawer size</string>
 
     <string name="all_apps_size_summary">Set your custom number of icon in all apps</string>
 
-    <string name="disclaimer_dialog_message">Welcome to &app_name;!\n\nThis is an Open Source Launcher and available on <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>.\n\nFlick Launcher project is inspired by Google Pixel style, we add a few tweaks.\nFor more detail visit <a href="https://github.com/michelelacorte/FlickLauncher">GitHub Page</a>.\n\nThis project is under <a href="https://github.com/michelelacorte/FlickLauncher/blob/master/LICENSE">Apache v2 License</a>, and all right reserved to Michele Lacorte.\n\nIf you like this app please help developer download <a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">Donation App</a>.\n\n\n\nApp Version v0.1.0 Build 19</string>
+    <string name="disclaimer_dialog_message">Welcome to &app_name;!\n\nThis is an Open Source Launcher and available on <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>.\n\nFlick Launcher project is inspired by Google Pixel style, we add a few tweaks.\nFor more detail visit <a href="https://github.com/michelelacorte/FlickLauncher">GitHub Page</a>.\n\nThis project is under <a href="https://github.com/michelelacorte/FlickLauncher/blob/master/LICENSE">Apache v2 License</a>, and all right reserved to Michele Lacorte.\n\nIf you like this app please help developer download <a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">Donation App</a>.\n\n\n\nApp Version v0.1.0 Build 23</string>
 
 
 
@@ -405,6 +405,11 @@
     <string name="add_page">Add page</string>
     <string name="password">Locks app with Password</string>
     <string name="password_summary">Locks your apps with password authentication</string>
+    <string name="password_mismatch">The passwords in the fileds don\'t match! Try again.</string>
+    <string name="allow_voice_search_bar">Allow voice search icon</string>
+    <string name="allow_voice_search_bar_summary">Enable voice icon in search bar</string>
+    <string name="preferences_searchbar_option">Search Bar</string>
+
 
 
     <string name="license_dialog_message"><a href="https://github.com/QuadFlask/colorpicker">colorpicker</a>\n\n

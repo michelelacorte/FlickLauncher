@@ -1458,6 +1458,7 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
 
     public void onTitleChanged(CharSequence title) {
         mFolderName.setText(title);
+
     }
 
     public ArrayList<View> getItemsInReadingOrder() {

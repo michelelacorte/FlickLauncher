@@ -29,11 +29,15 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.android.launcher3.compat.AppWidgetManagerCompat;
 
@@ -102,6 +106,7 @@ public class QsbContainerView extends FrameLayout {
             if(Utilities.isAllowPersisentSearchBarPrefEnabled(getActivity().getApplicationContext())) {
                 mWrapper.addView(createQsb(inflater, mWrapper));
             }
+            mWrapper.setVisibility(INVISIBLE);
             return mWrapper;
         }
 

@@ -143,6 +143,10 @@ public class ShortcutsCreation {
         if (layout != null || triangle != null)
             clearAllLayout();
         switch (maxXScreen) {
+            case 480:
+                DIM_WIDTH = 260;
+                DIM_HEIGHT = 75;
+                break;
             case 720:
                 DIM_WIDTH = 360;
                 DIM_HEIGHT = 100;
@@ -224,6 +228,34 @@ public class ShortcutsCreation {
                 if (rowHeight + layoutHeightTotal > maxYScreenWithToolbar-bottomSpace+PADDING && !isHotseatTouched) {
                     //Alto
                     switch (maxXScreen) {
+                        case 480:
+                            switch (shortcuts.size()) {
+                                case 1:
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.56));
+                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.9 + 93));
+                                    break;
+                                case 2:
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.32 - 80 * i));
+                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.55 + 100 * i));
+                                    break;
+                                case 3:
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.22 - 80 * i));
+                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.42 + 55 * i));
+                                    break;
+                                case 4:
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.18 - 80 * i));
+                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.38 + 42 * i));
+                                    break;
+                                case 5:
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * +0.12 - 80 * i));
+                                    triangle.setY((float)(rowHeight +layoutHeightTotal * -0.31 + 34 * i));
+                                    break;
+                                default:
+                                    Log.e(TAG, "Invalid Shortcuts number, max value is " + String.valueOf(MAX_NUMBER_OF_SHORTCUTS) + "!");
+                                    break;
+                            }
+                            triangle.setRotation(0);
+                            break;
                         case 720:
                             switch (shortcuts.size()) {
                                 case 1:
@@ -315,6 +347,49 @@ public class ShortcutsCreation {
                 } else if (!isHotseatTouched){
                     //Basso
                     switch (maxXScreen) {
+                        case 480:
+                            switch (shortcuts.size()) {
+                                case 1:
+                                    layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.3));
+                                    triangle.setY(rowHeight + layoutHeightTotal + 14);
+                                    break;
+                                case 2:
+                                    if (i >= 1) {
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.1 - 80 * i));
+                                    } else {
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.1));
+                                    }
+                                    triangle.setY((float)(rowHeight + layoutHeightTotal * 1.1 - 95 * i));
+                                    break;
+                                case 3:
+                                    if (i >= 1) {
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.1 - 80 * i));
+                                    } else {
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.1));
+                                    }
+                                    triangle.setY((float)(rowHeight + layoutHeightTotal * 1.1 - 87 * i));
+                                    break;
+                                case 4:
+                                    if (i >= 1) {
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.1 - 80 * i));
+                                    } else {
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.1));
+                                    }
+                                    triangle.setY((float)(rowHeight + layoutHeightTotal * 1.1 - 85 * i));
+                                    break;
+                                case 5:
+                                    if (i >= 1) {
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.1 - 80 * i));
+                                    } else {
+                                        layout[i].setY((float)(rowHeight + layoutHeightTotal * 1.1));
+                                    }
+                                    triangle.setY((float)(rowHeight + layoutHeightTotal * 1.1 - 86 * i));
+                                    break;
+                                default:
+                                    Log.e(TAG, "Invalid Shortcuts number, max value is " + String.valueOf(MAX_NUMBER_OF_SHORTCUTS) + "!");
+                                    break;
+                            }
+                            break;
                         case 720:
                             switch (shortcuts.size()) {
                                 case 1:
@@ -451,6 +526,34 @@ public class ShortcutsCreation {
                 }else if(isHotseatTouched){
                     //Alto
                     switch (maxXScreen) {
+                        case 480:
+                            switch (shortcuts.size()) {
+                                case 1:
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * 2.6 + maxYScreenWithToolbar));
+                                    triangle.setY((float)(rowHeight -layoutHeightTotal * 2.6 + 61 + maxYScreenWithToolbar));
+                                    break;
+                                case 2:
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * 1.4 - 80 * i + maxYScreenWithToolbar));
+                                    triangle.setY((float)(rowHeight -layoutHeightTotal * 1.4 + 60 * i + maxYScreenWithToolbar));
+                                    break;
+                                case 3:
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * 0.95 - 80 * i + maxYScreenWithToolbar));
+                                    triangle.setY((float)(rowHeight -layoutHeightTotal * 0.95 + 30 * i + maxYScreenWithToolbar));
+                                    break;
+                                case 4:
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * 0.7 - 80 * i + maxYScreenWithToolbar));
+                                    triangle.setY((float)(rowHeight -layoutHeightTotal * 0.7 + 20 * i  + maxYScreenWithToolbar));
+                                    break;
+                                case 5:
+                                    layout[i].setY((float)(rowHeight -layoutHeightTotal * 0.6 - 80 * i + maxYScreenWithToolbar));
+                                    triangle.setY((float)(rowHeight -layoutHeightTotal * 0.6 + 15 * i  + maxYScreenWithToolbar));
+                                    break;
+                                default:
+                                    Log.e(TAG, "Invalid Shortcuts number, max value is " + String.valueOf(MAX_NUMBER_OF_SHORTCUTS) + "!");
+                                    break;
+                            }
+                            triangle.setRotation(0);
+                            break;
                         case 720:
                             switch (shortcuts.size()) {
                                 case 1:

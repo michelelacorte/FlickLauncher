@@ -211,6 +211,10 @@
     <string name="allow_persistent_search_bar">Abilita barra di ricerca persistente</string>
     <string name="allow_persistent_search_bar_summary">La barra di ricerca rimarrà nella prima pagina</string>
     <string name="add_page">Aggiungi pagina</string>
+    <string name="password_mismatch">Le password non corrispondono! Riprova.</string>
+    <string name="allow_voice_search_bar">Abilita icona ricerca vocale</string>
+    <string name="allow_voice_search_bar_summary">Abilita l\'icona della ricerca vocale nella barra di ricerca</string>
+    <string name="preferences_searchbar_option">Barra di ricerca</string>
 
     <!-- Fingerprint -->
     <string name="title_fingerprint">Sblocco One-Touch</string>
@@ -237,5 +241,5 @@
     <string name="password_reset">Reimposta la tua password</string>
 
     <!-- disclaimer -->
-    <string name="disclaimer_dialog_message">Benvenuto in &app_name;!\n\nQuesto è un progetto open source e disponibile su <a href="https://github.com/michelelacorte/FlickLauncher">GitHub</a>.\n\nFlick Launcher è inspirato al Google Pixel launcher, noi abbiamo aggiunto alcune modifiche.\nPer maggiori dettagli visitate la pagina <a href="https://github.com/michelelacorte/FlickLauncher">GitHub</a>.\n\nQuesto progetto è sotto <a href="https://github.com/michelelacorte/FlickLauncher/blob/master/LICENSE">Licenza Apache v2</a>, tutti i diritti sono riservati a Michele Lacorte.\n\nSe ti piace il progetto, aiuta lo sviluppatore scaricando l\'<a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">App Donazione</a>.\n\n\n\nVersione App v0.1.0 Build 19</string>
+    <string name="disclaimer_dialog_message">Benvenuto in &app_name;!\n\nQuesto è un progetto open source e disponibile su <a href="https://github.com/michelelacorte/FlickLauncher">GitHub</a>.\n\nFlick Launcher è inspirato al Google Pixel launcher, noi abbiamo aggiunto alcune modifiche.\nPer maggiori dettagli visitate la pagina <a href="https://github.com/michelelacorte/FlickLauncher">GitHub</a>.\n\nQuesto progetto è sotto <a href="https://github.com/michelelacorte/FlickLauncher/blob/master/LICENSE">Licenza Apache v2</a>, tutti i diritti sono riservati a Michele Lacorte.\n\nSe ti piace il progetto, aiuta lo sviluppatore scaricando l\'<a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">App Donazione</a>.\n\n\n\nVersione App v0.1.0 Build 23</string>
 </resources>

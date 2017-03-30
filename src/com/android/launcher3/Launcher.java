@@ -36,6 +36,7 @@ import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentCallbacks2;
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
@@ -64,6 +65,7 @@ import android.os.StrictMode;
 import android.os.SystemClock;
 import android.os.Trace;
 import android.os.UserHandle;
+import android.speech.RecognizerIntent;
 import android.support.v4.content.ContextCompat;
 import android.text.Selection;
 import android.text.SpannableStringBuilder;
@@ -90,6 +92,7 @@ import android.widget.Advanceable;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -402,8 +405,9 @@ public class Launcher extends Activity
     public static FingerprintManager getFingerprintManager() {
         return fingerprintManager;
     }
-
     private static FingerprintManager fingerprintManager;
+
+    private static final int RECOGNIZER_REQ_CODE = 9939;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -902,6 +906,12 @@ public class Launcher extends Activity
         }
         if (REQUEST_ENABLE == requestCode) {
             super.onActivityResult(requestCode, resultCode, data);
+        }
+        if(RECOGNIZER_REQ_CODE == requestCode){
+            if (resultCode == Activity.RESULT_OK && null != data) {
+                String search = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0);
+                startSearch(search, true, null, true);
+            }
         }
     }
 
@@ -1439,6 +1449,38 @@ public class Launcher extends Activity
         if (TestingUtils.MEMORY_DUMP_ENABLED) {
             TestingUtils.addWeightWatcher(this);
         }
+
+        RelativeLayout gBar = (RelativeLayout) findViewById(R.id.g_bar);
+        gBar.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startSearch("", false, null, true);
+            }
+        });
+
+        ImageView gSearch = (ImageView) findViewById(R.id.g_search);
+        gSearch.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startSearch("", false, null, true);
+            }
+        });
+
+        ImageView gSearchMic = (ImageView) findViewById(R.id.g_search_mic);
+
+        if(Utilities.isAllowVoiceInSearchBarPrefEnabled(getApplicationContext())) {
+            gSearchMic.setVisibility(View.VISIBLE);
+            gSearchMic.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                    startActivityForResult(intent, RECOGNIZER_REQ_CODE);
+                }
+            });
+        }else{
+            gSearchMic.setVisibility(View.GONE);
+        }
+
     }
 
 
@@ -1501,8 +1543,9 @@ public class Launcher extends Activity
         addNewPageButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                mWorkspace.insertNewWorkspaceScreen(System.currentTimeMillis(), mWorkspace.getCurrentPage()+1);
-                mWorkspace.setCurrentPage(mWorkspace.getCurrentPage()+1);
+                mWorkspace.addExtraEmptyScreen();
+                mWorkspace.commitExtraEmptyScreen();
+                mWorkspace.setCurrentPage(mWorkspace.getPageCount()+1);
                 showOverviewMode(false);
             }
         });
@@ -3344,6 +3387,7 @@ public class Launcher extends Activity
                                         alert.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int whichButton) {
                                                 folder.setTitle(titleBox.getText().toString());
+                                                LauncherModel.updateItemInDatabase(Launcher.getLauncherActivity(), folder);
                                             }
                                         });
 

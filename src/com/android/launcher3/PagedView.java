@@ -68,6 +68,7 @@ import com.android.launcher3.pageindicators.PageIndicator;
 import com.android.launcher3.util.LauncherEdgeEffect;
 import com.android.launcher3.util.OnSwipeTouchListener;
 import com.android.launcher3.util.Thunk;
+import com.android.launcher3.widget.WidgetCell;
 
 import java.security.Policy;
 import java.util.ArrayList;
