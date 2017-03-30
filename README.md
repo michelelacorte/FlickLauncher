@@ -1,7 +1,7 @@
 # Flick Launcher
 
-Flick Launcher is a project started by [Michele Lacorte](https://github.com/michelelacorte) and [HearSilent](https://github.com/hearsilent).
-We want to create a launcher for google pixels style stock, with a few tweaks.
+Flick Launcher is a project started by [Michele Lacorte](https://github.com/michelelacorte).
+I want to create a launcher for google pixels style stock, with a few tweaks.
 
 ## ALPHA
 
@@ -22,9 +22,9 @@ We want to create a launcher for google pixels style stock, with a few tweaks.
 
 ### v0.1.0 Alpha
 
-<h1 align="center"><img src="https://s7.postimg.org/6z20p8xor/Screenshot_2017_02_26_20_28_47_framed.png" height="500"/></h1>
+<img src="https://s7.postimg.org/6z20p8xor/Screenshot_2017_02_26_20_28_47_framed.png" height="500"/><img src="https://s13.postimg.org/pvp280epz/Screenshot_2017_03_11_19_51_20_framed.png" height="500"/><img src="https://s28.postimg.org/e7wg7wpql/screen5.png" height="500"/><img src="https://s8.postimg.org/mqj5juwc5/screen7.png" height="500"/>
+<img src="https://s16.postimg.org/8wh466sut/screen6.png" height="500"/><img src="https://s27.postimg.org/enpo9ebtv/screen8.png" height="500"/><img src="https://s24.postimg.org/xcghsd5bp/screen9.png" height="500"/><img src="https://s14.postimg.org/4ofg1w4a9/screen10.png" height="500"/>
 
-<h1 align="center"><img src="https://s13.postimg.org/pvp280epz/Screenshot_2017_03_11_19_51_20_framed.png" height="500"/></h1>
 
 <h1 align="center"><img src="http://i.giphy.com/xUA7b9CtmYCVuAsPT2.gif" height="500"/></h1>
 
@@ -65,8 +65,6 @@ Android API 14+
 
 Author: Michele Lacorte (micky1995g@gmail.com)
 
-Author: HearSilent (https://github.com/hearsilent)
-
 Follow [Michele Lacorte Google+](https://plus.google.com/u/0/collection/McidZB)
 
 ## CONTRIBUTING
@@ -78,7 +76,7 @@ Each proposal will be accepted!
 ## LICENSE
 
 ```
-Copyright 2017 Michele Lacorte and HearSilent
+Copyright 2017 Michele Lacorte
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
