@@ -426,4 +426,5 @@ public class Utils {
         canvas.drawBitmap(scaledIcon, bitmap.getWidth()/6, bitmap.getHeight()/6, paint);
         return output;
     }
+
 }

@@ -25,7 +25,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
+import android.graphics.YuvImage;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -33,6 +35,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.provider.Contacts;
 import android.provider.Settings;
 import android.provider.Settings.System;
 import android.support.v4.content.ContextCompat;
@@ -42,9 +45,11 @@ import android.view.ContextThemeWrapper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.NumberPicker;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +65,7 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import it.michelelacorte.androidshortcuts.Shortcuts;
@@ -1150,6 +1156,152 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
+
+            final Preference iconPackPref = findPreference(Utilities.ICON_PACK);
+
+            if (Utilities.getAppIconPackageNamePrefEnabled(activity.getApplicationContext()) != null) {
+                for (AppInfo app : AllAppsList.data) {
+                    if(Utilities.getAppIconPackageNamePrefEnabled(activity.getApplicationContext()).equals(app.componentName.getPackageName())){
+                        iconPackPref.setSummary(getString(R.string.icon_pack_summary) + ": " + app.title);
+                    }
+                }
+
+            }
+
+            iconPackPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+
+                    final ArrayList<String> names = Utilities.getAvailableIconPackName();
+
+                    Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
+                            R.mipmap.ic_launcher_home);
+
+                    final ArrayList<Bitmap> icons = Utilities.getAvailableIconPackImage();
+
+                    names.add(0, getString(R.string.app_name));
+                    icons.add(0, icon);
+
+                    ListAdapter adapter = new ArrayAdapterWithIcon(getActivity(), names, icons);
+
+                    new AlertDialog.Builder(getActivity()).setTitle(getString(R.string.alert_choose_app))
+                            .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int item) {
+                                    for (AppInfo app : AllAppsList.data) {
+                                        if(names.get(item).equals(getString(R.string.app_name))){
+                                            iconPackPref.setSummary(getString(R.string.icon_pack_summary) + ": " + getString(R.string.app_name));
+                                            Utilities.setAppIconPackageNamePrefEnabled(activity.getApplicationContext(), "NULL");
+                                        }else if (names.get(item).equals(app.title)){
+                                            iconPackPref.setSummary(getString(R.string.icon_pack_summary) + ": " + app.title.toString());
+                                            Utilities.setAppIconPackageNamePrefEnabled(activity.getApplicationContext(), app.componentName.getPackageName());
+                                        }
+                                    }
+                                }
+                            }).show();
+
+
+                    return true;
+                }
+            });
+
+
+            final Preference iconSizePref = findPreference(Utilities.ICON_SIZE);
+
+            iconSizePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(theme);
+                    LinearLayout layout = new LinearLayout(activity.getApplicationContext());
+                    layout.setOrientation(LinearLayout.VERTICAL);
+                    layout.setPadding(100, 50, 100, 100);
+
+
+
+                    final SeekBar seekBar = new SeekBar(activity.getApplicationContext());
+                    seekBar.setProgress(Utilities.getIconSizePrefEnabled(context));
+                    seekBar.setPadding(0, 300, 0, 0);
+                    seekBar.incrementProgressBy(50);
+                    seekBar.setMax(600);
+                    seekBar.getProgressDrawable().setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+
+                    //seekBar.getThumb().setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+
+
+
+                    final ImageView img = new ImageView(activity.getApplicationContext());
+                    img.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.ic_launcher_home));
+                    img.setPadding(0, 150, 0, 0);
+
+                    final Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_home);
+
+
+                    seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+
+                        @Override
+                        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                            progress = progress / 50;
+                            progress = progress * 50;
+                            if(progress <= 0){
+                                Bitmap newBm = Utils.getResizedBitmap(bm, Utilities.getIconSizePrefEnabled(context), Utilities.getIconSizePrefEnabled(context));
+                                img.setImageBitmap(newBm);
+                                Utilities.setIconSizeValue(context, Utilities.getIconSizePrefEnabled(context));
+                            }else {
+                                Bitmap newBm = Utils.getResizedBitmap(bm, progress, progress);
+                                img.setImageBitmap(newBm);
+                                Utilities.setIconSizeValue(context, progress);
+                            }
+                        }
+
+                        @Override
+                        public void onStartTrackingTouch(SeekBar seekBar) {
+
+                        }
+
+                        @Override
+                        public void onStopTrackingTouch(SeekBar seekBar) {
+
+                        }
+                    });
+
+
+                    layout.addView(img);
+                    layout.addView(seekBar);
+
+
+                    alert.setTitle(getResources().getString(R.string.icon_size));
+                    alert.setView(layout);
+
+                    alert.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                           // Utilities.setDockSizeDefaultValue(activity.getApplicationContext(), dock.getValue());
+                            //Utilities.answerToRestartLauncher(Launcher.getLauncherActivity(), context, 2000);
+                        }
+                    });
+
+                    alert.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            Utilities.setIconSizeValue(context, -1);
+                            dialog.dismiss();
+                        }
+                    });
+
+                    alert.setNeutralButton(getResources().getString(R.string.neutral), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            Utilities.setIconSizeValue(context, -1);
+                            dialog.dismiss();
+                        }
+                    });
+                    alert.show();
+                    return true;
+                }
+            });
+
+            Preference notificationCountPref = findPreference(Utilities.ICON_NOTIFICATION_COUNT);
+            if (getResources().getBoolean(R.bool.allow_notification_count)) {
+                getPreferenceScreen().removePreference(notificationCountPref);
+            } else {
+                notificationCountPref.setDefaultValue(true);
+            }
 
         }
 

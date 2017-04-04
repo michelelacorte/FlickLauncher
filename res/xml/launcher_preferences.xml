@@ -66,6 +66,32 @@
     </com.android.launcher3.util.CustomPreferenceCategory>
 
 
+    <com.android.launcher3.util.CustomPreferenceCategory
+        android:title="@string/preferences_icon_pack_option">
+
+        <Preference
+            android:key="pref_iconPack"
+            android:persistent="true"
+            android:summary="@string/icon_pack_summary"
+            android:title="@string/icon_pack" />
+
+
+        <Preference
+            android:key="pref_iconSize"
+            android:title="@string/icon_size"
+            android:summary="@string/icon_size_summary"
+            android:persistent="true" />
+
+        <SwitchPreference
+            android:defaultValue="@bool/allow_notification_count"
+            android:key="pref_allowNotificationCount"
+            android:persistent="true"
+            android:summary="@string/allow_notification_count_summary"
+            android:title="@string/allow_notification_count" />
+
+
+    </com.android.launcher3.util.CustomPreferenceCategory>
+
 
     <com.android.launcher3.util.CustomPreferenceCategory
         android:title="@string/preferences_dock_option">

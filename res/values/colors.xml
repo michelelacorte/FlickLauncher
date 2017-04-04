@@ -50,11 +50,11 @@
 
     <!-- Used as a fallback since colorSecondary doesn't exist pre-API 25 -->
     <!-- <color name="fallback_secondary_color">#FF37474F</color> -->
-    <color name="fallback_secondary_color">#00c853</color>
+    <color name="fallback_secondary_color">#00b8d4</color>
 
 
-    <color name="colorPrimary">#00c853</color>
-    <color name="colorPrimaryDark">#00c853</color>
+    <color name="colorPrimary">#00b8d4</color>
+    <color name="colorPrimaryDark">#00b8d4</color>
     <color name="colorAccent">#000</color>
 
     <!-- Shortcuts Color -->

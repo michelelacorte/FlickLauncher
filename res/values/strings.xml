@@ -282,7 +282,7 @@
 
     <string name="all_apps_size_summary">Set your custom number of icon in all apps</string>
 
-    <string name="disclaimer_dialog_message">Welcome to &app_name;!\n\nThis is an Open Source Launcher and available on <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>.\n\nFlick Launcher project is inspired by Google Pixel style, we add a few tweaks.\nFor more detail visit <a href="https://github.com/michelelacorte/FlickLauncher">GitHub Page</a>.\n\nThis project is under <a href="https://github.com/michelelacorte/FlickLauncher/blob/master/LICENSE">Apache v2 License</a>, and all right reserved to Michele Lacorte.\n\nIf you like this app please help developer download <a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">Donation App</a>.\n\n\n\nApp Version v0.1.0 Build 24</string>
+    <string name="disclaimer_dialog_message">Welcome to &app_name;!\n\nThis is an Open Source Launcher and available on <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>.\n\nFlick Launcher project is inspired by Google Pixel style, we add a few tweaks.\nFor more detail visit <a href="https://github.com/michelelacorte/FlickLauncher">GitHub Page</a>.\n\nThis project is under <a href="https://github.com/michelelacorte/FlickLauncher/blob/master/LICENSE">Apache v2 License</a>, and all right reserved to Michele Lacorte.\n\nIf you like this app please help developer download <a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">Donation App</a>.\n\n\n\nApp Version v0.1.0 Build 50</string>
 
 
 
@@ -409,8 +409,19 @@
     <string name="allow_voice_search_bar">Allow voice search icon</string>
     <string name="allow_voice_search_bar_summary">Enable voice icon in search bar</string>
     <string name="preferences_searchbar_option">Search Bar</string>
-
-
+    <string name="icon_pack_summary">Choose your icon theme</string>
+    <string name="icon_pack">Icon theme</string>
+    <string name="preferences_icon_pack_option">Icons</string>
+    <string name="ask_icon">Do you want to restore</string>
+    <string name="icon_size">Icon size</string>
+    <string name="icon_size_summary">Change your icon size</string>
+    <string name="neutral">DEFAULT</string>
+    <string name="edit">Edit</string>
+    <string name="edit_label">Edit app label</string>
+    <string name="work_in_progress">Work in progress</string>
+    <string name="allow_notification_count">Allow notification count</string>
+    <string name="allow_notification_count_summary">Allow notification count badge in icon</string>
+    <string name="notification">&app_name; notification</string>
 
     <string name="license_dialog_message"><a href="https://github.com/QuadFlask/colorpicker">colorpicker</a>\n\n
     Copyright 2014-2017 QuadFlask\n\n

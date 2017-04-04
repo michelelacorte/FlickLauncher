@@ -2816,6 +2816,7 @@ public class LauncherModel extends BroadcastReceiver
                 Log.d(TAG, "Icons processed in "
                         + (SystemClock.uptimeMillis() - loadTime) + "ms");
             }
+
         }
 
         private void loadAndBindDeepShortcuts() {

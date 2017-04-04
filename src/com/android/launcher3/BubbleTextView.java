@@ -18,10 +18,7 @@ package com.android.launcher3;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.content.res.Resources.Theme;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -35,7 +32,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -48,14 +44,11 @@ import android.view.ViewParent;
 import com.android.launcher3.IconCache.IconLoadRequest;
 import com.android.launcher3.folder.FolderIcon;
 import com.android.launcher3.model.PackageItemInfo;
-import com.android.launcher3.util.IconPackManager;
-
-import org.xmlpull.v1.XmlPullParser;
 
 import java.text.NumberFormat;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.Set;
 
 import it.michelelacorte.androidshortcuts.util.Utils;
 
@@ -111,6 +104,7 @@ public class BubbleTextView extends AppCompatTextView
 
     private IconLoadRequest mIconLoadRequest;
 
+
     public BubbleTextView(Context context) {
         this(context, null, 0);
     }
@@ -144,9 +138,14 @@ public class BubbleTextView extends AppCompatTextView
         }
         mCenterVertically = a.getBoolean(R.styleable.BubbleTextView_centerVertically, false);
 
-        mIconSize = a.getDimensionPixelSize(R.styleable.BubbleTextView_iconSizeOverride,
-                defaultIconSize);
-        a.recycle();
+        if(Utilities.getIconSizePrefEnabled(context) == -1) {
+            mIconSize = a.getDimensionPixelSize(R.styleable.BubbleTextView_iconSizeOverride,
+                    defaultIconSize);
+            Utilities.setIconSizeValue(context, mIconSize);
+            a.recycle();
+        }else{
+            mIconSize = Utilities.getIconSizePrefEnabled(context);
+        }
 
         if (mCustomShadowsEnabled) {
             // Draw the background itself as the parent is drawn twice.
@@ -199,15 +198,6 @@ public class BubbleTextView extends AppCompatTextView
         verifyHighRes();
     }
 
-    public static Drawable getIconPack(){
-        /*Launcher.activity.getPackageManager().queryIntentActivities(new Intent("org.adw.launcher.THEMES"), PackageManager.GET_META_DATA);
-        int i = Launcher.activity.getResources().getIdentifier("appfilter", "xml", "iconpack.package.name");
-        Launcher.activity.getResources().getXml(i);*/
-        String componentName = Launcher.getLauncherActivity().getPackageManager().getLaunchIntentForPackage("com.themezilla.pixelui").getComponent().toString();
-        int id = Launcher.getLauncherActivity().getResources().getIdentifier(componentName, "drawable", "com.themezilla.pixelui");
-        return ContextCompat.getDrawable(Launcher.getLauncherActivity(), id);
-    }
-
     private void applyIconAndLabel(Bitmap icon, ItemInfo info) {
         FastBitmapDrawable iconDrawable = mLauncher.createIconDrawable(icon);
         if (info.isDisabled()) {
@@ -217,31 +207,57 @@ public class BubbleTextView extends AppCompatTextView
             Bitmap test = Utils.getRoundedBitmapForUniversalLauncher(Launcher.getLauncherActivity(), icon);
             FastBitmapDrawable iconD = mLauncher.createIconDrawable(test);
             setIcon(iconD);
+        }else if (Utilities.getAppIconPackageNamePrefEnabled(getContext()) != null){
+            if(Utilities.getAppIconPackageNamePrefEnabled(getContext()).equals(getContext().getString(R.string.app_name))){
+                if(MyNotificationListenerService.getNotificationCount(getContext(), info.getTargetComponent().getPackageName()) != -1){
+                    setIcon(mLauncher.createIconDrawable(Utilities.getNotificationBadgeIcon(getContext(), icon,
+                            MyNotificationListenerService.getNotificationCount(getContext(), info.getTargetComponent().getPackageName()))));
+                }else {
+                    setIcon(iconDrawable);
+                }
+            }else {
+                try {
+                    Bitmap appIcon = Launcher.getIcons().get(info.getTargetComponent().getPackageName());
+                    if (appIcon != null) {
+                        if(MyNotificationListenerService.getNotificationCount(getContext(), info.getTargetComponent().getPackageName()) != -1){
+                            setIcon(mLauncher.createIconDrawable(Utilities.getNotificationBadgeIcon(getContext(), appIcon,
+                                    MyNotificationListenerService.getNotificationCount(getContext(), info.getTargetComponent().getPackageName()))));
+                        }else{
+                            setIcon(mLauncher.createIconDrawable(appIcon));
+                        }
+                    } else {
+                        if(MyNotificationListenerService.getNotificationCount(getContext(), info.getTargetComponent().getPackageName()) != -1){
+                            setIcon(mLauncher.createIconDrawable(Utilities.getNotificationBadgeIcon(getContext(), icon,
+                                    MyNotificationListenerService.getNotificationCount(getContext(), info.getTargetComponent().getPackageName()))));
+                        }else {
+                            setIcon(iconDrawable);
+                        }
+                    }
+                }catch (Exception e){
+                        setIcon(iconDrawable);
+                }
+            }
         }else{
             setIcon(iconDrawable);
-            /*IconPackManager ic = new IconPackManager();
-            HashMap<String, IconPackManager.IconPack> map = new HashMap<String, IconPackManager.IconPack>(ic.getAvailableIconPacks(false));
-            Iterator it = map.entrySet().iterator();
-            Drawable d = null;
-            String packName = null;
-            IconPackManager.IconPack packIcon = null;
-            while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry)it.next();
-                packName = (String)pair.getKey();
-                packIcon = (IconPackManager.IconPack)pair.getValue();
-                break;
-            }
-            d = packIcon.getDrawableIconForPackage(packName, iconDrawable);
-            setIcon(d);*/
         }
 
-        setText(info.title);
+        try {
+            Set<String> title = new HashSet<>(Utilities.getTitle(getContext(), info.getTargetComponent().getPackageName()));
+            for (Iterator<String> it = title.iterator(); it.hasNext(); ) {
+                String titleApp = it.next();
+                setText(titleApp);
+            }
+        }catch(Exception e){
+            setText(info.title);
+        }
+
         if (info.contentDescription != null) {
             setContentDescription(info.isDisabled()
                     ? getContext().getString(R.string.disabled_app_label, info.contentDescription)
                     : info.contentDescription);
         }
     }
+
 
     /**
      * Used for measurement only, sets some dummy values on this view.

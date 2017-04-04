@@ -35,6 +35,7 @@ public class IconPackManager
         public String name;
 
         private boolean mLoaded = false;
+
         private HashMap<String, String> mPackagesDrawables = new HashMap<String, String>();
 
         private List<Bitmap> mBackImages = new ArrayList<Bitmap>();

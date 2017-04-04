@@ -21,12 +21,15 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.Application;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.WallpaperManager;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,6 +49,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
@@ -61,6 +65,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -80,15 +85,22 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.launcher3.compat.LauncherActivityInfoCompat;
 import com.android.launcher3.compat.UserHandleCompat;
 import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.config.ProviderConfig;
 import com.android.launcher3.graphics.ShadowGenerator;
 import com.android.launcher3.security.password.PasswordActivity;
+import com.android.launcher3.util.ArrayAdapterWithIcon;
 import com.android.launcher3.util.IconNormalizer;
+import com.android.launcher3.util.IconPackManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
@@ -98,7 +110,12 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -106,6 +123,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import it.michelelacorte.androidshortcuts.Shortcuts;
+import it.michelelacorte.androidshortcuts.ShortcutsCreation;
+import it.michelelacorte.androidshortcuts.util.Utils;
 
 /**
  * Various utilities shared amongst the Launcher's classes.
@@ -259,6 +280,13 @@ public final class Utilities {
     public static final String PASSWORD_POS = "pref_passwordPos";
     public static final String PASSWORD_RESET = "pref_resetPassword";
 
+    // Icon Theme
+    public static final String ICON_PACK = "pref_iconPack";
+    public static final String ICON_PACK_NAME = "pref_iconPackName";
+    public static final String ICON_SIZE = "pref_iconSize";
+    public static final String ICON_NOTIFICATION_COUNT = "pref_allowNotificationCount";
+
+
     private static boolean isFlashLightOn = false;
     private static boolean isBluetoothOn = false;
     private static boolean isWifiOn = false;
@@ -322,6 +350,14 @@ public final class Utilities {
     }
 
 
+    public static void setIconSizeValue(Context context, int size) {
+        getPrefs(context).edit().putInt(ICON_SIZE, size).apply();
+    }
+
+    public static int getIconSizePrefEnabled(Context context) {
+        return getPrefs(context).getInt(ICON_SIZE,
+                -1);
+    }
 
 
     public static void setFolderPreviewCircleValue(Context context, int color) {
@@ -349,6 +385,15 @@ public final class Utilities {
 
     public static boolean getAllowFolderTransparentDefaultValue() {
         return false;
+    }
+
+    public static boolean isAllowNotificationCountPrefEnabled(Context context) {
+        return getPrefs(context).getBoolean(ICON_NOTIFICATION_COUNT,
+                getAllowNotificationCountDefaultValue());
+    }
+
+    public static boolean getAllowNotificationCountDefaultValue() {
+        return true;
     }
 
 
@@ -390,6 +435,18 @@ public final class Utilities {
         }
         return false;
     }
+
+
+
+    public static String getAppIconPackageNamePrefEnabled(Context context) {
+        return getPrefs(context).getString(ICON_PACK_NAME,
+                null);
+    }
+
+    public static void setAppIconPackageNamePrefEnabled(Context context, String packageName) {
+        getPrefs(context).edit().putString(ICON_PACK_NAME, packageName).apply();
+    }
+
 
     public static boolean getAllowDoubleTapToSleepDefaultValue() {
         return false;
@@ -1322,8 +1379,42 @@ public final class Utilities {
         }
     }
 
+    private static void applyChange(Activity context){
+        context.finish();
+        context.startActivity(new Intent(Intent.ACTION_MAIN)
+                .addCategory(Intent.CATEGORY_LAUNCHER)
+                .addCategory(Intent.CATEGORY_DEFAULT)
+                .addCategory(Intent.CATEGORY_HOME));
+    }
+
+    public static void answerToRestoreIconPack(final Activity context, String packName){
+        AlertDialog.Builder alert = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.AlertDialogCustom));
+
+
+        alert.setTitle(context.getResources().getString(R.string.app_name));
+        alert.setMessage(context.getResources().getString(R.string.ask_icon) + " " + packName + "?");
+
+
+        alert.setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                applyChange(context);
+            }
+        });
+
+        alert.setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                Utilities.setAppIconPackageNamePrefEnabled(context.getApplicationContext(), "NULL");
+                dialog.dismiss();
+            }
+        });
+        alert.setIcon(R.mipmap.ic_launcher_home);
+        alert.show();
+    }
+
     private static void changeDefaultLauncher(Context context){
-        context.startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).addCategory(Intent.CATEGORY_HOME));
+        context.startActivity(new Intent(Intent.ACTION_MAIN)
+                .addCategory(Intent.CATEGORY_LAUNCHER)
+                .addCategory(Intent.CATEGORY_HOME));
     }
 
     public static void answerToChangeDefaultLauncher(final Context context){
@@ -1757,6 +1848,251 @@ public final class Utilities {
             }
         }
         return false;
+    }
+
+    public static ArrayList<String> getAvailableIconPackName(){
+        String packName = null;
+        ArrayList<String> iconPacks = new ArrayList<>();
+        IconPackManager ic = new IconPackManager();
+        HashMap<String, IconPackManager.IconPack> map = ic.getAvailableIconPacks(true);
+        Iterator it = map.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            packName = (String)pair.getKey();
+            for (AppInfo app : AllAppsList.data) {
+                if (packName.equalsIgnoreCase(app.componentName.getPackageName())) {
+                    iconPacks.add(app.title.toString());
+                }
+            }
+        }
+        return iconPacks;
+    }
+
+
+    public static ArrayList<Bitmap> getAvailableIconPackImage(){
+        String packName = null;
+        IconPackManager.IconPack packIcon = null;
+
+        ArrayList<Bitmap> iconPacks = new ArrayList<>();
+        IconPackManager ic = new IconPackManager();
+        HashMap<String, IconPackManager.IconPack> map = ic.getAvailableIconPacks(true);
+        Iterator it = map.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            packName = (String)pair.getKey();
+            packIcon = (IconPackManager.IconPack)pair.getValue();
+            iconPacks.add(packIcon.getIconForPackage(packName, null));
+        }
+        return iconPacks;
+    }
+
+    static List<String> items = new ArrayList<String>();
+    static List<Bitmap> icons = new ArrayList<Bitmap>();
+    public static HashMap<String, Bitmap> getIconPack(String iconPack){
+        String packName = null;
+        IconPackManager.IconPack packIcon = null;
+        HashMap<String, Bitmap> iconPackMap = new HashMap<>();
+
+        IconPackManager ic = new IconPackManager();
+        HashMap<String, IconPackManager.IconPack> map = ic.getAvailableIconPacks(true);
+        Iterator it = map.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            packName = (String)pair.getKey();
+
+            if(packName.equalsIgnoreCase(iconPack)) {
+                packIcon = (IconPackManager.IconPack) pair.getValue();
+                for(int i = 0; i < AllAppsList.data.size(); i++){
+                    try{
+                        iconPackMap.put(AllAppsList.data.get(i).componentName.getPackageName(),
+                                packIcon.getIconForPackage(AllAppsList.data.get(i).componentName.getPackageName(), null));
+                        icons.add(packIcon.getIconForPackage(AllAppsList.data.get(i).componentName.getPackageName(), null));
+                        items.add(AllAppsList.data.get(i).title.toString());
+                    }catch (Exception e){
+                        iconPackMap.put(AllAppsList.data.get(i).componentName.getPackageName(), null);
+                        icons.add(AllAppsList.data.get(i).iconBitmap);
+                        items.add(AllAppsList.data.get(i).title.toString());
+                    }
+
+                }
+            }
+        }
+        return iconPackMap;
+    }
+
+    private static void showIconInPack(Activity activity, String packName){
+
+        String packNamePackage = null;
+        for (AppInfo app : AllAppsList.data) {
+            if(app.title.equals(packName)){
+                packNamePackage = app.getTargetComponent().getPackageName();
+            }
+        }
+
+        HashMap<String, Bitmap> map = new HashMap<>(getIconPack(packNamePackage));
+
+        //items.addAll(map.keySet());
+        //icons.addAll(map.values());
+
+        ListAdapter adapter = new ArrayAdapterWithIcon(activity, items, icons);
+
+        new AlertDialog.Builder(activity).setTitle(activity.getString(R.string.alert_choose_app))
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+
+                        }
+                }).show();
+    }
+
+    private static void showIconPack(final Activity activity){
+        final ArrayList<String> names = Utilities.getAvailableIconPackName();
+
+        Bitmap icon = BitmapFactory.decodeResource(activity.getApplicationContext().getResources(),
+                R.mipmap.ic_launcher_home);
+
+        final ArrayList<Bitmap> icons = Utilities.getAvailableIconPackImage();
+
+        names.add(0, activity.getString(R.string.app_name));
+        icons.add(0, icon);
+
+        ListAdapter adapter = new ArrayAdapterWithIcon(activity, names, icons);
+
+        new AlertDialog.Builder(activity).setTitle(activity.getString(R.string.alert_choose_app))
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        //showIconInPack(activity, names.get(item));
+                        Toast.makeText(activity.getApplicationContext(), activity.getString(R.string.work_in_progress) + "...",Toast.LENGTH_LONG).show();
+                    }
+                }).show();
+    }
+
+    public static void showEditMode(final Activity activity, final ShortcutInfo shortcutInfo){
+        ContextThemeWrapper theme;
+        final Set<String> setString = new HashSet<String>();
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
+            theme = new ContextThemeWrapper(activity, R.style.AlertDialogCustomAPI23);
+        } else {
+            theme = new ContextThemeWrapper(activity, R.style.AlertDialogCustom);
+        }
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(theme);
+        LinearLayout layout = new LinearLayout(activity.getApplicationContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(100, 0, 100, 100);
+
+
+        final ImageView img = new ImageView(activity.getApplicationContext());
+        Drawable icon = null;
+        if(Utilities.getAppIconPackageNamePrefEnabled(activity.getApplicationContext()) != null) {
+            if (Utilities.getAppIconPackageNamePrefEnabled(activity.getApplicationContext()).equals("NULL")) {
+                icon = new BitmapDrawable(activity.getResources(), shortcutInfo.getIcon(new IconCache(activity.getApplicationContext(),
+                        Launcher.getLauncher(activity).getDeviceProfile().inv)));
+            }else {
+                icon = new BitmapDrawable(activity.getResources(), Launcher.getIcons().get(shortcutInfo.getTargetComponent().getPackageName()));
+            }
+        }else {
+            icon = new BitmapDrawable(activity.getResources(), shortcutInfo.getIcon(new IconCache(activity.getApplicationContext(),
+                    Launcher.getLauncher(Launcher.getLauncherActivity()).getDeviceProfile().inv)));
+        }
+        img.setImageDrawable(icon);
+        img.setPadding(0, 100, 0, 0);
+
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showIconPack(activity);
+            }
+        });
+
+        final EditText titleBox = new EditText(activity.getApplicationContext());
+
+        try {
+            Set<String> title = new HashSet<>(Utilities.getTitle(activity, shortcutInfo.getTargetComponent().getPackageName()));
+            for (Iterator<String> it = title.iterator(); it.hasNext(); ) {
+                String titleApp = it.next();
+                titleBox.setText(titleApp);
+            }
+        }catch(Exception e){
+            titleBox.setText(shortcutInfo.title);
+        }
+
+        titleBox.getBackground().mutate().setColorFilter(ContextCompat.getColor(activity.getApplicationContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+
+
+        layout.addView(img);
+        layout.addView(titleBox);
+
+
+        alert.setTitle(activity.getApplicationContext().getResources().getString(R.string.edit_label));
+        alert.setView(layout);
+
+        alert.setPositiveButton(activity.getApplicationContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                for(ItemInfo itemInfo : AllAppsList.data){
+                    if(shortcutInfo.getTargetComponent().getPackageName().equals(itemInfo.getTargetComponent().getPackageName())) {
+                        setString.add(titleBox.getText().toString());
+                        getPrefs(activity.getApplicationContext())
+                                .edit()
+                                .putStringSet(itemInfo.getTargetComponent().getPackageName(), setString)
+                                .apply();
+                        Launcher.getShortcutsCreation().clearAllLayout();
+                        applyChange(activity);
+                    }
+                }
+            }
+        });
+
+        alert.setNegativeButton(activity.getApplicationContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                Launcher.getShortcutsCreation().clearAllLayout();
+            }
+        });
+        alert.show();
+    }
+
+    public static Set<String> getTitle(Context context, String packageName){
+            return getPrefs(context).getStringSet(packageName, null);
+    }
+
+    public static Bitmap getNotificationBadgeIcon(Context context, Bitmap appIcon, int number){
+        Paint paint;
+        Paint circlePaint;
+        String text = ""+String.valueOf(number);
+        Bitmap canvasBitmap = Bitmap.createBitmap(appIcon.getWidth(), appIcon.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(canvasBitmap);
+        paint = new Paint();
+        circlePaint = new Paint();
+
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(45);
+        paint.setAntiAlias(true);
+        paint.setTextAlign(Paint.Align.CENTER);
+
+        Rect bounds = new Rect();
+        paint.getTextBounds(text, 0, text.length(), bounds);
+
+        circlePaint.setColor(ContextCompat.getColor(context, R.color.colorPrimary));
+        circlePaint.setAntiAlias(true);
+
+        canvas.drawCircle(appIcon.getWidth()/4, appIcon.getHeight()/4, 45, circlePaint);
+        canvas.drawText(text, appIcon.getWidth()/4, appIcon.getHeight()/3, paint);
+
+        return overlay(appIcon, canvasBitmap);
+    }
+
+
+    private static Bitmap overlay(Bitmap bmp1, Bitmap bmp2) {
+        Bitmap bmOverlay = Bitmap.createBitmap(bmp2.getWidth(), bmp2.getHeight(), bmp1.getConfig());
+        float left =(bmp2.getWidth() - (bmp1.getWidth()*((float)bmp2.getHeight()/(float)bmp1.getHeight())))/(float)2.0;
+        float bmp1newW = bmp1.getWidth()*((float)bmp2.getHeight()/(float)bmp1.getHeight());
+        Bitmap bmp1new = Utils.getResizedBitmap(bmp1, bmp2.getHeight(), (int)bmp1newW );
+        Canvas canvas = new Canvas(bmOverlay);
+        canvas.drawBitmap(bmp1new, left ,0 , null);
+        canvas.drawBitmap(bmp2, new Matrix(), null);
+        return bmOverlay;
     }
 
     public static boolean isFlashLightOn() {

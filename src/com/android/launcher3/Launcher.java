@@ -28,6 +28,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.app.WallpaperManager;
 import android.app.admin.DevicePolicyManager;
 import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetManager;
@@ -36,7 +37,6 @@ import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentCallbacks2;
 import android.content.ComponentName;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
@@ -130,6 +130,7 @@ import com.android.launcher3.userevent.nano.LauncherLogProto;
 import com.android.launcher3.util.ActivityResultInfo;
 import com.android.launcher3.util.ComponentKey;
 import com.android.launcher3.util.DarClass;
+import com.android.launcher3.util.FirstRun;
 import com.android.launcher3.util.ItemInfoMatcher;
 import com.android.launcher3.util.MultiHashMap;
 import com.android.launcher3.util.PackageManagerHelper;
@@ -143,6 +144,7 @@ import com.android.launcher3.widget.WidgetHostViewLoader;
 import com.android.launcher3.widget.WidgetsContainerView;
 
 import java.io.FileDescriptor;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -410,6 +412,9 @@ public class Launcher extends Activity
     private static final int RECOGNIZER_REQ_CODE = 9939;
     private static boolean IS_ALLOW_MIC = false;
 
+    private static HashMap<String, Bitmap> icons;
+    private static LauncherAppState app;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (DEBUG_STRICT_MODE) {
@@ -440,7 +445,7 @@ public class Launcher extends Activity
         super.onCreate(savedInstanceState);
 
 
-        LauncherAppState app = LauncherAppState.getInstance();
+        app = LauncherAppState.getInstance();
 
         // Load configuration-specific DeviceProfile
         mDeviceProfile = getResources().getConfiguration().orientation
@@ -542,8 +547,26 @@ public class Launcher extends Activity
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             fingerprintManager = (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
         }
-    }
 
+        icons = Utilities.getIconPack(Utilities.getAppIconPackageNamePrefEnabled(getApplicationContext()));
+        if(icons == null || icons.isEmpty() || icons.size() == 0){
+            if(Utilities.getAppIconPackageNamePrefEnabled(getApplicationContext()) != null &&
+                    !Utilities.getAppIconPackageNamePrefEnabled(getApplicationContext()).equalsIgnoreCase("NULL")) {
+                Utilities.answerToRestoreIconPack(this, Utilities.getAppIconPackageNamePrefEnabled(getApplicationContext()));
+            }
+        }
+
+        if(FirstRun.isFirstLaunch(getApplicationContext())) {
+            WallpaperManager myWallpaperManager
+                    = WallpaperManager.getInstance(getApplicationContext());
+            try {
+                myWallpaperManager.setResource(R.drawable.wallpaper);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 
     @Override
     public void onExtractedColorsChanged() {
@@ -2534,6 +2557,10 @@ public class Launcher extends Activity
         appHasFingerprint = Utilities.getAppHasFingerprint(getApplicationContext());
         appHasPassword = Utilities.getAppHasPassword(getApplicationContext());
         if (tag instanceof ShortcutInfo) {
+            if(MyNotificationListenerService.getNotificationCount(getApplicationContext(), ((ShortcutInfo) tag).getTargetComponent().getPackageName()) != -1){
+                MyNotificationListenerService.setNotificationCount(getApplicationContext(), ((ShortcutInfo) tag).getTargetComponent().getPackageName(), -1);
+                app.reloadWorkspace();
+            }
             if(Utilities.startAppHasFingerprint(appHasFingerprint, v) && Utilities.startAppHasPassword(appHasPassword, v)){
                 FingerprintActivity.setShortcutInfo(v);
                 startActivity(new Intent(Launcher.this, FingerprintActivity.class));
@@ -2557,6 +2584,10 @@ public class Launcher extends Activity
                 (v == mAllAppsButton && mAllAppsButton != null)) {
             onClickAllAppsButton(v);
         } else if (tag instanceof AppInfo) {
+            if(MyNotificationListenerService.getNotificationCount(getApplicationContext(), ((AppInfo) tag).getTargetComponent().getPackageName()) != -1){
+                MyNotificationListenerService.setNotificationCount(getApplicationContext(), ((AppInfo) tag).getTargetComponent().getPackageName(), -1);
+                app.reloadWorkspace();
+            }
             if(Utilities.startAppHasFingerprintAppInfo(appHasFingerprint, v) && Utilities.startAppHasPasswordAppInfo(appHasPassword, v)){
                 FingerprintActivity.setShortcutInfo(v);
                 startActivity(new Intent(Launcher.this, FingerprintActivity.class));
@@ -3322,7 +3353,6 @@ public class Launcher extends Activity
                         creation.clearAllLayout();
 
                     mWorkspace.startDrag(longClickCellInfo, dragOptions);
-
 
 
                     //Get selected app info
@@ -4763,12 +4793,21 @@ public class Launcher extends Activity
         }
     }
 
+    public static HashMap<String, Bitmap> getIcons() {
+        return icons;
+    }
+
     public static Launcher getLauncher(Context context) {
         if (context instanceof Launcher) {
             return (Launcher) context;
         }
         return ((Launcher) ((ContextWrapper) context).getBaseContext());
     }
+
+    public static LauncherAppState getLauncherAppState() {
+        return app;
+    }
+
 
     private class RotationPrefChangeHandler implements OnSharedPreferenceChangeListener, Runnable {
 

@@ -127,6 +127,15 @@
             </intent-filter>
         </activity>
 
+
+        <service android:name=".MyNotificationListenerService"
+            android:label="@string/notification"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
         <!-- Intent received used to install shortcuts from other applications -->
         <receiver
             android:name="com.android.launcher3.InstallShortcutReceiver"
