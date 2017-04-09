@@ -2223,15 +2223,7 @@ public final class Utilities {
 
     public static void openStatusBar(Activity activity){
         if(Utilities.doCheckPROVersion(activity)) {
-            try {
-                Object service = activity.getSystemService("statusbar");
-                Class<?> statusBarManager = Class
-                        .forName("android.app.StatusBarManager");
-                Method expand = statusBarManager.getMethod("expandNotificationsPanel");
-                expand.invoke(service);
-            } catch (Exception e) {
 
-            }
         }else{
             Toast.makeText(activity, activity.getString(R.string.not_allow), Toast.LENGTH_LONG).show();
         }

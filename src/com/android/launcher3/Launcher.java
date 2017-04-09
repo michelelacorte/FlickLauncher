@@ -100,9 +100,9 @@ import com.android.launcher3.DropTarget.DragObject;
 import com.android.launcher3.LauncherSettings.Favorites;
 import com.android.launcher3.accessibility.LauncherAccessibilityDelegate;
 import com.android.launcher3.allapps.AllAppsContainerView;
-import com.android.launcher3.allapps.PredictiveAppsProvider;
 import com.android.launcher3.allapps.AllAppsTransitionController;
 import com.android.launcher3.allapps.DefaultAppSearchController;
+import com.android.launcher3.allapps.PredictiveAppsProvider;
 import com.android.launcher3.compat.AppWidgetManagerCompat;
 import com.android.launcher3.compat.LauncherActivityInfoCompat;
 import com.android.launcher3.compat.LauncherAppsCompat;
@@ -419,6 +419,8 @@ public class Launcher extends Activity
     private static HashMap<String, Bitmap> icons;
     private static LauncherAppState app;
 
+    private PredictiveAppsProvider predictiveAppsProvider;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (DEBUG_STRICT_MODE) {
@@ -442,7 +444,7 @@ public class Launcher extends Activity
             }
         }
 
- predictiveAppsProvider = new PredictiveAppsProvider(this);
+        predictiveAppsProvider = new PredictiveAppsProvider(this);
 
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.preOnCreate();
@@ -1175,7 +1177,7 @@ public class Launcher extends Activity
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onResume();
         }
- tryAndUpdatePredictedApps();
+
     }
 
     @Override
@@ -3107,8 +3109,7 @@ public class Launcher extends Activity
             } else if (user == null || user.equals(UserHandleCompat.myUserHandle())) {
                 // Could be launching some bookkeeping activity
                 startActivity(intent, optsBundle);
-
-if (isAllAppsVisible()) {
+                if (isAllAppsVisible()) {
                     predictiveAppsProvider.updateComponentCount(intent.getComponent());
                 }
             } else {
@@ -3801,7 +3802,7 @@ if (isAllAppsVisible()) {
      * Updates the set of predicted apps if it hasn't been updated since the last time Launcher was
      * resumed.
      */
-   public void tryAndUpdatePredictedApps() {
+    public void tryAndUpdatePredictedApps() {
         List<ComponentKey> apps;
         if (mLauncherCallbacks != null) {
             apps = mLauncherCallbacks.getPredictedApps();
@@ -3814,8 +3815,6 @@ if (isAllAppsVisible()) {
             mAppsView.setPredictedApps(apps);
         }
     }
-
-private PredictiveAppsProvider predictiveAppsProvider;
 
     void lockAllApps() {
         // TODO

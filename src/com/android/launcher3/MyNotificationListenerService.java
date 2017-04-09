@@ -37,7 +37,7 @@ public class MyNotificationListenerService extends NotificationListenerService {
     public static ArrayList<Drawable> icons = new ArrayList<Drawable>();
     public static String TITLE = null;
 
-    @TargetApi(23)
+    @TargetApi(20)
     @Override
     public void onNotificationPosted(StatusBarNotification sbn, NotificationListenerService.RankingMap rankingMap) {
         TITLE = sbn.getNotification().extras.getCharSequence(Notification.EXTRA_TITLE).toString();
