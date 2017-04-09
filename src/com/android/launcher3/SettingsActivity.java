@@ -27,23 +27,19 @@ import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
-import android.graphics.YuvImage;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.provider.Contacts;
 import android.provider.Settings;
 import android.provider.Settings.System;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.InputType;
 import android.view.ContextThemeWrapper;
-import android.view.MotionEvent;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -65,11 +61,7 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-
-import it.michelelacorte.androidshortcuts.Shortcuts;
-import it.michelelacorte.androidshortcuts.ShortcutsCreation;
 import it.michelelacorte.androidshortcuts.util.Utils;
 
 /**
@@ -97,7 +89,7 @@ public class SettingsActivity extends AppCompatActivity {
         private ContextThemeWrapper theme;
         private CharSequence[] items = null;
         private boolean[] selectedItemsBool = null;
-        //private Preference persistentSearchBarPref;
+        private Preference persistentSearchBarPref;
 
 
         @Override
@@ -148,13 +140,13 @@ public class SettingsActivity extends AppCompatActivity {
             final Preference gridPref = findPreference(Utilities.GRID_SIZE);
             final Activity activity = this.getActivity();
 
-            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M || Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP_MR1) {
                 theme = new ContextThemeWrapper(activity, R.style.AlertDialogCustomAPI23);
             } else {
                 theme = new ContextThemeWrapper(activity, R.style.AlertDialogCustom);
             }
             //final int themeInt;
-            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M || Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP_MR1) {
                 themeInt = R.style.AlertDialogCustomAPI23;
             } else {
                 themeInt = R.style.AlertDialogCustom;
@@ -168,6 +160,12 @@ public class SettingsActivity extends AppCompatActivity {
                 }else {
                     context = activity.getApplicationContext();
                 }
+            }
+
+            if(Utilities.isAllowNightModePrefEnabled(context)) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
 
             gridPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -345,6 +343,7 @@ public class SettingsActivity extends AppCompatActivity {
                     items.add(getString(R.string.nothing));
                     icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_clear_black_24dp)));
 
+
                     items.add(getString(R.string.wifi));
                     icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_wifi_black_24dp)));
 
@@ -437,6 +436,8 @@ public class SettingsActivity extends AppCompatActivity {
                     final List<Bitmap> icons = new ArrayList<Bitmap>();
                     items.add(getString(R.string.nothing));
                     icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_clear_black_24dp)));
+
+
 
                     items.add(getString(R.string.wifi));
                     icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_wifi_black_24dp)));
@@ -531,6 +532,8 @@ public class SettingsActivity extends AppCompatActivity {
                     items.add(getString(R.string.nothing));
                     icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_clear_black_24dp)));
 
+
+
                     items.add(getString(R.string.wifi));
                     icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_wifi_black_24dp)));
 
@@ -622,6 +625,8 @@ public class SettingsActivity extends AppCompatActivity {
                     items.add(getString(R.string.nothing));
                     icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_clear_black_24dp)));
 
+
+
                     items.add(getString(R.string.wifi));
                     icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_wifi_black_24dp)));
 
@@ -712,6 +717,8 @@ public class SettingsActivity extends AppCompatActivity {
                     final List<Bitmap> icons = new ArrayList<Bitmap>();
                     items.add(getString(R.string.nothing));
                     icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_clear_black_24dp)));
+
+
 
                     items.add(getString(R.string.wifi));
                     icons.add(Utils.convertDrawableToBitmap(ContextCompat.getDrawable(activity.getApplicationContext(), R.drawable.ic_wifi_black_24dp)));
@@ -1043,12 +1050,12 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            /*persistentSearchBarPref = findPreference(Utilities.PERSISENT_SEARCH_BAR);
+            persistentSearchBarPref = findPreference(Utilities.PERSISENT_SEARCH_BAR);
             if (getResources().getBoolean(R.bool.allow_persistent_search_bar)) {
                 getPreferenceScreen().removePreference(persistentSearchBarPref);
             } else {
                 persistentSearchBarPref.setDefaultValue(true);
-            }*/
+            }
 
             Preference voiceSearchBarPref = findPreference(Utilities.VOICE_SEARCH_BAR);
             if (getResources().getBoolean(R.bool.allow_voice_in_search_bar)) {
@@ -1177,7 +1184,13 @@ public class SettingsActivity extends AppCompatActivity {
                     Bitmap icon = BitmapFactory.decodeResource(context.getResources(),
                             R.mipmap.ic_launcher_home);
 
-                    final ArrayList<Bitmap> icons = Utilities.getAvailableIconPackImage();
+
+                    ArrayList<Bitmap> icons = new ArrayList<Bitmap>();
+                    try{
+                        icons = Utilities.getAvailableIconPackImage();
+                    }catch (Exception e){
+
+                    }
 
                     names.add(0, getString(R.string.app_name));
                     icons.add(0, icon);
@@ -1215,24 +1228,26 @@ public class SettingsActivity extends AppCompatActivity {
                     layout.setOrientation(LinearLayout.VERTICAL);
                     layout.setPadding(100, 50, 100, 100);
 
-
+                    final ImageView img = new ImageView(activity.getApplicationContext());
+                    img.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.ic_launcher_home));
+                    img.setPadding(0, 150, 0, 0);
+                    final Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_home);
 
                     final SeekBar seekBar = new SeekBar(activity.getApplicationContext());
-                    seekBar.setProgress(Utilities.getIconSizePrefEnabled(context));
-                    seekBar.setPadding(0, 300, 0, 0);
                     seekBar.incrementProgressBy(50);
                     seekBar.setMax(600);
+                    if(Utilities.getIconSizePrefEnabled(context) != -1) {
+                        seekBar.setProgress(Utilities.getIconSizePrefEnabled(context));
+                        Bitmap newBm = Utils.getResizedBitmap(bm, Utilities.getIconSizePrefEnabled(context), Utilities.getIconSizePrefEnabled(context));
+                        img.setImageBitmap(newBm);
+                    }else{
+                        seekBar.setProgress(bm.getWidth());
+                    }
+                    seekBar.setPadding(0, 300, 0, 0);
                     seekBar.getProgressDrawable().setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
                     //seekBar.getThumb().setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
-
-
-                    final ImageView img = new ImageView(activity.getApplicationContext());
-                    img.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.ic_launcher_home));
-                    img.setPadding(0, 150, 0, 0);
-
-                    final Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_home);
 
 
                     seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
@@ -1254,7 +1269,18 @@ public class SettingsActivity extends AppCompatActivity {
 
                         @Override
                         public void onStartTrackingTouch(SeekBar seekBar) {
-
+                            int progress = seekBar.getProgress();
+                            progress = progress / 50;
+                            progress = progress * 50;
+                            if(progress <= 0){
+                                Bitmap newBm = Utils.getResizedBitmap(bm, Utilities.getIconSizePrefEnabled(context), Utilities.getIconSizePrefEnabled(context));
+                                img.setImageBitmap(newBm);
+                                Utilities.setIconSizeValue(context, Utilities.getIconSizePrefEnabled(context));
+                            }else {
+                                Bitmap newBm = Utils.getResizedBitmap(bm, progress, progress);
+                                img.setImageBitmap(newBm);
+                                Utilities.setIconSizeValue(context, progress);
+                            }
                         }
 
                         @Override
@@ -1273,14 +1299,14 @@ public class SettingsActivity extends AppCompatActivity {
 
                     alert.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                           // Utilities.setDockSizeDefaultValue(activity.getApplicationContext(), dock.getValue());
+                            //Utilities.setDockSizeDefaultValue(activity.getApplicationContext(), size);
                             //Utilities.answerToRestartLauncher(Launcher.getLauncherActivity(), context, 2000);
                         }
                     });
 
                     alert.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            Utilities.setIconSizeValue(context, -1);
+                            //Utilities.setIconSizeValue(context, -1);
                             dialog.dismiss();
                         }
                     });
@@ -1303,6 +1329,110 @@ public class SettingsActivity extends AppCompatActivity {
                 notificationCountPref.setDefaultValue(true);
             }
 
+            Preference nightModePref = findPreference(Utilities.NIGHT_MODE);
+            if (getResources().getBoolean(R.bool.allow_night_mode)) {
+                getPreferenceScreen().removePreference(nightModePref);
+                //Launcher.getLauncherAppState().reloadWorkspace();
+            } else {
+                nightModePref.setDefaultValue(true);
+                //Launcher.getLauncherAppState().reloadWorkspace();
+            }
+
+            final Preference drawerBackgroundPref = findPreference(Utilities.DRAWER_BACKGROUND);
+            drawerBackgroundPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    int initialColor;
+                    if ((initialColor = Utilities.getDrawerBackgroundPrefEnabled(activity.getApplicationContext())) == -1) {
+                        initialColor = 0xffffffff;
+                    }
+                    ColorPickerDialogBuilder
+                            .with(context, themeInt)
+                            .setTitle(getString(R.string.choose_color))
+                            .initialColor(initialColor)
+                            .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                            .setOnColorSelectedListener(new OnColorSelectedListener() {
+                                @Override
+                                public void onColorSelected(int selectedColor) {
+                                    //Integer.toHexString(selectedColor);
+                                }
+                            })
+                            .setPositiveButton(getString(R.string.ok), new ColorPickerClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
+                                    Utilities.setDrawerBackgroundValue(activity.getApplicationContext(), selectedColor);
+                                }
+                            })
+                            .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .build()
+                            .show();
+                    return true;
+                }
+            });
+
+            final Preference PROPref = findPreference(Utilities.PRO);
+            PROPref.setIcon(R.drawable.ic_launcher);
+
+            final Preference homeKeyPref = findPreference(Utilities.HOME_KEY_PRO);
+            final Preference homeLongKeyPref = findPreference(Utilities.HOME_LONG_APP_KEY_PRO);
+
+            if (Utilities.getAppHomeKeyPrefEnabled(activity.getApplicationContext()) != null) {
+                homeKeyPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + Utilities.getAppHomeKeyPrefEnabled(activity.getApplicationContext()));
+            }
+            if (Utilities.getAppHomeLongKeyPrefEnabled(activity.getApplicationContext()) != null) {
+                homeLongKeyPref.setSummary(getString(R.string.choose_double_tap_summary) + ": " + Utilities.getAppHomeLongKeyPrefEnabled(activity.getApplicationContext()));
+            }
+
+
+            homeKeyPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    if(Utilities.doCheckPROVersion(context)){
+
+
+
+
+
+
+
+
+
+
+
+
+                    }else{
+                        Utilities.upgradeToPROAlertDialog(context);
+                    }
+                    return true;
+                }
+            });
+
+            homeLongKeyPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    if(Utilities.doCheckPROVersion(context)){
+
+
+
+
+
+
+
+
+
+
+
+
+                    }else{
+                        Utilities.upgradeToPROAlertDialog(context);
+                    }
+                    return true;
+                }
+            });
         }
 
         @Override

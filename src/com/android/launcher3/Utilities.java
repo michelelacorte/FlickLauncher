@@ -21,15 +21,13 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.Application;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.WallpaperManager;
+import android.app.admin.DevicePolicyManager;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -64,8 +62,8 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -91,16 +89,14 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.android.launcher3.compat.LauncherActivityInfoCompat;
 import com.android.launcher3.compat.UserHandleCompat;
 import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.config.ProviderConfig;
 import com.android.launcher3.graphics.ShadowGenerator;
-import com.android.launcher3.security.password.PasswordActivity;
 import com.android.launcher3.util.ArrayAdapterWithIcon;
 import com.android.launcher3.util.IconNormalizer;
 import com.android.launcher3.util.IconPackManager;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
@@ -124,8 +120,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import it.michelelacorte.androidshortcuts.Shortcuts;
-import it.michelelacorte.androidshortcuts.ShortcutsCreation;
 import it.michelelacorte.androidshortcuts.util.Utils;
 
 /**
@@ -193,18 +187,14 @@ public final class Utilities {
             TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 
     public static final String ALLOW_ROTATION_PREFERENCE_KEY = "pref_allowRotation";
-
     public static final String ALLOW_CIRCULAR_ICON_PREFERENCE_KEY = "pref_allowCircularIcon";
-
     public static final String GRID_SIZE_COLUMN = "pref_gridSizeColumn";
-
     public static final String GRID_SIZE_ROW = "pref_gridSizeRow";
-
     public static final String GRID_SIZE = "pref_gridSize";
-
     public static final String ALL_APPS_SIZE = "pref_allAppsSize";
-
     public static final String ALL_APPS_SIZE_ITEM = "pref_allAppsSizeItem";
+    public static final String DRAWER_BACKGROUND = "pref_drawerBackground";
+    public static final String PRO = "pref_pro";
 
     //Dock Preferences
     public static final String DOCK_SIZE = "pref_dockSize";
@@ -214,6 +204,7 @@ public final class Utilities {
     // Various
     public static final String DEFAULT_LAUNCHER = "pref_askDefaultLauncher";
     public static final String RESTART_LAUNCHER = "pref_askRestartLauncher";
+    public static final String NIGHT_MODE = "pref_allowNightMode";
 
     // Search Bar
     public static final String PERSISENT_SEARCH_BAR = "pref_allowPersistentSearchBar";
@@ -285,6 +276,14 @@ public final class Utilities {
     public static final String ICON_PACK_NAME = "pref_iconPackName";
     public static final String ICON_SIZE = "pref_iconSize";
     public static final String ICON_NOTIFICATION_COUNT = "pref_allowNotificationCount";
+
+    // Home and Recent key
+    public static final String HOME_KEY_PRO = "pref_proHomeKey";
+    public static final String HOME_KEY_PRO_CLASS = "pref_proHomeKeyClass";
+    public static final String HOME_KEY_PRO_PACKAGE = "pref_proHomeKeyPackage";
+    public static final String HOME_LONG_APP_KEY_PRO = "pref_proHomeLongKey";
+    public static final String HOME_LONG_APP_KEY_PRO_CLASS = "pref_proHomeLongKeyClass";
+    public static final String HOME_LONG_APP_KEY_PRO_PACKAGE = "pref_proHomeLongKeyPackage";
 
 
     private static boolean isFlashLightOn = false;
@@ -392,6 +391,16 @@ public final class Utilities {
                 getAllowNotificationCountDefaultValue());
     }
 
+    public static boolean getAllowNightModeDefaultValue() {
+        return false;
+    }
+
+    public static boolean isAllowNightModePrefEnabled(Context context) {
+        return getPrefs(context).getBoolean(NIGHT_MODE,
+                getAllowNightModeDefaultValue());
+    }
+
+
     public static boolean getAllowNotificationCountDefaultValue() {
         return true;
     }
@@ -405,6 +414,16 @@ public final class Utilities {
         return getPrefs(context).getInt(FOLDER_BACKGROUND,
                 -1);
     }
+
+    public static void setDrawerBackgroundValue(Context context, int color) {
+        getPrefs(context).edit().putInt(DRAWER_BACKGROUND, color).apply();
+    }
+
+    public static int getDrawerBackgroundPrefEnabled(Context context) {
+        return getPrefs(context).getInt(DRAWER_BACKGROUND,
+                -1);
+    }
+
 
     public static void setDockBackgroundValue(Context context, int color) {
         getPrefs(context).edit().putInt(DOCK_BACKGROUND, color).apply();
@@ -504,6 +523,50 @@ public final class Utilities {
 
     public static String getAppSwipeUpPrefEnabled(Context context) {
         return getPrefs(context).getString(CHOOSE_SWIPE_UP,
+                null);
+    }
+
+
+    public static void setAppHomeLongKeyUpValue(Context context, String appName, String packageName, String className) {
+        getPrefs(context).edit().putString(HOME_LONG_APP_KEY_PRO, appName).apply();
+        getPrefs(context).edit().putString(HOME_LONG_APP_KEY_PRO_PACKAGE, packageName).apply();
+        getPrefs(context).edit().putString(HOME_LONG_APP_KEY_PRO_CLASS, className).apply();
+    }
+
+    public static String getAppHomeLongKeyPrefEnabled(Context context) {
+        return getPrefs(context).getString(HOME_LONG_APP_KEY_PRO,
+                null);
+    }
+
+    public static String getAppHomeLongPackageNamePrefEnabled(Context context) {
+        return getPrefs(context).getString(HOME_LONG_APP_KEY_PRO_PACKAGE,
+                null);
+    }
+
+    public static String getAppHomeLongClassNamePrefEnabled(Context context) {
+        return getPrefs(context).getString(HOME_LONG_APP_KEY_PRO_CLASS,
+                null);
+    }
+
+
+    public static void setAppHomeKeyUpValue(Context context, String appName, String packageName, String className) {
+        getPrefs(context).edit().putString(HOME_KEY_PRO, appName).apply();
+        getPrefs(context).edit().putString(HOME_KEY_PRO_PACKAGE, packageName).apply();
+        getPrefs(context).edit().putString(HOME_KEY_PRO_CLASS, className).apply();
+    }
+
+    public static String getAppHomeKeyPrefEnabled(Context context) {
+        return getPrefs(context).getString(HOME_KEY_PRO,
+                null);
+    }
+
+    public static String getAppHomePackageNamePrefEnabled(Context context) {
+        return getPrefs(context).getString(HOME_KEY_PRO_PACKAGE,
+                null);
+    }
+
+    public static String getAppHomeClassNamePrefEnabled(Context context) {
+        return getPrefs(context).getString(HOME_KEY_PRO_CLASS,
                 null);
     }
 
@@ -1412,9 +1475,16 @@ public final class Utilities {
     }
 
     private static void changeDefaultLauncher(Context context){
-        context.startActivity(new Intent(Intent.ACTION_MAIN)
-                .addCategory(Intent.CATEGORY_LAUNCHER)
-                .addCategory(Intent.CATEGORY_HOME));
+        PackageManager packageManager = context.getPackageManager();
+        ComponentName componentName = new ComponentName(context, FakeActivity.class);
+        packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+
+        Intent selector = new Intent(Intent.ACTION_MAIN);
+        selector.addCategory(Intent.CATEGORY_HOME);
+        selector.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(selector);
+
+        packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, PackageManager.DONT_KILL_APP);
     }
 
     public static void answerToChangeDefaultLauncher(final Context context){
@@ -1764,8 +1834,12 @@ public final class Utilities {
     public static boolean checkFingerprintHardwareAndPermission(Context context, FingerprintManager fingerprintManager){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.USE_FINGERPRINT) == PackageManager.PERMISSION_GRANTED) {
-                if (fingerprintManager.isHardwareDetected()) {
-                    return true;
+                if(fingerprintManager != null) {
+                    if (fingerprintManager.isHardwareDetected()) {
+                        return true;
+                    }
+                }else{
+                    return false;
                 }
             }
         }
@@ -1882,8 +1956,11 @@ public final class Utilities {
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             packName = (String)pair.getKey();
-            packIcon = (IconPackManager.IconPack)pair.getValue();
-            iconPacks.add(packIcon.getIconForPackage(packName, null));
+            for (AppInfo app : AllAppsList.data) {
+                if (packName.equalsIgnoreCase(app.componentName.getPackageName())) {
+                    iconPacks.add(app.iconBitmap);
+                }
+            }
         }
         return iconPacks;
     }
@@ -1909,7 +1986,7 @@ public final class Utilities {
                     try{
                         iconPackMap.put(AllAppsList.data.get(i).componentName.getPackageName(),
                                 packIcon.getIconForPackage(AllAppsList.data.get(i).componentName.getPackageName(), null));
-                        icons.add(packIcon.getIconForPackage(AllAppsList.data.get(i).componentName.getPackageName(), null));
+                        icons.add(packIcon.getIconForPackage(AllAppsList.data.get(i).componentName.getPackageName(), AllAppsList.data.get(i).iconBitmap));
                         items.add(AllAppsList.data.get(i).title.toString());
                     }catch (Exception e){
                         iconPackMap.put(AllAppsList.data.get(i).componentName.getPackageName(), null);
@@ -1923,7 +2000,7 @@ public final class Utilities {
         return iconPackMap;
     }
 
-    private static void showIconInPack(Activity activity, String packName){
+    private static void showIconInPack(final Activity activity, String packName, final ShortcutInfo shortcutInfo){
 
         String packNamePackage = null;
         for (AppInfo app : AllAppsList.data) {
@@ -1932,39 +2009,57 @@ public final class Utilities {
             }
         }
 
-        HashMap<String, Bitmap> map = new HashMap<>(getIconPack(packNamePackage));
-
-        //items.addAll(map.keySet());
-        //icons.addAll(map.values());
+        items.clear();
+        icons.clear();
+        final HashMap<String, Bitmap> map = new HashMap<>(getIconPack(packNamePackage));
 
         ListAdapter adapter = new ArrayAdapterWithIcon(activity, items, icons);
 
         new AlertDialog.Builder(activity).setTitle(activity.getString(R.string.alert_choose_app))
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
-
-                        }
+                        saveBitmapPref(activity, shortcutInfo.getTargetComponent().getPackageName(), icons.get(item));
+                        //Launcher.getLauncherAppState().reloadWorkspace();
+                    }
                 }).show();
     }
 
-    private static void showIconPack(final Activity activity){
+    public static void saveBitmapPref(Activity activity, String packageName, Bitmap realImage){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        realImage.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+
+        String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+        SharedPreferences shre = PreferenceManager.getDefaultSharedPreferences(activity);
+        SharedPreferences.Editor edit=shre.edit();
+        edit.putString(packageName ,encodedImage);
+        edit.commit();
+    }
+
+    public static Bitmap loadBitmapPref(Activity activity, String packageName){
+        SharedPreferences shre = PreferenceManager.getDefaultSharedPreferences(activity);
+        String previouslyEncodedImage = shre.getString(packageName, "");
+
+        if( !previouslyEncodedImage.equalsIgnoreCase("") ){
+            byte[] b = Base64.decode(previouslyEncodedImage, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
+            return bitmap;
+        }
+        return null;
+    }
+
+    private static void showIconPack(final Activity activity, final ShortcutInfo shortcutInfo){
         final ArrayList<String> names = Utilities.getAvailableIconPackName();
 
-        Bitmap icon = BitmapFactory.decodeResource(activity.getApplicationContext().getResources(),
-                R.mipmap.ic_launcher_home);
-
         final ArrayList<Bitmap> icons = Utilities.getAvailableIconPackImage();
-
-        names.add(0, activity.getString(R.string.app_name));
-        icons.add(0, icon);
 
         ListAdapter adapter = new ArrayAdapterWithIcon(activity, names, icons);
 
         new AlertDialog.Builder(activity).setTitle(activity.getString(R.string.alert_choose_app))
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
-                        //showIconInPack(activity, names.get(item));
-                        Toast.makeText(activity.getApplicationContext(), activity.getString(R.string.work_in_progress) + "...",Toast.LENGTH_LONG).show();
+                        showIconInPack(activity, names.get(item), shortcutInfo);
                     }
                 }).show();
     }
@@ -1988,14 +2083,28 @@ public final class Utilities {
         Drawable icon = null;
         if(Utilities.getAppIconPackageNamePrefEnabled(activity.getApplicationContext()) != null) {
             if (Utilities.getAppIconPackageNamePrefEnabled(activity.getApplicationContext()).equals("NULL")) {
-                icon = new BitmapDrawable(activity.getResources(), shortcutInfo.getIcon(new IconCache(activity.getApplicationContext(),
-                        Launcher.getLauncher(activity).getDeviceProfile().inv)));
+                if(Utilities.loadBitmapPref(Launcher.getLauncherActivity(), shortcutInfo.getTargetComponent().getPackageName()) != null){
+                    icon = new BitmapDrawable(activity.getResources(), Utilities.loadBitmapPref(activity, shortcutInfo.getTargetComponent().getPackageName()));
+                }else{
+                    icon = new BitmapDrawable(activity.getResources(), shortcutInfo.getIcon(new IconCache(activity.getApplicationContext(),
+                            Launcher.getLauncher(activity).getDeviceProfile().inv)));
+                }
             }else {
-                icon = new BitmapDrawable(activity.getResources(), Launcher.getIcons().get(shortcutInfo.getTargetComponent().getPackageName()));
+
+                if(Utilities.loadBitmapPref(Launcher.getLauncherActivity(), shortcutInfo.getTargetComponent().getPackageName()) != null){
+                    icon = new BitmapDrawable(activity.getResources(), Utilities.loadBitmapPref(activity, shortcutInfo.getTargetComponent().getPackageName()));
+                }else{
+                    icon = new BitmapDrawable(activity.getResources(), Launcher.getIcons().get(shortcutInfo.getTargetComponent().getPackageName()));
+                }
             }
         }else {
-            icon = new BitmapDrawable(activity.getResources(), shortcutInfo.getIcon(new IconCache(activity.getApplicationContext(),
-                    Launcher.getLauncher(Launcher.getLauncherActivity()).getDeviceProfile().inv)));
+
+            if(Utilities.loadBitmapPref(Launcher.getLauncherActivity(), shortcutInfo.getTargetComponent().getPackageName()) != null){
+                icon = new BitmapDrawable(activity.getResources(), Utilities.loadBitmapPref(activity, shortcutInfo.getTargetComponent().getPackageName()));
+            }else{
+                icon = new BitmapDrawable(activity.getResources(), shortcutInfo.getIcon(new IconCache(activity.getApplicationContext(),
+                        Launcher.getLauncher(Launcher.getLauncherActivity()).getDeviceProfile().inv)));
+            }
         }
         img.setImageDrawable(icon);
         img.setPadding(0, 100, 0, 0);
@@ -2003,7 +2112,7 @@ public final class Utilities {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showIconPack(activity);
+                showIconPack(activity, shortcutInfo);
             }
         });
 
@@ -2095,6 +2204,70 @@ public final class Utilities {
         return bmOverlay;
     }
 
+    public static void showNotificationDialogPRO(Activity activity){
+        ArrayList<Bitmap> iconsBit = new ArrayList<>();
+
+        for(Drawable d : MyNotificationListenerService.icons){
+            iconsBit.add(Utils.convertDrawableToBitmap(d));
+        }
+
+        ListAdapter adapter = new ArrayAdapterWithIcon(activity, MyNotificationListenerService.names, iconsBit);
+
+        new AlertDialog.Builder(activity).setTitle(MyNotificationListenerService.TITLE)
+                .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+
+                    }
+                }).show();
+    }
+
+    public static void openStatusBar(Activity activity){
+        if(Utilities.doCheckPROVersion(activity)) {
+            try {
+                Object service = activity.getSystemService("statusbar");
+                Class<?> statusBarManager = Class
+                        .forName("android.app.StatusBarManager");
+                Method expand = statusBarManager.getMethod("expandNotificationsPanel");
+                expand.invoke(service);
+            } catch (Exception e) {
+
+            }
+        }else{
+            Toast.makeText(activity, activity.getString(R.string.not_allow), Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    private static boolean isPackageExisted(Context context, String targetPackage){
+        PackageManager pm=context.getPackageManager();
+        try {
+            PackageInfo info=pm.getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public static void upgradeToPROAlertDialog(Context context)
+    {
+        AlertDialog builder =
+                new AlertDialog.Builder(context, R.style.AlertDialogCustom).setTitle(context.getResources().getString(R.string.app_name))
+                        .setCancelable(false)
+                        .setIcon(R.mipmap.ic_launcher_home)
+                        .setMessage(R.string.license_dialog_message_pro)
+                        .setPositiveButton(context.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+        builder.show();
+        ((TextView)builder.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+        ((TextView)builder.findViewById(android.R.id.message)).setGravity(Gravity.CENTER_VERTICAL);
+        builder.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+    }
+
+
+
     public static boolean isFlashLightOn() {
         return isFlashLightOn;
     }
@@ -2106,6 +2279,5 @@ public final class Utilities {
     public static boolean isWifiOn() {
         return isWifiOn;
     }
-
 
 }

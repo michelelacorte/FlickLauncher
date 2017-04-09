@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.SparseIntArray;
@@ -29,6 +30,7 @@ import com.android.launcher3.BubbleTextView;
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
+import com.android.launcher3.Utilities;
 import com.android.launcher3.userevent.nano.LauncherLogProto;
 
 import java.util.List;
@@ -72,6 +74,16 @@ public class AllAppsRecyclerView extends BaseRecyclerView {
         mScrollbar.setDetachThumbOnFastScroll();
         mEmptySearchBackgroundTopOffset = res.getDimensionPixelSize(
                 R.dimen.all_apps_empty_search_bg_top_offset);
+
+        if(Utilities.isAllowNightModePrefEnabled(context)) {
+            setBackgroundColor(ContextCompat.getColor(getContext(), R.color.night_color));
+        }else{
+            if(Utilities.getDrawerBackgroundPrefEnabled(getContext()) != -1){
+                setBackgroundColor(Utilities.getDrawerBackgroundPrefEnabled(getContext()));
+            }else {
+                setBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.white));
+            }
+        }
     }
 
     /**

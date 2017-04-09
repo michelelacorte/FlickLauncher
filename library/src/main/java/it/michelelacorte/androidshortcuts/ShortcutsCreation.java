@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -51,14 +52,16 @@ public class ShortcutsCreation {
     }
 
     public void init() throws NullPointerException{
-        if(shortcutsBuilder.isNormal() && shortcutsBuilder.getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            initNormalShortcuts();
-        }else if(shortcutsBuilder.isLauncher3() && shortcutsBuilder.getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            initLauncher3Shortcuts();
-        }else if(shortcutsBuilder.getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            Log.e(TAG, "Shortcuts not working in LANDSCAPE mode!");
-        }else{
-            throw new NullPointerException(TAG + "No normal shortcuts/laucher3 shortcuts defined!");
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
+            if (shortcutsBuilder.isNormal() && shortcutsBuilder.getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                initNormalShortcuts();
+            } else if (shortcutsBuilder.isLauncher3() && shortcutsBuilder.getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                initLauncher3Shortcuts();
+            } else if (shortcutsBuilder.getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                Log.e(TAG, "Shortcuts not working in LANDSCAPE mode!");
+            } else {
+                throw new NullPointerException(TAG + "No normal shortcuts/laucher3 shortcuts defined!");
+            }
         }
     }
 

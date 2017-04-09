@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Selection;
 import android.text.Spannable;
@@ -194,6 +195,7 @@ public class AllAppsContainerView extends BaseContainerView implements DragSourc
         }
         mSearchQueryBuilder = new SpannableStringBuilder();
         Selection.setSelection(mSearchQueryBuilder, 0);
+
     }
 
     /**
@@ -329,6 +331,16 @@ public class AllAppsContainerView extends BaseContainerView implements DragSourc
         });
 
         mSearchContainer = findViewById(R.id.search_container);
+
+        if(Utilities.isAllowNightModePrefEnabled(getContext())) {
+            mSearchContainer.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.night_color));
+        }else{
+            if(Utilities.getDrawerBackgroundPrefEnabled(getContext()) != -1){
+                mSearchContainer.setBackgroundColor(Utilities.getDrawerBackgroundPrefEnabled(getContext()));
+            }else {
+                mSearchContainer.setBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.white));
+            }
+        }
         mSearchInput = (ExtendedEditText) findViewById(R.id.search_box_input);
 
         // Update the hint to contain the icon.

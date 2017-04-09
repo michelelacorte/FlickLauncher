@@ -51,7 +51,7 @@ public class ShortcutsManager {
                     bitmap = getBitmap(R.drawable.ic_visibility_off_black_24dp, context);
                     bitmap = Utils.setColorOnBitmap(bitmap, ContextCompat.getColor(context, R.color.chrome_blue));
                     shortcutses.add(new Shortcuts(bitmap, context.getResources().getString(R.string.new_incognito_tab), shortcutInfo.getTargetComponent().getClassName(), shortcutInfo.getTargetComponent().getPackageName(), "chromium.shortcut.action.OPEN_NEW_INCOGNITO_TAB"));
-                    bitmap = getBitmap(R.drawable.ic_add_page, context);
+                    bitmap = getBitmap(R.drawable.ic_add_black_24dp, context);
                     bitmap = Utils.setColorOnBitmap(bitmap, ContextCompat.getColor(context, R.color.chrome_blue));
                     shortcutses.add(new Shortcuts(bitmap, context.getResources().getString(R.string.new_tab), shortcutInfo.getTargetComponent().getClassName(), shortcutInfo.getTargetComponent().getPackageName(), ""));
                     bitmap = getBitmap(R.drawable.ic_mode_edit_black_24dp, context);

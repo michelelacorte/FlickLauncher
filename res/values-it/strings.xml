@@ -238,7 +238,20 @@
     <string name="fingerprint_succeded">Successo.</string>
     <string name="fingerprint_failed">Fallito.</string>
     <string name="fingerprint_error">Errore.</string>
-
+    <string name="allow_night">Abilita modalità notturna</string>
+    <string name="allow_night_summary">Abilita il tema modalità notturna</string>
+    <string name="drawer_background">Cambia il colore del drawer</string>
+    <string name="drawer_background_summary">Cambia il colore di sfondo del drawer</string>
+    <string name="show_notification">Apri notifiche</string>
+    <string name="not_allow">Non sei abilitato a fare queste operazioni!</string>
+    <string name="show_app_drawer">Apri drawer delle app</string>
+    <string name="pro_version">Prova ora la nuova versione PRO!</string>
+    <string name="license_dialog_message_pro">Questa feature è disponibile solo in versione PRO!\n\nNon perdere tempo e scarica subito <a href="http://www.apache.org/licenses/LICENSE-2.0">Flick Launcher PRO</a></string>
+    <string name="soft_key">Tasti a schermo</string>
+    <string name="home_key">Pulsante Home</string>
+    <string name="home_key_summary">Imposta la tua azione quando premi il pulsante home</string>
+    <string name="recent_key">Pulsante Home (pressione prolungata)</string>
+    <string name="recent_key_summary">Imposta la tua azione quando premi a lungo il pulsante home</string>
 
     <!-- Password -->
     <string name="password">Blocca app con password</string>
@@ -253,5 +266,5 @@
     <string name="password_reset">Reimposta la tua password</string>
 
     <!-- disclaimer -->
-    <string name="disclaimer_dialog_message">Benvenuto in &app_name;!\n\nQuesto è un progetto open source e disponibile su <a href="https://github.com/michelelacorte/FlickLauncher">GitHub</a>.\n\nFlick Launcher è inspirato al Google Pixel launcher, noi abbiamo aggiunto alcune modifiche.\nPer maggiori dettagli visitate la pagina <a href="https://github.com/michelelacorte/FlickLauncher">GitHub</a>.\n\nQuesto progetto è sotto <a href="https://github.com/michelelacorte/FlickLauncher/blob/master/LICENSE">Licenza Apache v2</a>, tutti i diritti sono riservati a Michele Lacorte.\n\nSe ti piace il progetto, aiuta lo sviluppatore scaricando l\'<a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">App Donazione</a>.\n\n\n\nVersione App v0.1.0 Build 50</string>
+    <string name="disclaimer_dialog_message">Benvenuto in &app_name;!\n\nQuesto è un progetto open source e disponibile su <a href="https://github.com/michelelacorte/FlickLauncher">GitHub</a>.\n\nFlick Launcher è inspirato al Google Pixel launcher, noi abbiamo aggiunto alcune modifiche.\nPer maggiori dettagli visitate la pagina <a href="https://github.com/michelelacorte/FlickLauncher">GitHub</a>.\n\nQuesto progetto è sotto <a href="https://github.com/michelelacorte/FlickLauncher/blob/master/LICENSE">Licenza Apache v2</a>, tutti i diritti sono riservati a Michele Lacorte.\n\nSe ti piace il progetto, aiuta lo sviluppatore scaricando l\'<a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">App Donazione</a>.\n\n\n\nVersione App v0.1.0 Build 100</string>
 </resources>

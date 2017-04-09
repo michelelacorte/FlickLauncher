@@ -282,7 +282,7 @@
 
     <string name="all_apps_size_summary">Set your custom number of icon in all apps</string>
 
-    <string name="disclaimer_dialog_message">Welcome to &app_name;!\n\nThis is an Open Source Launcher and available on <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>.\n\nFlick Launcher project is inspired by Google Pixel style, we add a few tweaks.\nFor more detail visit <a href="https://github.com/michelelacorte/FlickLauncher">GitHub Page</a>.\n\nThis project is under <a href="https://github.com/michelelacorte/FlickLauncher/blob/master/LICENSE">Apache v2 License</a>, and all right reserved to Michele Lacorte.\n\nIf you like this app please help developer download <a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">Donation App</a>.\n\n\n\nApp Version v0.1.0 Build 50</string>
+    <string name="disclaimer_dialog_message">Welcome to &app_name;!\n\nThis is an Open Source Launcher and available on <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>.\n\nFlick Launcher project is inspired by Google Pixel style, we add a few tweaks.\nFor more detail visit <a href="https://github.com/michelelacorte/FlickLauncher">GitHub Page</a>.\n\nThis project is under <a href="https://github.com/michelelacorte/FlickLauncher/blob/master/LICENSE">Apache v2 License</a>, and all right reserved to Michele Lacorte.\n\nIf you like this app please help developer download <a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">Donation App</a>.\n\n\n\nApp Version v0.1.0 Build 100</string>
 
 
 
@@ -422,6 +422,20 @@
     <string name="allow_notification_count">Allow notification count</string>
     <string name="allow_notification_count_summary">Allow notification count badge in icon</string>
     <string name="notification">&app_name; notification</string>
+    <string name="allow_night">Enable night mode</string>
+    <string name="allow_night_summary">Enable night mode theme</string>
+    <string name="drawer_background">Drawer color background</string>
+    <string name="drawer_background_summary">Change drawer color background</string>
+    <string name="show_notification">Show notification</string>
+    <string name="not_allow">You are not allowed to do this operation!</string>
+    <string name="show_app_drawer">Open app drawer</string>
+    <string name="pro_version">Try now PRO Version!</string>
+    <string name="license_dialog_message_pro">This feature is available only for PRO user!\n\nDon\'t waste time and download <a href="http://www.apache.org/licenses/LICENSE-2.0">Flick Launcher PRO</a></string>
+    <string name="soft_key">Soft Key</string>
+    <string name="home_key">Home button</string>
+    <string name="home_key_summary">Set your custom action on home button press</string>
+    <string name="recent_key">Home button (long press)</string>
+    <string name="recent_key_summary">Set your action on home button long press</string>
 
     <string name="license_dialog_message"><a href="https://github.com/QuadFlask/colorpicker">colorpicker</a>\n\n
     Copyright 2014-2017 QuadFlask\n\n

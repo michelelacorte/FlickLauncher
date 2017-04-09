@@ -55,7 +55,9 @@
 
     <color name="colorPrimary">#00b8d4</color>
     <color name="colorPrimaryDark">#00b8d4</color>
-    <color name="colorAccent">#000</color>
+    <color name="colorAccent">#00b8d4</color>
+
+    <color name="night_color">#303030</color>
 
     <!-- Shortcuts Color -->
     <color name="chrome_blue">#4587f3</color>
@@ -68,6 +70,7 @@
     <color name="gmail_red">#db4441</color>
     <color name="drive_blu">#4889f4</color>
     <color name="music_orange">#ff5722</color>
+    <color name="pro_color">#e53935</color>
 
     <color name="colorPrimaryFinger">#263237</color>
     <color name="colorPrimaryDarkFinger">#1e282d</color>

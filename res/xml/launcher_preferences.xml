@@ -16,6 +16,36 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <com.android.launcher3.util.CustomPreferenceCategoryPRO
+        android:title="PRO">
+
+        <Preference
+            android:key="pref_pro"
+            android:persistent="true"
+            android:title="@string/pro_version" />
+
+
+    </com.android.launcher3.util.CustomPreferenceCategoryPRO>
+
+    <com.android.launcher3.util.CustomPreferenceCategoryPRO
+        android:title="@string/soft_key">
+
+        <Preference
+            android:key="pref_proHomeKey"
+            android:persistent="true"
+            android:title="@string/home_key"
+            android:summary="@string/home_key_summary"/>
+
+        <Preference
+            android:key="pref_proHomeLongKey"
+            android:persistent="true"
+            android:title="@string/recent_key"
+            android:summary="@string/recent_key_summary"/>
+
+
+    </com.android.launcher3.util.CustomPreferenceCategoryPRO>
+
+
     <com.android.launcher3.util.CustomPreferenceCategory android:title="@string/preferences_layout_option">
 
         <SwitchPreference
@@ -31,12 +61,19 @@
             android:summary="@string/allow_icon_summary"
             android:title="@string/allow_icon_title" />
 
-    <!--    <SwitchPreference
+        <SwitchPreference
             android:defaultValue="@bool/allow_persistent_search_bar"
             android:key="pref_allowPersistentSearchBar"
             android:persistent="true"
             android:summary="@string/allow_persistent_search_bar_summary"
-            android:title="@string/allow_persistent_search_bar" /> -->
+            android:title="@string/allow_persistent_search_bar" />
+
+        <SwitchPreference
+            android:defaultValue="@bool/allow_night_mode"
+            android:key="pref_allowNightMode"
+            android:persistent="true"
+            android:summary="@string/allow_night_summary"
+            android:title="@string/allow_night" />
 
         <Preference
             android:key="pref_gridSize"
@@ -49,6 +86,13 @@
             android:persistent="true"
             android:summary="@string/all_apps_size_summary"
             android:title="@string/all_apps_size" />
+
+
+        <Preference
+            android:key="pref_drawerBackground"
+            android:title="@string/drawer_background"
+            android:summary="@string/drawer_background_summary"
+            android:persistent="true" />
 
     </com.android.launcher3.util.CustomPreferenceCategory>
 

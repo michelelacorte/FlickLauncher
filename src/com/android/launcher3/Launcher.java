@@ -90,9 +90,9 @@ import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Advanceable;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -131,8 +131,10 @@ import com.android.launcher3.util.ActivityResultInfo;
 import com.android.launcher3.util.ComponentKey;
 import com.android.launcher3.util.DarClass;
 import com.android.launcher3.util.FirstRun;
+import com.android.launcher3.util.HomeWatcher;
 import com.android.launcher3.util.ItemInfoMatcher;
 import com.android.launcher3.util.MultiHashMap;
+import com.android.launcher3.util.OnHomePressedListener;
 import com.android.launcher3.util.PackageManagerHelper;
 import com.android.launcher3.util.PendingRequestArgs;
 import com.android.launcher3.util.ShortcutsManager;
@@ -158,6 +160,7 @@ import it.michelelacorte.androidshortcuts.ShortcutsBuilder;
 import it.michelelacorte.androidshortcuts.ShortcutsCreation;
 import it.michelelacorte.androidshortcuts.util.GridSize;
 import it.michelelacorte.androidshortcuts.util.StyleOption;
+import it.michelelacorte.androidshortcuts.util.Utils;
 
 /**
  * Default launcher application.
@@ -566,7 +569,12 @@ public class Launcher extends Activity
             }
         }
 
+        if(Utilities.doCheckPROVersion(getApplicationContext())) {
+
+                public void onHomeLongPressed() {
+        }
     }
+
 
     @Override
     public void onExtractedColorsChanged() {
@@ -1034,6 +1042,7 @@ public class Launcher extends Activity
         if (Utilities.isNycMR1OrAbove()) {
             mAppWidgetHost.stopListening();
         }
+
     }
 
     @Override
@@ -1256,7 +1265,7 @@ public class Launcher extends Activity
     protected boolean hasSettings() {
         if (mLauncherCallbacks != null) {
             return mLauncherCallbacks.hasSettings();
-        } else {
+        }else {
             // On devices with a locked orientation, we will at least have the allow rotation
             // setting.
             return !getResources().getBoolean(R.bool.allow_rotation);
@@ -1475,7 +1484,18 @@ public class Launcher extends Activity
             TestingUtils.addWeightWatcher(this);
         }
 
-        RelativeLayout gBar = (RelativeLayout) findViewById(R.id.g_bar);
+        FrameLayout gBar = (FrameLayout) findViewById(R.id.g_bar);
+
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            FrameLayout.LayoutParams gBarLayout = (FrameLayout.LayoutParams) gBar.getLayoutParams();
+            gBarLayout.width = Utils.getScreenXDimension(this) - Utils.getScreenXDimension(this) / 6;
+            gBar.setLayoutParams(gBarLayout);
+        }else{
+            FrameLayout.LayoutParams gBarLayout = (FrameLayout.LayoutParams) gBar.getLayoutParams();
+            gBarLayout.width = Utils.getScreenYDimension(this) - Utils.getScreenYDimension(this) / 12;
+            gBar.setLayoutParams(gBarLayout);
+        }
+
         gBar.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1491,6 +1511,10 @@ public class Launcher extends Activity
             }
         });
 
+        FrameLayout.LayoutParams gSearchLayout = (FrameLayout.LayoutParams) gSearch.getLayoutParams();
+        gSearchLayout.leftMargin = 30;
+        gSearch.setLayoutParams(gSearchLayout);
+
         ImageView gSearchMic = (ImageView) findViewById(R.id.g_search_mic);
         if(IS_ALLOW_MIC) {
             gSearchMic.setVisibility(View.VISIBLE);
@@ -1503,6 +1527,40 @@ public class Launcher extends Activity
             });
         }else{
             gSearchMic.setVisibility(View.GONE);
+        }
+
+        FrameLayout.LayoutParams gSearchMicLayout = (FrameLayout.LayoutParams) gSearchMic.getLayoutParams();
+        gSearchMicLayout.rightMargin = 30;
+        gSearchMic.setLayoutParams(gSearchMicLayout);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            if (Utilities.isAllowNightModePrefEnabled(getApplicationContext())) {
+                gBar.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.shape_night));
+                gSearch.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.g_icon_night));
+                gSearch.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.night_color));
+                gSearchMic.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.mic_night));
+                gSearchMic.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.night_color));
+            } else {
+                gBar.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.shape));
+                gSearch.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.g_icon));
+                gSearch.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
+                gSearchMic.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.mic));
+                gSearchMic.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), android.R.color.white));
+            }
+        }
+
+        if(!Utilities.isAllowPersisentSearchBarPrefEnabled(getApplicationContext())){
+            gBar.setVisibility(View.GONE);
+            gSearch.setVisibility(View.GONE);
+            gSearchMic.setVisibility(View.GONE);
+        }else{
+            gBar.setVisibility(View.VISIBLE);
+            gSearch.setVisibility(View.VISIBLE);
+            if(IS_ALLOW_MIC) {
+                gSearchMic.setVisibility(View.VISIBLE);
+            }else {
+                gSearchMic.setVisibility(View.GONE);
+            }
         }
 
     }
@@ -1547,7 +1605,7 @@ public class Launcher extends Activity
 
         // Bind settings actions
         View settingsButton = findViewById(R.id.settings_button);
-        boolean hasSettings = hasSettings();
+        /*boolean hasSettings = hasSettings();
         if (hasSettings) {
             settingsButton.setOnClickListener(new OnClickListener() {
                 @Override
@@ -1562,6 +1620,17 @@ public class Launcher extends Activity
         } else {
             settingsButton.setVisibility(View.GONE);
         }
+        */
+        settingsButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!mWorkspace.isSwitchingState()) {
+                    onClickSettingsButton(view);
+                }
+            }
+        });
+        settingsButton.setOnLongClickListener(performClickOnLongClick);
+        settingsButton.setOnTouchListener(getHapticFeedbackTouchListener());
 
         View addNewPageButton = findViewById(R.id.add_new_page_button);
         addNewPageButton.setOnClickListener(new OnClickListener() {
@@ -2093,6 +2162,9 @@ public class Launcher extends Activity
         mHandler.removeMessages(0);
         mWorkspace.removeCallbacks(mBuildLayersRunnable);
         mWorkspace.removeFolderListeners();
+        if(mHomeWatcher != null) {
+            mHomeWatcher.stopWatch();
+        }
 
         // Stop callbacks from LauncherModel
         // It's possible to receive onDestroy after a new Launcher activity has
@@ -2614,13 +2686,6 @@ public class Launcher extends Activity
     public boolean onTouch(View v, MotionEvent event) {
         return true;
     }
-
-
-    /*@Override
-    public boolean onTouchEvent(MotionEvent e) {
-        return gestureDetector.onTouchEvent(e);
-    }*/
-
 
 
     /**
@@ -3354,13 +3419,18 @@ public class Launcher extends Activity
 
                     mWorkspace.startDrag(longClickCellInfo, dragOptions);
 
-
                     //Get selected app info
                     final Object tag = v.getTag();
                     final ShortcutInfo shortcut;
                     try{
                         shortcut = (ShortcutInfo) tag;
-                        Drawable icon = new BitmapDrawable(getResources(), shortcut.getIcon(new IconCache(Launcher.this, getDeviceProfile().inv)));
+                        Drawable icon;
+                        if(Utilities.loadBitmapPref(Launcher.getLauncherActivity(), shortcut.getTargetComponent().getPackageName()) != null){
+                            icon = new BitmapDrawable(activity.getResources(), Utilities.loadBitmapPref(activity, shortcut.getTargetComponent().getPackageName()));
+                        }else{
+                            icon = new BitmapDrawable(activity.getResources(), shortcut.getIcon(new IconCache(Launcher.this, getDeviceProfile().inv)));
+                        }
+
                         shortcutses = ShortcutsManager.getShortcutsBasedOnTag(Launcher.this.getApplicationContext(), Launcher.this, shortcut, icon);
                         ShortcutsBuilder builder = new ShortcutsBuilder.Builder(this, masterLayout)
                                 .launcher3Shortcuts(gridSize, positionInGrid, (int)v.getY(), v.getBottom(), Hotseat.isHotseatTouched, Utilities.getDockSizeDefaultValue(getApplicationContext()))
@@ -4796,6 +4866,7 @@ public class Launcher extends Activity
     public static HashMap<String, Bitmap> getIcons() {
         return icons;
     }
+
 
     public static Launcher getLauncher(Context context) {
         if (context instanceof Launcher) {

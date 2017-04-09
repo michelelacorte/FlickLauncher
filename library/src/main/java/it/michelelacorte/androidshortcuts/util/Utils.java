@@ -371,13 +371,23 @@ public class Utils {
     }
 
     /**
-     * Get screen dimension
+     * Get screen X dimension
      */
     public static int getScreenXDimension(Activity activity){
         Display mdisp = activity.getWindowManager().getDefaultDisplay();
         Point mdispSize = new Point();
         mdisp.getSize(mdispSize);
         return mdispSize.x;
+    }
+
+    /**
+     * Get screen Y dimension
+     */
+    public static int getScreenYDimension(Activity activity){
+        Display mdisp = activity.getWindowManager().getDefaultDisplay();
+        Point mdispSize = new Point();
+        mdisp.getSize(mdispSize);
+        return mdispSize.y;
     }
 
     public static int getScreenDpi(Activity activity){

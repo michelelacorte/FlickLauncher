@@ -164,6 +164,7 @@ public class BubbleTextView extends AppCompatTextView
 
         mOutlineHelper = HolographicOutlineHelper.obtain(getContext());
         setAccessibilityDelegate(mLauncher.getAccessibilityDelegate());
+
     }
 
     public void applyFromShortcutInfo(ShortcutInfo info, IconCache iconCache) {
@@ -217,7 +218,12 @@ public class BubbleTextView extends AppCompatTextView
                 }
             }else {
                 try {
-                    Bitmap appIcon = Launcher.getIcons().get(info.getTargetComponent().getPackageName());
+                    Bitmap appIcon;
+                    if(Utilities.loadBitmapPref(Launcher.getLauncherActivity(), info.getTargetComponent().getPackageName()) != null){
+                        appIcon = Utilities.loadBitmapPref(Launcher.getLauncherActivity(), info.getTargetComponent().getPackageName());
+                    }else{
+                        appIcon = Launcher.getIcons().get(info.getTargetComponent().getPackageName());
+                    }
                     if (appIcon != null) {
                         if(MyNotificationListenerService.getNotificationCount(getContext(), info.getTargetComponent().getPackageName()) != -1){
                             setIcon(mLauncher.createIconDrawable(Utilities.getNotificationBadgeIcon(getContext(), appIcon,
@@ -238,7 +244,12 @@ public class BubbleTextView extends AppCompatTextView
                 }
             }
         }else{
-            setIcon(iconDrawable);
+            if(MyNotificationListenerService.getNotificationCount(getContext(), info.getTargetComponent().getPackageName()) != -1){
+                setIcon(mLauncher.createIconDrawable(Utilities.getNotificationBadgeIcon(getContext(), icon,
+                        MyNotificationListenerService.getNotificationCount(getContext(), info.getTargetComponent().getPackageName()))));
+            }else {
+                setIcon(iconDrawable);
+            }
         }
 
         try {
