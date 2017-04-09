@@ -571,7 +571,6 @@ public class Launcher extends Activity
 
         if(Utilities.doCheckPROVersion(getApplicationContext())) {
 
-                public void onHomeLongPressed() {
         }
     }
 
