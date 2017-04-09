@@ -11,6 +11,12 @@ I want to create a launcher for google pixels style stock, with a few tweaks.
 <img alt="Get it on Google Play" src="https://s32.postimg.org/50h5qj4lx/google_play_badge.png" />
 </a>
 
+#### And try the PRO Version!
+
+<a href="https://play.google.com/store/apps/details?id=com.universallauncher.flicklauncherpro">
+<img alt="Get it on Google Play" src="https://s32.postimg.org/50h5qj4lx/google_play_badge.png" />
+</a>
+
 #### If you want to help me please download Donation App!!
 
 <a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">
@@ -38,7 +44,7 @@ Android API 14+
 
 ## CHANGELOG
 
-**v0.1.0 Alpha 50**
+**v0.1.0 Alpha 103**
 * App Shortcuts on Launcher working on device screen:
     * 1440x2560 (Portrait).
     * 1080x1920 (Portrait).
@@ -60,6 +66,9 @@ Android API 14+
 * Added resize icon.
 * Added Label change.
 * Added Notification count (with badge) system.
+* Fixed search crash.
+* Added modification of icon.
+* Added feature to PRO version.
 
 
 **v0**
