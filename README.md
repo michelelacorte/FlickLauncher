@@ -38,7 +38,7 @@ Android API 14+
 
 ## CHANGELOG
 
-**v0.1.0 Alpha 19**
+**v0.1.0 Alpha 50**
 * App Shortcuts on Launcher working on device screen:
     * 1440x2560 (Portrait).
     * 1080x1920 (Portrait).
@@ -56,6 +56,11 @@ Android API 14+
 * Added Gesture (swipe up, swipe down, double tap, also with two fingers).
 * Added Password lock app.
 * Added Fingerprint lock app.
+* Added Icon pack support.
+* Added resize icon.
+* Added Label change.
+* Added Notification count (with badge) system.
+
 
 **v0**
 * Initial commit.

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<?xml version="1.0" encoding="utf-8"?>
+<!--
 /*
 * Copyright (C) 2008 The Android Open Source Project
 *
@@ -15,93 +15,441 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- -->
+-->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="649227358658669779">Universal Launcher</string>
-    <string name="folder_name" msgid="7371454440695724752"></string>
-    <string name="work_folder_name" msgid="3753320833950115786">"Work"</string>
-    <string name="activity_not_found" msgid="8071924732094499514">"未安装该应用。"</string>
-    <string name="activity_not_available" msgid="7456344436509528827">"应用不可用"</string>
-    <string name="safemode_shortcut_error" msgid="9160126848219158407">"安全模式下不允许使用下载的此应用"</string>
-    <string name="safemode_widget_error" msgid="4863470563535682004">"安全模式下不允许使用小部件"</string>
-    <string name="shortcut_not_available" msgid="2536503539825726397">"无法使用快捷方式"</string>
-    <string name="long_press_widget_to_add" msgid="7699152356777458215">"触摸并按住小部件即可选择。"</string>
-    <string name="long_accessible_way_to_add" msgid="4289502106628154155">"点按两次并按住小部件即可选择小部件，您也可以使用自定义操作。"</string>
-    <string name="widget_dims_format" msgid="2370757736025621599">"%1$d × %2$d"</string>
-    <string name="widget_accessible_dims_format" msgid="3640149169885301790">"宽 %1$d，高 %2$d"</string>
-    <string name="all_apps_search_bar_hint" msgid="7084713969757597256">"搜索应用"</string>
-    <string name="all_apps_loading_message" msgid="7557140873644765180">"正在加载应用…"</string>
-    <string name="all_apps_no_search_results" msgid="6332185285860416787">"未找到与“<xliff:g id="QUERY">%1$s</xliff:g>”相符的应用"</string>
-    <string name="all_apps_search_market_message" msgid="1366263386197059176">"搜索更多应用"</string>
-    <string name="out_of_space" msgid="4691004494942118364">"此主屏幕上已没有空间。"</string>
-    <string name="hotseat_out_of_space" msgid="7448809638125333693">"收藏栏已满"</string>
-    <string name="all_apps_button_label" msgid="8130441508702294465">"应用列表"</string>
-    <string name="all_apps_home_button_label" msgid="252062713717058851">"主屏幕"</string>
-    <string name="remove_drop_target_label" msgid="7812859488053230776">"移除"</string>
-    <string name="uninstall_drop_target_label" msgid="4722034217958379417">"卸载"</string>
-    <string name="app_info_drop_target_label" msgid="692894985365717661">"应用信息"</string>
-    <string name="permlab_install_shortcut" msgid="5632423390354674437">"安装快捷方式"</string>
-    <string name="permdesc_install_shortcut" msgid="923466509822011139">"允许应用自行添加快捷方式。"</string>
-    <string name="permlab_read_settings" msgid="1941457408239617576">"读取主屏幕设置和快捷方式"</string>
-    <string name="permdesc_read_settings" msgid="5833423719057558387">"允许应用读取主屏幕中的设置和快捷方式。"</string>
-    <string name="permlab_write_settings" msgid="3574213698004620587">"写入主屏幕设置和快捷方式"</string>
-    <string name="permdesc_write_settings" msgid="5440712911516509985">"允许应用更改主屏幕中的设置和快捷方式。"</string>
-    <string name="msg_no_phone_permission" msgid="9208659281529857371">"不允许使用“<xliff:g id="APP_NAME">%1$s</xliff:g>”拨打电话"</string>
-    <string name="gadget_error_text" msgid="6081085226050792095">"加载小部件时出现问题"</string>
-    <string name="gadget_setup_text" msgid="8274003207686040488">"设置"</string>
-    <string name="uninstall_system_app_text" msgid="4172046090762920660">"这是系统应用，无法卸载。"</string>
-    <string name="folder_hint_text" msgid="6617836969016293992">"未命名文件夹"</string>
-    <string name="disabled_app_label" msgid="6673129024321402780">"已停用<xliff:g id="APP_NAME">%1$s</xliff:g>"</string>
-    <string name="default_scroll_format" msgid="7475544710230993317">"第%1$d页，共%2$d页"</string>
-    <string name="workspace_scroll_format" msgid="8458889198184077399">"主屏幕：第%1$d屏，共%2$d屏"</string>
-    <string name="workspace_new_page" msgid="257366611030256142">"主屏幕新页面"</string>
-    <string name="folder_opened" msgid="94695026776264709">"文件夹已打开，大小为<xliff:g id="WIDTH">%1$d</xliff:g>×<xliff:g id="HEIGHT">%2$d</xliff:g>"</string>
-    <string name="folder_tap_to_close" msgid="4625795376335528256">"点按可关闭文件夹"</string>
-    <string name="folder_tap_to_rename" msgid="4017685068016979677">"点按可保存新名称"</string>
-    <string name="folder_closed" msgid="4100806530910930934">"文件夹已关闭"</string>
-    <string name="folder_renamed" msgid="1794088362165669656">"已将文件夹重命名为“<xliff:g id="NAME">%1$s</xliff:g>”"</string>
-    <string name="folder_name_format" msgid="6629239338071103179">"文件夹：<xliff:g id="NAME">%1$s</xliff:g>"</string>
-    <string name="widget_button_text" msgid="2880537293434387943">"小部件"</string>
-    <string name="wallpaper_button_text" msgid="8404103075899945851">"壁纸"</string>
-    <string name="settings_button_text" msgid="8119458837558863227">"设置"</string>
-    <string name="msg_disabled_by_admin" msgid="6898038085516271325">"已被您的管理员停用"</string>
-    <string name="accessibility_action_overview" msgid="6257665857640347026">"概览"</string>
-    <string name="allow_rotation_title" msgid="7728578836261442095">"允许旋转主屏幕"</string>
-    <string name="allow_rotation_desc" msgid="8662546029078692509">"手机旋转时"</string>
-    <string name="allow_rotation_blocked_desc" msgid="3212602545192996253">"当前的显示设置不允许旋转设备"</string>
-    <string name="package_state_unknown" msgid="7592128424511031410">"未知"</string>
-    <string name="abandoned_clean_this" msgid="7610119707847920412">"移除"</string>
-    <string name="abandoned_search" msgid="891119232568284442">"搜索"</string>
-    <string name="abandoned_promises_title" msgid="7096178467971716750">"未安装此应用"</string>
-    <string name="abandoned_promise_explanation" msgid="3990027586878167529">"未安装此图标对应的应用。您可以移除此图标，也可以尝试搜索相应的应用并手动安装。"</string>
-    <string name="app_downloading_title" msgid="8336702962104482644">"正在下载<xliff:g id="NAME">%1$s</xliff:g>，已完成 <xliff:g id="PROGRESS">%2$s</xliff:g>"</string>
-    <string name="app_waiting_download_title" msgid="7053938513995617849">"<xliff:g id="NAME">%1$s</xliff:g>正在等待安装"</string>
-    <string name="action_add_to_workspace" msgid="8902165848117513641">"添加到主屏幕"</string>
-    <string name="action_move_here" msgid="2170188780612570250">"将项目移至此处"</string>
-    <string name="item_added_to_workspace" msgid="4211073925752213539">"已将项目添加到主屏幕"</string>
-    <string name="item_removed" msgid="851119963877842327">"项目已移除"</string>
-    <string name="action_move" msgid="4339390619886385032">"移动项目"</string>
-    <string name="move_to_empty_cell" msgid="2833711483015685619">"移至第 <xliff:g id="NUMBER_0">%1$s</xliff:g> 行第 <xliff:g id="NUMBER_1">%2$s</xliff:g> 列"</string>
-    <string name="move_to_position" msgid="6750008980455459790">"移至第 <xliff:g id="NUMBER">%1$s</xliff:g> 个位置"</string>
-    <string name="move_to_hotseat_position" msgid="6295412897075147808">"移至收藏夹第 <xliff:g id="NUMBER">%1$s</xliff:g> 个位置"</string>
-    <string name="item_moved" msgid="4606538322571412879">"已移动项目"</string>
-    <string name="add_to_folder" msgid="9040534766770853243">"添加到“<xliff:g id="NAME">%1$s</xliff:g>”文件夹"</string>
-    <string name="add_to_folder_with_app" msgid="4534929978967147231">"添加到“<xliff:g id="NAME">%1$s</xliff:g>”所在文件夹"</string>
-    <string name="added_to_folder" msgid="4793259502305558003">"项目已添加到文件夹"</string>
-    <string name="create_folder_with" msgid="4050141361160214248">"创建“<xliff:g id="NAME">%1$s</xliff:g>”文件夹"</string>
-    <string name="folder_created" msgid="6409794597405184510">"文件夹已创建"</string>
-    <string name="action_move_to_workspace" msgid="1603837886334246317">"移至主屏幕"</string>
-    <string name="action_move_screen_left" msgid="8854216831569401665">"将屏幕向左移动"</string>
-    <string name="action_move_screen_right" msgid="329334910274311123">"将屏幕向右移动"</string>
-    <string name="screen_moved" msgid="266230079505650577">"屏幕已移动"</string>
-    <string name="action_resize" msgid="1802976324781771067">"调整大小"</string>
-    <string name="action_increase_width" msgid="8773715375078513326">"增加宽度"</string>
-    <string name="action_increase_height" msgid="459390020612501122">"增加高度"</string>
-    <string name="action_decrease_width" msgid="1374549771083094654">"减小宽度"</string>
-    <string name="action_decrease_height" msgid="282377193880900022">"减小高度"</string>
-    <string name="widget_resized" msgid="9130327887929620">"小部件尺寸已调整为：宽度 <xliff:g id="NUMBER_0">%1$s</xliff:g>，高度 <xliff:g id="NUMBER_1">%2$s</xliff:g>"</string>
-    <string name="action_deep_shortcut" msgid="2864038805849372848">"快捷方式"</string>
-    <string name="shortcuts_menu_description" msgid="406159963824238648">"<xliff:g id="APP_NAME">%2$s</xliff:g>有 <xliff:g id="NUMBER_OF_SHORTCUTS">%1$d</xliff:g> 个快捷方式"</string>
+<!DOCTYPE resources [
+<!ENTITY app_name "Flick Launcher">
+]>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Shortcuts -->
+    <string name="add_shortcuts">添加快捷方式</string>
+    <string name="information">信息</string>
+    <string name="delete">卸载</string>
+    <string name="new_incognito_tab">打开新的隐身标签页</string>
+    <string name="new_tab">打开新的标签页</string>
+    <string name="maps_work">单位</string>
+    <string name="maps_home">家</string>
+    <string name="search">搜索</string>
+    <string name="evernote_note">速记</string>
+    <string name="evernote_audio">录音</string>
+    <string name="evernote_camera">拍照</string>
+    <string name="gmail_compose">写邮件</string>
+    <string name="allo_conversation">发起新的对话</string>
+    <string name="drive_upload">上传</string>
+    <string name="drive_scan">扫描</string>
+    <string name="youtube_sub">订阅</string>
+    <string name="youtube_trending">时下流行</string>
+    <string name="calendar_event">新建活动</string>
+    <string name="calendar_reminder">新建提醒</string>
+    <string name="photo_free_space">释放空间</string>
+    <string name="photo_lucky">手气不错</string>
+    <string name="docs_new">创建新文档</string>
+    <string name="docs_template">选择模板</string>
+    <string name="greenify_hibernate">立即休眠</string>
+    <string name="greenify_sleep">关闭屏幕并休眠</string>
+    <string name="movies_my">我的电影</string>
+    <string name="movies_tv">我的电视剧</string>
+    <string name="movies_wishlist">我的心愿单</string>
+    <string name="music_library">我的乐库</string>
+    <string name="music_recent">近期活动</string>
+    <string name="hang_chat">聊天</string>
+    <string name="hang_video">视频通话</string>
+    <string name="hang_call">语音通话</string>
+    <string name="folder_title">文件夹名称</string>
+    <string name="folder_enter_title">输入文件夹名称</string>
+    <string name="folder_rename">重命名文件夹</string>
+    <string name="folder_open">打开文件夹</string>
+
+    <!-- Alert dialog shortcuts -->
+    <string name="alert_title">标题</string>
+    <string name="alert_max">最大快捷方式数量:</string>
+    <string name="alert_choose_app">选择应用</string>
+    <!-- General -->
+    <skip />
+
+    <string name="nothing">无</string>
+    <!-- Alert dialog launcher default -->
+    <string name="ask_default">将 &app_name; 设为主屏幕应用</string>
+    <string name="ask_restart">重启启动器？</string>
+
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+
+    <!-- Default folder name -->
+    <string name="folder_name"></string>
+    <!-- Work folder name -->
+    <string name="work_folder_name">工作</string>
+    <!-- Displayed when user selects a shortcut for an app that was uninstalled [CHAR_LIMIT=none]-->
+    <string name="activity_not_found">应用未安装。</string>
+    <!-- Displayed when user selects a shortcut for an app that is current not available [CHAR_LIMIT=none]-->
+    <string name="activity_not_available">应用不可用。</string>
+    <!-- SafeMode shortcut error string -->
+    <string name="safemode_shortcut_error">已下载的应用在安全模式中被禁用</string>
+    <!-- SafeMode widget error string -->
+    <string name="safemode_widget_error">小部件在安全模式中被禁用</string>
+    <!-- Message shown when a shortcut is not available. It could have been temporarily disabled and may start working again after some time. -->
+    <string name="shortcut_not_available">快捷方式不可用</string>
+
+    <!-- Widgets -->
+    <!-- Message to tell the user to press and hold on a widget to add it [CHAR_LIMIT=50] -->
+    <string name="long_press_widget_to_add">触摸并按住小部件即可选择。</string>
+    <!-- Accessibility spoken hint message in widget picker, which allows user to add a widget. Custom action is the label for additional accessibility actions available in this mode [CHAR_LIMIT=100] -->
+    <string name="long_accessible_way_to_add">双击并按住以选取小部件或使用自定义动作。</string>
+    <!-- The format string for the dimensions of a widget in the drawer -->
+    <!-- There is a special version of this format string for Farsi -->
+    <string name="widget_dims_format">%1$d \u00d7 %2$d</string>
+    <!-- Accessibility spoken message format for the dimensions of a widget in the drawer -->
+    <string name="widget_accessible_dims_format">%1$d wide by %2$d high</string>
+
+    <!-- All Apps -->
+    <!-- Search bar text in the apps view. [CHAR_LIMIT=50] -->
+    <string name="all_apps_search_bar_hint">搜索应用</string>
+    <!-- Loading apps text. [CHAR_LIMIT=50] -->
+    <string name="all_apps_loading_message">加载中&#8230;</string>
+    <!-- No-search-results text. [CHAR_LIMIT=50] -->
+    <string name="all_apps_no_search_results">没有匹配 \"<xliff:g id="query" example="Android">%1$s</xliff:g>\" 的应用</string>
+    <!-- Label for the button which allows the user to get app search results. [CHAR_LIMIT=50] -->
+    <string name="all_apps_search_market_message">查找更多应用</string>
+
+    <!-- Drag and drop -->
+    <skip />
+    <!-- Error message when user has filled a home screen -->
+    <string name="out_of_space">主屏幕上已没有空间。</string>
+    <!-- Error message when user has filled the hotseat -->
+    <string name="hotseat_out_of_space">收藏夹中已没有空间。</string>
+
+    <!-- All applications label -->
+    <string name="all_apps_button_label">应用列表</string>
+    <!-- Label for button in all applications label to go back home (to the workspace / desktop)
+         for accessibilty (spoken when the button gets focus). -->
+    <string name="all_apps_home_button_label">主页</string>
+
+    <!-- Label for remove drop target. [CHAR_LIMIT=20] -->
+    <string name="remove_drop_target_label">移除</string>
+    <!-- Label for uninstall drop target. [CHAR_LIMIT=20]-->
+    <string name="uninstall_drop_target_label">卸载</string>
+    <!-- Label for app info drop target. [CHAR_LIMIT=20] -->
+    <string name="app_info_drop_target_label">应用信息</string>
+
+    <!-- Permissions: -->
+    <skip />
+    <!-- Permission short label -->
+    <string name="permlab_install_shortcut">安装快捷方式</string>
+    <!-- Permission description -->
+    <string name="permdesc_install_shortcut">允许应用自动添加快捷方式。</string>
+    <!-- Permission short label -->
+    <string name="permlab_read_settings">读取主页设置和快捷方式</string>
+    <!-- Permission description -->
+    <string name="permdesc_read_settings">允许应用读取主页上的设置和快捷方式。</string>
+    <!-- Permission short label -->
+    <string name="permlab_write_settings">写入主页设置和快捷方式</string>
+    <!-- Permission description -->
+    <string name="permdesc_write_settings">允许应用更改主页上的设置和快捷方式。</string>
+
+    <!-- Toast shown on clicking a direct call shortcut. [CHAR_LIMIT=80] -->
+    <string name="msg_no_phone_permission"><xliff:g id="app_name" example="Launcher3">%1$s</xliff:g> 未被允许发起通话</string>
+
+    <!-- Widgets: -->
+    <skip />    
+
+    <!-- Text to show user in place of a gadget when we can't display it properly -->
+    <string name="gadget_error_text">加载错误</string>
+
+    <!-- Text to show user in place of a gadget when it is not yet initialized. -->
+    <string name="gadget_setup_text">初始化</string>
+
+    <!-- Text to inform the user that they can't uninstall a system application -->
+    <string name="uninstall_system_app_text">不能卸载系统应用。</string>
+
+    <!-- Default folder title -->
+    <string name="folder_hint_text">未命名文件夹</string>
+
+    <!-- Accessibility -->
+    <!-- The format string for when an app is temporarily disabled. -->
+    <string name="disabled_app_label">已禁用 <xliff:g id="app_name" example="Messenger">%1$s</xliff:g></string>
+    <skip />
+
+    <!-- The format string for default page scroll text [CHAR_LIMIT=none] -->
+    <string name="default_scroll_format">%2$d 页中的第 %1$d 页</string>
+    <!-- The format string for Workspace page scroll text [CHAR_LIMIT=none] -->
+    <string name="workspace_scroll_format">%2$d 个屏幕中的第 %1$d 个</string>
+    <!-- Description for a new page on homescreen[CHAR_LIMIT=none] -->
+    <string name="workspace_new_page">新的主屏幕页面</string>
+
+    <!-- Folder accessibility -->
+    <!-- The format string for when a folder is opened, speaks the dimensions -->
+    <string name="folder_opened">Folder opened, <xliff:g id="width" example="5">%1$d</xliff:g> by <xliff:g id="height" example="3">%2$d</xliff:g></string>
+    <!-- Instruction that clicking outside will close folder -->
+    <string name="folder_tap_to_close">点击以关闭文件夹</string>
+    <!-- Instruction that clicking outside will commit folder rename -->
+    <string name="folder_tap_to_rename">点击以保存命名</string>
+    <!-- Indication that folder closed -->
+    <string name="folder_closed">文件夹已关闭</string>
+    <!-- Folder renamed format -->
+    <string name="folder_renamed">文件夹重命名为 <xliff:g id="name" example="Games">%1$s</xliff:g></string>
+    <!-- Folder name format -->
+    <string name="folder_name_format">文件夹：<xliff:g id="name" example="Games">%1$s</xliff:g></string>
+
+    <!-- Strings for the customization mode -->
+    <!-- Text for widget add button -->
+    <string name="widget_button_text">桌面小部件</string>
+    <!-- Text for wallpaper change button -->
+    <string name="wallpaper_button_text">桌面壁纸</string>
+    <!-- Text for settings button -->
+    <string name="settings_button_text">设置</string>
+    <!-- Message shown when a feature is disabled by the administrator -->
+    <string name="msg_disabled_by_admin">已被管理员禁用</string>
+    <!-- Text for custom accessibility action to go to the overview mode, where users can look and change the overall UI of the launcher. -->
+    <string name="accessibility_action_overview">总览</string>
+
+    <!-- Strings for settings -->
+    <string name="preferences_layout_option">布局</string>
+    <!-- Title for Allow Rotation setting. [CHAR LIMIT=50] -->
+    <string name="allow_rotation_title">允许主屏幕旋转</string>
+    <!-- Text explaining when the home screen will get rotated. [CHAR LIMIT=100] -->
+    <string name="allow_rotation_desc">跟随设备</string>
+    <!-- Text explaining that rotation is disabled in Display settings. 'Display' refers to the Display section in system settings [CHAR LIMIT=100] -->
+    <string name="allow_rotation_blocked_desc">当前的显示设置不允许旋转</string>
+
+    <string name="allow_icon_title">启用圆形图标</string>
+
+    <string name="allow_icon_summary">该设置使图标变为圆形</string>
+
+    <string name="grid_size">更改网格尺寸</string>
+
+    <string name="grid_size_summary">自定义网格尺寸</string>
+
+    <string name="column_size">列大小</string>
+
+    <string name="row_size">行大小</string>
+
+    <string name="preferences_dock_option">托盘</string>
+
+    <string name="preferences_folder">文件夹</string>
+
+    <string name="dock_size">托盘图标</string>
+
+    <string name="all_apps_dialog">抽屉图标</string>
+
+    <string name="dock_size_summary">更改托盘图标数量</string>
+
+    <string name="preferences_various_option">更多</string>
+
+    <string name="ask_default_launcher">将 &app_name; 设为主屏幕应用</string>
+
+    <string name="ask_default_launcher_summary">更改默认启动器</string>
+
+    <string name="default_launcher_already_set">&app_name; 已经是默认启动器！</string>
+
+    <string name="ask_restart_launcher">重启 &app_name;</string>
+
+    <string name="preferences_gesture">手势</string>
+
+    <string name="allow_sleep">允许双击休眠</string>
+
+    <string name="allow_sleep_summary">启用双击锁屏</string>
+
+    <string name="choose_double_tap">双击</string>
+
+    <string name="choose_double_tap_summary">选择双击启动的应用</string>
+
+    <string name="choose_bottom_swipe">下滑</string>
+
+    <string name="choose_up_swipe">上滑</string>
+
+    <string name="choose_up_swipe_two_fingers">双指上滑</string>
+
+    <string name="choose_bottom_swipe_two_fingers">双指下滑</string>
+
+    <string name="preferences_info">关于</string>
+
+    <string name="info">关于 &app_name;</string>
+
+    <string name="donation">捐赠</string>
+
+    <string name="donation_summary">我们不会忘记你的帮助！</string>
+
+    <string name="all_apps_size">更改应用抽屉尺寸</string>
+
+    <string name="all_apps_size_summary">自定义抽屉图标数量</string>
+
+    <string name="disclaimer_dialog_message">欢迎使用 &app_name;！\n\n这是一个开源启动器，你可以在 <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a> 上找到它。\n\nFlick Launcher 项目由 Google Pixel 启动器启发，并加入了一些新特性。\n详情见 <a href="https://github.com/michelelacorte/FlickLauncher">GitHub 页面</a>.\n\n该项目在 <a href="https://github.com/michelelacorte/FlickLauncher/blob/master/LICENSE">Apache v2 License</a> 下发布，一切解释权归 Michele Lacorte 所有。\n\n如果你喜欢这个应用，请下载 <a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">捐赠应用</a> 支持开发者.\n\n\n\n应用版本号 v0.1.0 Build 24</string>
+
+
+
+
+    <!-- Label on an icon that references an uninstalled package, for which we have no information about when it might be installed. [CHAR_LIMIT=15] -->
+    <string name="package_state_unknown">未知</string>
+
+    <!-- Button for abandoned promises dialog, to removes this abandoned promise icon. -->
+    <string name="abandoned_clean_this">移除</string>
+    <!-- Button for abandoned promise dialog, to search in the market for the missing package. -->
+    <string name="abandoned_search">搜索</string>
+    <!-- Title for abandoned promise dialog. -->
+    <string name="abandoned_promises_title">应用未安装</string>
+    <!-- Explanation for abandoned promise dialog. "The first 'it' refers to the shortcut icon.
+    The second "it" refers to the app. -->
+    <string name="abandoned_promise_explanation">该图标指向的应用未被安装。
+        你可以移除它，或搜索并手动安装该应用。
+    </string>
+    <!-- Title for an app which is being downloaded. -->
+    <string name="app_downloading_title"><xliff:g id="name" example="Messenger">%1$s</xliff:g> 正在下载， <xliff:g id="progress" example="30%">%2$s</xliff:g> 已完成</string>
+    <!-- Title for an app whose download has been started. -->
+    <string name="app_waiting_download_title"><xliff:g id="name" example="Messenger">%1$s</xliff:g> 正在等待安装</string>
+
+<!-- Strings for accessibility actions -->
+    <!-- Accessibility action to add an app to workspace. [CHAR_LIMIT=30] -->
+    <string name="action_add_to_workspace">添加到主屏幕</string>
+
+    <!-- Accessibility action to move item to the current location. [CHAR_LIMIT=30] -->
+    <string name="action_move_here">移动项目到这里</string>
+
+    <!-- Accessibility confirmation for item added to workspace. -->
+    <string name="item_added_to_workspace">已添加到主屏幕</string>
+
+    <!-- Accessibility confirmation for item removed. -->
+    <string name="item_removed">项目已移除</string>
+
+    <!-- Accessibility action to move an item on the workspace. [CHAR_LIMIT=30] -->
+    <string name="action_move">移除项目</string>
+
+    <!-- Accessibility description to move item to empty cell. -->
+    <string name="move_to_empty_cell">移动以排序 <xliff:g id="number" example="1">%1$s</xliff:g> column <xliff:g id="number" example="1">%2$s</xliff:g></string>
+
+    <!-- Accessibility description to move item inside a folder. -->
+    <string name="move_to_position">移动以定位 <xliff:g id="number" example="1">%1$s</xliff:g></string>
+
+    <!-- Accessibility description to move item to the hotseat. -->
+    <string name="move_to_hotseat_position">移动到收藏位置 <xliff:g id="number" example="1">%1$s</xliff:g></string>
+
+    <!-- Accessibility confirmation for item move. -->
+    <string name="item_moved">项目移动完毕</string>
+
+    <!-- Accessibility description to move item into an existing folder. -->
+    <string name="add_to_folder">添加到文件夹： <xliff:g id="name" example="Games">%1$s</xliff:g></string>
+
+    <!-- Accessibility description to move item into an existing folder containing an app. -->
+    <string name="add_to_folder_with_app">和 <xliff:g id="name" example="Messenger">%1$s</xliff:g> 一起添加到文件夹</string>
+
+    <!-- Accessibility confirmation for item added to folder. -->
+    <string name="added_to_folder">项目已添加到文件夹</string>
+
+    <!-- Accessibility description to create folder with another item. -->
+    <string name="create_folder_with">创建包含： <xliff:g id="name" example="Game">%1$s</xliff:g> 的文件夹</string>
+
+    <!-- Accessibility confirmation for folder created. -->
+    <string name="folder_created">文件夹创建完毕</string>
+
+    <!-- Accessibility action to move an item from folder to workspace. [CHAR_LIMIT=30] -->
+    <string name="action_move_to_workspace">移动到主屏幕</string>
+
+    <!-- Accessibility action to move an homescreen to the left. [CHAR_LIMIT=30] -->
+    <string name="action_move_screen_left">左移屏幕</string>
+
+    <!-- Accessibility action to move an homescreen to the right. [CHAR_LIMIT=30] -->
+    <string name="action_move_screen_right">右移屏幕</string>
+
+    <!-- Accessibility confirmation when a screen was moved. -->
+    <string name="screen_moved">屏幕移动完毕</string>
+
+    <!-- Accessibility action to resize a widget. [CHAR_LIMIT=30] -->
+    <string name="action_resize">调整尺寸</string>
+
+    <!-- Accessibility action to increase width of a widget. [CHAR_LIMIT=30] -->
+    <string name="action_increase_width">增大宽度</string>
+
+    <!-- Accessibility action to increase height of a widget. [CHAR_LIMIT=30] -->
+    <string name="action_increase_height">增大高度</string>
+
+    <!-- Accessibility action to decrease width of a widget. [CHAR_LIMIT=30] -->
+    <string name="action_decrease_width">减小宽度</string>
+
+    <!-- Accessibility action to decrease height of a widget. [CHAR_LIMIT=30] -->
+    <string name="action_decrease_height">减小高度</string>
+
+    <!-- Accessibility confirmation for widget resize. -->
+    <string name="widget_resized">小部件已调整为宽 <xliff:g id="number" example="2">%1$s</xliff:g> ，高 <xliff:g id="number" example="1">%2$s</xliff:g></string>
+
+    <!-- Accessibility action to show quick actions menu for an icon. [CHAR_LIMIT=30] -->
+    <string name="action_deep_shortcut">快捷方式</string>
+
+    <!-- Accessibility description for the shortcuts menu shown for an app. -->
+    <string name="shortcuts_menu_description"><xliff:g id="app_name" example="Messenger">%2$s</xliff:g> 有 <xliff:g id="number_of_shortcuts" example="3">%1$d</xliff:g> 个快捷方式 </string>
+    <string name="folder_background">文件夹背景色</string>
+    <string name="folder_background_summary">更改背景色</string>
+    <string name="folder_transparent">透明背景</string>
+    <string name="folder_transparent_summary">使文件夹透明</string>
+    <string name="folder_preview_background">更改预览背景色</string>
+    <string name="folder_preview_background_summary">更改预览时的背景色</string>
+    <string name="folder_circle_color">更改圆形外框颜色</string>
+    <string name="folder_circle_color_summary">更改圆形预览颜色</string>
+    <string name="choose_color">选取颜色</string>
+    <string name="license">许可证</string>
+    <string name="preferences_security">安全</string>
+    <string name="fingerprint">指纹锁定应用</string>
+    <string name="fingerprint_summary">用指纹认证锁定应用</string>
+    <string name="select_apps">选择应用</string>
+    <string name="allow_persistent_search_bar">固定搜索栏</string>
+    <string name="allow_persistent_search_bar_summary">使搜索栏固定在第一屏</string>
+    <string name="dock_background">托盘背景色</string>
+    <string name="dock_background_summary">更改背景色</string>
+    <string name="add_page">新的页面</string>
+    <string name="password">密码锁定应用</string>
+    <string name="password_summary">用密码认证锁定应用</string>
+    <string name="password_mismatch">密码不符！请重试。</string>
+    <string name="allow_voice_search_bar">语音搜索图标</string>
+    <string name="allow_voice_search_bar_summary">在搜索栏中显示语音搜索图标</string>
+    <string name="preferences_searchbar_option">搜索栏</string>
+
+
+
+    <string name="license_dialog_message"><a href="https://github.com/QuadFlask/colorpicker">colorpicker</a>\n\n
+    Copyright 2014-2017 QuadFlask\n\n
+    Licensed under the Apache License, Version 2.0 (the "License");\n
+    you may not use this file except in compliance with the License.\n
+    You may obtain a copy of the License at\n\n
+
+   <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\n
+
+    Unless required by applicable law or agreed to in writing, software\n
+    distributed under the License is distributed on an "AS IS" BASIS,\n
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n
+    See the License for the specific language governing permissions and\n
+    limitations under the License.\n</string>
+
+    <!-- Custom gesture -->
+    <string name="torch">手电筒</string>
+    <string name="bluetooth">蓝牙</string>
+    <string name="settings">设置</string>
+    <string name="wifi">Wifi</string>
+    <string name="screenshot">屏幕截图</string>
+    <string name="sleep">关闭屏幕</string>
+    <string name="mode_silent">静音</string>
+    <string name="mode_normal">正常铃声</string>
+    <string name="mode_vibrate">振动</string>
+
+    <!-- Fingerprint -->
+
+    <string name="title_fingerprint">指纹解锁</string>
+    <string name="desc_fingerprint">请认证指纹</string>
+    <string name="note">(该应用有指纹锁定功能，你的设备应该在设置中注册了至少一个指纹)</string>
+    <string name="activity_home_desc">你已通过指纹认证登录</string>
+    <string name="activity_home_note">关闭并再次开启屏幕以再次认证</string>
+    <string name="fingerprint_help">指纹认证帮助</string>
+    <string name="fingerprint_succeded">指纹认证通过。</string>
+    <string name="fingerprint_failed">指纹认证失败。</string>
+    <string name="fingerprint_error">指纹认证错误</string>
+
+    <!-- Password -->
+    <string name="title_password">密码解锁</string>
+    <string name="desc_password">输入密码以认证身份</string>
+    <string name="note_password">(该应用有密码锁定功能，你的设备应该至少了注册一个密码)</string>
+    <string name="password_succeded">密码认证通过。</string>
+    <string name="password_failed">密码认证失败。</string>
+    <string name="dialog_password">请输入密码</string>
+    <string name="dialog_password_title">设置密码</string>
+    <string name="password_reset">重置密码</string>
+
+
 </resources>
