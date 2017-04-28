@@ -23,11 +23,7 @@ I want to create a launcher for google pixels style stock, with a few tweaks.
 <img alt="Get it on Google Play" src="https://s32.postimg.org/50h5qj4lx/google_play_badge.png" />
 </a>
 
-## For China (or other country) users which don't have the Google Play, purchase this:
-
-## [FlickLauncherPRO](https://www.paypal.me/MicheleLacorte/1,99)
-
-## Then send me an e-mail, I will provide you PRO version!
+## For China (or other country) users which don't have the Google Play, send me an e-mail!
 
 ## DONATIONS
 
