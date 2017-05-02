@@ -1,5 +1,5 @@
 # Privacy Policy
 
-Google Play requires me to disclose that Flick Launcher uses camera to take picture for the purpose of screenshot.
+Google Play requires me to disclose that Flick Launcher uses record audio permission to start google search.
 
-Any data will be sent to third parties, but will only be used and visible to the user.
+Any data will be sent to third parties, registered or something else, this app record audio only for "Ok Google" and other keyword recognition.
