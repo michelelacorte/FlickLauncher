@@ -58,7 +58,7 @@ This project needs you! If you would like to support this project's further deve
 
 ## SYSTEM REQUIREMENT
 
-Android API 14+
+Android API 21+
 
 ## STATUS
 
