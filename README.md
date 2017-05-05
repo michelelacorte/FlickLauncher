@@ -103,6 +103,8 @@ Author: Michele Lacorte (micky1995g@gmail.com)
 
 Follow [Michele Lacorte Google+](https://plus.google.com/u/0/collection/McidZB)
 
+Join now [G+ Community](https://plus.google.com/u/0/communities/101128986975906525147)
+
 ## CONTRIBUTING
 
 If you want to contribute to the project fork it and open [Pull Request](https://github.com/michelelacorte/FlickLauncher/pulls), or contact author by e-mail.
