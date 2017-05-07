@@ -30,7 +30,6 @@ import com.android.launcher3.dragndrop.DragOptions;
  */
 public class AccessibileDragListenerAdapter implements DragListener {
 
-    private final ViewGroup mViewGroup;
     private final int mDragType;
 
     /**
