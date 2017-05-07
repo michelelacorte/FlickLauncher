@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal|top"
+    android:paddingTop="@dimen/overview_panel_top_padding"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+    android:id="@+id/default_screen_button"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/home_size"
+    android:layout_weight="1"
+    android:src="@drawable/default_screen_button"
+    android:scaleType="fitCenter"
+    android:gravity="top"
+    android:paddingLeft="@dimen/overview_panel_button_spacing"
+    android:paddingRight="@dimen/overview_panel_button_spacing"/>
+    </LinearLayout>

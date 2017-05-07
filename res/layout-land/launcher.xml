@@ -55,6 +55,10 @@
             android:id="@+id/drop_target_bar"
             layout="@layout/drop_target_bar_vert" />
 
+ <include layout="@layout/home"
+            android:id="@+id/home"
+            android:visibility="gone" />
+
         <include layout="@layout/overview_panel"
             android:id="@+id/overview_panel"
             android:visibility="gone" />

@@ -81,8 +81,6 @@ public class LossyScreenMigrationTask extends GridSizeMigrationTask {
     }
 
     public void migrateScreen0() {
-        migrateScreen(Workspace.FIRST_SCREEN_ID);
-
         ContentValues tempValues = new ContentValues();
         for (DbEntry update : mUpdates) {
             DbEntry org = mOriginalItems.get(update.id);

@@ -298,6 +298,16 @@ public final class Utilities {
 
     private static Camera cam = null;
 
+   public static final String SETTINGS_UI_HOMESCREEN_DEFAULT_SCREEN_ID = "ui_homescreen_default_screen_id";
+
+
+ public static long getLongCustomDefault(Context context, String key, long def) {
+        return get(context).getLong(key, def);
+    }
+
+    public static SharedPreferences get(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context);
+    }
 
     public static void setFingerprintAppsValue(Context context, CharSequence name, String packageName, String className, int pos) {
         getPrefs(context).edit().putString(FINGERPRINT+String.valueOf(pos), name.toString()).apply();

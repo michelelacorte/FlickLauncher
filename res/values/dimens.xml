@@ -187,4 +187,9 @@
     <!-- Approximates the system status bar height. Not guaranteed to be always be correct. -->
     <dimen name="status_bar_height">24dp</dimen>
 
+<!-- Overview panel -->
+    <dimen name="overview_panel_top_padding">20dp</dimen>
+    <dimen name="overview_panel_bottom_padding">50dp</dimen>
+    <dimen name="overview_panel_button_spacing">30dp</dimen>
+    <dimen name="home_size">64dp</dimen>
 </resources>

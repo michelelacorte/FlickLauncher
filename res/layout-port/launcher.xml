@@ -50,6 +50,10 @@
             android:layout_height="match_parent"
             launcher:layout_ignoreInsets="true" />
 
+ <include layout="@layout/home"
+            android:id="@+id/home"
+            android:visibility="gone" />
+
         <include layout="@layout/overview_panel"
             android:id="@+id/overview_panel"
             android:visibility="gone" />

@@ -577,8 +577,52 @@ public class Launcher extends Activity
         if(Utilities.doCheckPROVersion(getApplicationContext())) {
 
         }
+
+mDefaultScreenId = Utilities.getLongCustomDefault(this,
+                Utilities.SETTINGS_UI_HOMESCREEN_DEFAULT_SCREEN_ID,
+                1);
     }
 
+ private ViewGroup mhome;
+    private long mDefaultScreenId;
+
+    private void setuphome(){
+        mhome = (ViewGroup) findViewById(R.id.home);
+
+        View defaultScreenButton = findViewById(R.id.default_screen_button);
+        defaultScreenButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                if (!mWorkspace.isSwitchingState()) {
+                    onClickDefaultScreenButton(arg0);
+                }
+            }
+        });
+        defaultScreenButton.setOnTouchListener(getHapticFeedbackTouchListener());
+
+    }
+
+    protected void onClickDefaultScreenButton(View v) {
+        if (LOGD) Log.d(TAG, "onClickDefaultScreenButton");
+
+        if (!mWorkspace.isInOverviewMode()) return;
+
+        mDefaultScreenId = mWorkspace.getScreenIdForPageIndex(mWorkspace.getPageNearestToCenterOfScreen());
+        updateDefaultScreenButton();
+        Utilities.get(this).edit()
+                .putLong(Utilities.SETTINGS_UI_HOMESCREEN_DEFAULT_SCREEN_ID,
+                        mDefaultScreenId)
+                .commit();
+    }
+
+    protected void updateDefaultScreenButton() {
+        if (mOverviewPanel != null) {
+            View defaultPageButton = mhome.findViewById(R.id.default_screen_button);
+            defaultPageButton.setActivated(
+                    mWorkspace.getScreenIdForPageIndex(mWorkspace.getPageNearestToCenterOfScreen())
+                            == mDefaultScreenId);
+        }
+    }
 
     @Override
     public void onExtractedColorsChanged() {
@@ -1451,6 +1495,8 @@ public class Launcher extends Activity
         // Setup the overview panel
         setupOverviewPanel();
 
+setuphome();
+
         // Setup the workspace
         mWorkspace.setHapticFeedbackEnabled(false);
         mWorkspace.setOnLongClickListener(this);
@@ -1458,7 +1504,6 @@ public class Launcher extends Activity
         // Until the workspace is bound, ensure that we keep the wallpaper offset locked to the
         // default state, otherwise we will update to the wrong offsets in RTL
         mWorkspace.lockWallpaperToDefaultPage();
-        mWorkspace.bindAndInitFirstWorkspaceScreen(null /* recycled qsb */);
         mDragController.addDragListener(mWorkspace);
 
         // Get the search/delete/uninstall bar
@@ -3588,6 +3633,7 @@ public class Launcher extends Activity
         boolean changed = mState != State.WORKSPACE ||
                 mWorkspace.getState() != Workspace.State.NORMAL;
         if (changed || mAllAppsController.isTransitioning()) {
+ mhome.setVisibility(View.INVISIBLE);
             mWorkspace.setVisibility(View.VISIBLE);
             mStateTransitionAnimation.startAnimationToWorkspace(mState, mWorkspace.getState(),
                     Workspace.State.NORMAL, animated, onCompleteRunnable);
@@ -3637,6 +3683,7 @@ public class Launcher extends Activity
                 }
             };
         }
+ mhome.setVisibility(View.VISIBLE);
         mWorkspace.setVisibility(View.VISIBLE);
         mStateTransitionAnimation.startAnimationToWorkspace(mState, mWorkspace.getState(),
                 Workspace.State.OVERVIEW, animated, postAnimRunnable);
@@ -3953,17 +4000,11 @@ public class Launcher extends Activity
 
     @Override
     public void bindScreens(ArrayList<Long> orderedScreenIds) {
-        // Make sure the first screen is always at the start.
-        if (FeatureFlags.QSB_ON_FIRST_SCREEN &&
-                orderedScreenIds.indexOf(Workspace.FIRST_SCREEN_ID) != 0) {
-            orderedScreenIds.remove(Workspace.FIRST_SCREEN_ID);
-            orderedScreenIds.add(0, Workspace.FIRST_SCREEN_ID);
-            mModel.updateWorkspaceScreenOrder(this, orderedScreenIds);
-        } else if (!FeatureFlags.QSB_ON_FIRST_SCREEN && orderedScreenIds.isEmpty()) {
-            // If there are no screens, we need to have an empty screen
+         bindAddScreens(orderedScreenIds);
+        // If there are no screens, we need to have an empty screen
+        if (orderedScreenIds.size() == 0) {
             mWorkspace.addExtraEmptyScreen();
         }
-        bindAddScreens(orderedScreenIds);
 
         // Create the custom content page (this call updates mDefaultScreen which calls
         // setCurrentPage() so ensure that all pages are added before calling this).
@@ -3981,11 +4022,7 @@ public class Launcher extends Activity
     private void bindAddScreens(ArrayList<Long> orderedScreenIds) {
         int count = orderedScreenIds.size();
         for (int i = 0; i < count; i++) {
-            long screenId = orderedScreenIds.get(i);
-            if (!FeatureFlags.QSB_ON_FIRST_SCREEN || screenId != Workspace.FIRST_SCREEN_ID) {
-                // No need to bind the first screen, as its always bound.
-                mWorkspace.insertNewWorkspaceScreenBeforeEmptyScreen(screenId);
-            }
+              mWorkspace.insertNewWorkspaceScreenBeforeEmptyScreen(orderedScreenIds.get(i));
         }
     }
 

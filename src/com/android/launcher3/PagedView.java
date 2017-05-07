@@ -1982,8 +1982,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
                 if (DEBUG) Log.d(TAG, "mParentDownMotionY: " + mParentDownMotionY);
 
                 final int pageUnderPointIndex = getNearestHoverOverPageIndex();
-                // Do not allow any page to be moved to 0th position.
-                if (pageUnderPointIndex > 0 && pageUnderPointIndex != indexOfChild(mDragView)) {
+               if (pageUnderPointIndex > -1 && pageUnderPointIndex != indexOfChild(mDragView)) {
                     mTempVisiblePagesRange[0] = 0;
                     mTempVisiblePagesRange[1] = getPageCount() - 1;
                     getFreeScrollPageRange(mTempVisiblePagesRange);
@@ -2502,8 +2501,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     public boolean startReordering(View v) {
         int dragViewIndex = indexOfChild(v);
 
-        // Do not allow the first page to be moved around
-        if (mTouchState != TOUCH_STATE_REST || dragViewIndex <= 0) return false;
+       if (mTouchState != TOUCH_STATE_REST || dragViewIndex == -1) return false;
 
         mTempVisiblePagesRange[0] = 0;
         mTempVisiblePagesRange[1] = getPageCount() - 1;
