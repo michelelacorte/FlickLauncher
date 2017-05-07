@@ -29,7 +29,7 @@ import com.android.launcher3.dragndrop.DragOptions;
  * containing CellLayouts
  */
 public class AccessibileDragListenerAdapter implements DragListener {
-
+ private final ViewGroup mViewGroup;
     private final int mDragType;
 
     /**
