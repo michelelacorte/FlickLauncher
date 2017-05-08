@@ -1707,6 +1707,9 @@ public class Workspace extends PagedView
     public void computeScroll() {
         super.computeScroll();
         mWallpaperOffset.syncWithScroll();
+        if (isInOverviewMode() && !isReordering(true)) {
+            mLauncher.updateDefaultScreenButton();
+        }
     }
 
     public void computeScrollWithoutInvalidation() {
@@ -2056,6 +2059,9 @@ public class Workspace extends PagedView
 
         // Re-enable auto layout transitions for page deletion.
         enableLayoutTransitions();
+            
+ // Show the default screen button
+        mLauncher.updateDefaultScreenButton();            
     }
 
     public boolean isInOverviewMode() {
