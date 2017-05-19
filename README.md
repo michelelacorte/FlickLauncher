@@ -48,7 +48,11 @@ This project needs you! If you would like to support this project's further deve
 
 ## PREVIEW
 
-### v0.1.0 Alpha
+### v0.1.0 Beta
+
+### New Android O notification dots!
+
+<img src="https://s24.postimg.org/sjq8evp45/Screenshot_2017-05-18-23-03-33.png" height="500"/><img src="https://s10.postimg.org/8fn1jxcxl/Screenshot_2017-05-18-22-46-58.png" height="500"/>
 
 <img src="https://s7.postimg.org/6z20p8xor/Screenshot_2017_02_26_20_28_47_framed.png" height="500"/><img src="https://s13.postimg.org/pvp280epz/Screenshot_2017_03_11_19_51_20_framed.png" height="500"/><img src="https://s28.postimg.org/e7wg7wpql/screen5.png" height="500"/><img src="https://s8.postimg.org/mqj5juwc5/screen7.png" height="500"/>
 <img src="https://s16.postimg.org/8wh466sut/screen6.png" height="500"/><img src="https://s27.postimg.org/enpo9ebtv/screen8.png" height="500"/><img src="https://s24.postimg.org/xcghsd5bp/screen9.png" height="500"/><img src="https://s14.postimg.org/4ofg1w4a9/screen10.png" height="500"/>
@@ -66,7 +70,7 @@ Android API 21+
 
 ## CHANGELOG
 
-**v0.1.0 Alpha 103**
+**v0.1.0 Beta 157**
 * App Shortcuts on Launcher working on device screen:
     * 1440x2560 (Portrait).
     * 1080x1920 (Portrait).
@@ -91,6 +95,8 @@ Android API 21+
 * Fixed search crash.
 * Added modification of icon.
 * Added feature to PRO version.
+* Added new search bar.
+* Added new notification dots badge from Android O!
 
 
 **v0**
