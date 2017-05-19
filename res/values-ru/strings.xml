@@ -20,7 +20,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name" msgid="649227358658669779">Universal Launcher</string>
-    <string name="folder_name" msgid="7371454440695724752"></string>
+    <string name="folder_name" msgid="7371454440695724752">\"Имя папки\"</string>
     <string name="work_folder_name" msgid="3753320833950115786">"Работа"</string>
     <string name="activity_not_found" msgid="8071924732094499514">"Приложение удалено"</string>
     <string name="activity_not_available" msgid="7456344436509528827">"Приложение недоступно"</string>
@@ -91,7 +91,7 @@
     <string name="add_to_folder_with_app" msgid="4534929978967147231">"Добавить в папку с приложением \"<xliff:g id="NAME">%1$s</xliff:g>\""</string>
     <string name="added_to_folder" msgid="4793259502305558003">"Элемент добавлен в папку."</string>
     <string name="create_folder_with" msgid="4050141361160214248">"Создать папку с элементом <xliff:g id="NAME">%1$s</xliff:g>."</string>
-    <string name="folder_created" msgid="6409794597405184510">"Папка создана."</string>
+    <string name="folder_created" msgid="6409794597405184510">\"Папка создана\"</string>
     <string name="action_move_to_workspace" msgid="1603837886334246317">"Переместить на главный экран"</string>
     <string name="action_move_screen_left" msgid="8854216831569401665">"Переместить экран влево"</string>
     <string name="action_move_screen_right" msgid="329334910274311123">"Переместить экран вправо"</string>
@@ -104,4 +104,158 @@
     <string name="widget_resized" msgid="9130327887929620">"Изменен размер виджета: до <xliff:g id="NUMBER_0">%1$s</xliff:g> в ширину и <xliff:g id="NUMBER_1">%2$s</xliff:g> в высоту"</string>
     <string name="action_deep_shortcut" msgid="2864038805849372848">"Ярлыки"</string>
     <string name="shortcuts_menu_description" msgid="406159963824238648">"Количество ярлыков для приложения \"<xliff:g id="APP_NAME">%2$s</xliff:g>\": <xliff:g id="NUMBER_OF_SHORTCUTS">%1$d</xliff:g>"</string>
+    <string name="activity_home_desc">\"Успешный вход по отпечатку пальца\"</string>
+    <string name="activity_home_note">\"Перезапустите приложение чтобы цвидеть экран отпечатков заново\"</string>
+    <string name="add_page">\"Добавить страницу\"</string>
+    <string name="add_shortcuts">\"Добавить ярлык\"</string>
+    <string name="alert_choose_app">\"Выберите приложение\"</string>
+    <string name="alert_max">\"Масимальное число ярлыков:\"</string>
+    <string name="alert_title">\"Заголовок\"</string>
+    <string name="all_apps_dialog">\"Значок во всех приложениях\"\"</string>
+    <string name="all_apps_size">\"Изменить размер панели приложений\"</string>
+    <string name="all_apps_size_summary">\"Установить пользовательское число значков для всех приложений\"</string>
+    <string name="allo_conversation">\"Новый разговор\"</string>
+    <string name="allow_icon_summary">\"Настройка делает значки круглыми\"</string>
+    <string name="allow_icon_title">\"Круглые значки\"</string>
+    <string name="allow_night">\"Ночной режим\"</string>
+    <string name="allow_night_summary">\"Тема ночного режима\"</string>
+    <string name="allow_notification_count">\"Отображать число уведомлений\"</string>
+    <string name="allow_notification_count_summary">\"Добавляет число извещений на иконке\"</string>
+    <string name="allow_persistent_search_bar">\"Постоянная строка поиска\"</string>
+    <string name="allow_persistent_search_bar_summary">"\"Установить постоянную строку поиска на первом экране\" "</string>
+    <string name="allow_sleep">\"Спящий режим по нажатию\"</string>
+    <string name="allow_sleep_summary">\"Переходить в спящий режим по двойному нажатию на экран\"</string>
+    <string name="allow_voice_search_bar">\"Значок голосового поиска\"</string>
+    <string name="allow_voice_search_bar_summary">\"Добавить значок голосового поиска в строку поиска\"</string>
+    <string name="ask_default">\"Установить рабочим столом по умолчанию?\"</string>
+    <string name="ask_default_launcher">\"Установить по умолчанию\"</string>
+    <string name="ask_default_launcher_summary">\"Изменить рабочий стол по умолчанию\"</string>
+    <string name="ask_icon">\"Хотите восстановить?\"</string>
+    <string name="ask_restart">\"Перезапустить рабочий стол?\"</string>
+    <string name="ask_restart_launcher">\"Перезапуск\"</string>
+    <string name="calendar_event">\"Новое событие\"</string>
+    <string name="calendar_reminder">\"Новое напоминание\"</string>
+    <string name="cancel">\"ОТМЕНА\"</string>
+    <string name="choose_bottom_swipe">\"Жест - сдвиг вниз\"</string>
+    <string name="choose_bottom_swipe_two_fingers">\"Жест - сдвиг вниз (двойной)\"</string>
+    <string name="choose_color">\"Выбрать цвет\"</string>
+    <string name="choose_double_tap">\"Жест - двойное нажатие\"</string>
+    <string name="choose_double_tap_summary">\"Выбрать приложение\"</string>
+    <string name="choose_up_swipe">\"Жест - сдвиг вверх\"</string>
+    <string name="choose_up_swipe_two_fingers">\"Жест - сдвиг вверх (двойной)\"</string>
+    <string name="column_size">\"Размер колонки\"</string>
+    <string name="default_launcher_already_set">\"Установлен рабочим столом по умолчанию!\"</string>
+    <string name="delete">\"Деинсталлировать\"</string>
+    <string name="desc_fingerprint">\"Для проверки поместите палец на считыватель\"</string>
+    <string name="desc_password">\"Для проверки введите пароль\"</string>
+    <string name="dialog_password">\"Введите пароль\"</string>
+    <string name="dialog_password_title">\"Установить пароль\"</string>
+    <string name="dock_background">\"Фоновый цвет дока\"</string>
+    <string name="dock_background_summary">\"Изменить фоновый цвет\"</string>
+    <string name="dock_size">\"Значков в доке\"</string>
+    <string name="dock_size_summary">\"Изменить число значков в доке\"</string>
+    <string name="docs_new">\"Создать\"</string>
+    <string name="docs_template">\"Выбрать шаблон\"</string>
+    <string name="donation">\"Отблагодарить автора\"</string>
+    <string name="donation_summary">\"Ваша поддержка очень важна!\"</string>
+    <string name="drawer_background">\"Фон панели приложений\"</string>
+    <string name="drawer_background_summary">\"Изменить фоновый цвет панели приложений\"</string>
+    <string name="drive_scan">\"Сканировать\"</string>
+    <string name="drive_upload">\"Загрузить\"</string>
+    <string name="ebay_following">\"Следить\"</string>
+    <string name="edit">\"Изменить\"</string>
+    <string name="edit_label">\"Изменить ярлык приложения\"</string>
+    <string name="evernote_audio">\"Звук\"</string>
+    <string name="evernote_camera">\"Камера\"</string>
+    <string name="evernote_note">\"Заметка\"</string>
+    <string name="fingerprint">\"Блокировка приложения отпечатком\"</string>
+    <string name="fingerprint_error">\"Ошибка разблокировки приложения\"</string>
+    <string name="fingerprint_failed">\"Ошибка авторизации отпечатком\"</string>
+    <string name="fingerprint_help">\"Помощь по авторизации отпечатком\"</string>
+    <string name="fingerprint_succeded">\"Успешная авторизация отпечатком\"</string>
+    <string name="fingerprint_summary">\"Блокируйте запуск приложений отпечатком\"</string>
+    <string name="folder_background">\"Фоновый цвет папок\"</string>
+    <string name="folder_background_summary">\"Изменить фоновый цвет\"</string>
+    <string name="folder_circle_color">\"Цвет рамки круга\"</string>
+    <string name="folder_circle_color_summary">\"Изменить цвет рамки круга\"</string>
+    <string name="folder_enter_title">\"Введите название\"</string>
+    <string name="folder_open">\"Открыть папку\"</string>
+    <string name="folder_preview_background">\"Фоновый цвет превью\"</string>
+    <string name="folder_preview_background_summary">\"Изменение фонового цвета превью\"</string>
+    <string name="folder_rename">\"Переименовать папку\"</string>
+    <string name="folder_title">\"Название папки\"</string>
+    <string name="folder_transparent">\"Прозрачнная папка\"</string>
+    <string name="folder_transparent_summary">\"Прозрачное превью папки\"</string>
+    <string name="gmail_compose">\"Написать\"</string>
+    <string name="greenify_hibernate">\"Режим гибернации\"</string>
+    <string name="greenify_sleep">\"Режим сна и гибернации\"</string>
+    <string name="grid_size">\"Изменить размер сетки\"</string>
+    <string name="grid_size_summary">\"Установка пользовательской сетки\"</string>
+    <string name="hang_call">\"Голосовой вызов\"</string>
+    <string name="hang_chat">\"Чат\"</string>
+    <string name="hang_video">\"Видеовызов\"</string>
+    <string name="home_key">\"Кнопка Домой\"</string>
+    <string name="home_key_summary">\"Установить действие на нажатие кнопки Домой\"</string>
+    <string name="icon_pack">\"Набор ярлыков\"</string>
+    <string name="icon_pack_summary">\"Набор ярлыков (Iconpack)\"</string>
+    <string name="icon_size">\"Размер ярлыков\"</string>
+    <string name="icon_size_summary">\"Настройка размера ярлыков\"</string>
+    <string name="info">\"Информация о\"</string>
+    <string name="information">\"Информация\"</string>
+    <string name="license">\"Лицензии\"</string>
+    <string name="license_dialog_message_pro">\"Эта плюшка только для крутышной версии!\n\nНе парься - качай <a href="http://www.apache.org/licenses/LICENSE-2.0">Flick Launcher PRO</a> по цене чашки кофе.\"</string>
+    <string name="maps_home">\"Дом\"</string>
+    <string name="maps_work">\"Работа\"</string>
+    <string name="mode_normal">\"Звонок Обычный\"</string>
+    <string name="mode_silent">\"Звонок Беззвучный\"</string>
+    <string name="mode_vibrate">\"Звонок Вибрация\"</string>
+    <string name="movies_my">\"Мои Фильмы\"</string>
+    <string name="movies_tv">\"Моё ТВ\"</string>
+    <string name="movies_wishlist">\"Мой лист желаний\"</string>
+    <string name="music_library">\"Моя фонотека\"</string>
+    <string name="music_recent">\"История\"</string>
+    <string name="neutral">\"ПО УМОЛЧАНИЮ\"</string>
+    <string name="new_incognito_tab">\"Новая вкладка Инкогнито\"</string>
+    <string name="new_tab">\"Новая вкладка\"</string>
+    <string name="not_allow">\"Не трожь!\"</string>
+    <string name="note">\"(Для использования блокировки по отпечатку пальца должен быть зарегистрирован хотя бы один отпечаток в настройках)\"</string>
+    <string name="note_password">\"(Для использования блокировки по паролю должен быть зарегистрирован хотя бы один пароль в настройках)\"</string>
+    <string name="nothing">\"Пусто\"</string>
+    <string name="notification">\"оповещение\"</string>
+    <string name="ok"></string>
+    <string name="password">\"Блокировать приложение паролем\"</string>
+    <string name="password_failed">\"Неверный пароль\"</string>
+    <string name="password_mismatch">\"Пароли не совпадают\"</string>
+    <string name="password_reset">\"Сбросить пароль\"</string>
+    <string name="password_succeded">\"Верный пароль\"</string>
+    <string name="password_summary">\"Блокирует приложения парполем\"</string>
+    <string name="photo_free_space">\"Освободить место\"</string>
+    <string name="photo_lucky">\"Я счастлив!\"</string>
+    <string name="pick_wallpaper">\"Выбор обоев\"</string>
+    <string name="preferences_dock_option">\"Док\"</string>
+    <string name="preferences_folder">\"Папка\"</string>
+    <string name="preferences_gesture">\"Жесты\"</string>
+    <string name="preferences_icon_pack_option">\"Ярлыки (иконки)\"</string>
+    <string name="preferences_info">\"Информация\"</string>
+    <string name="preferences_layout_option">\"Расположение\"</string>
+    <string name="preferences_searchbar_option">\"Строка поиска\"</string>
+    <string name="preferences_security">\"Безопасность\"</string>
+    <string name="preferences_various_option">\"Дополнительно...\"</string>
+    <string name="pro_version"></string>
+    <string name="recent_key">\"Домой (долгое нажатие)\"</string>
+    <string name="recent_key_summary">\"Установить действие на длительное нажатие кнопки Домой\"</string>
+    <string name="row_size">\"Размер ряда\"</string>
+    <string name="screenshot">\"Скриншот\"</string>
+    <string name="search">\"Поиск\"</string>
+    <string name="select_apps">\"Выбрать приложения\"</string>
+    <string name="settings">\"Настройки\"</string>
+    <string name="show_app_drawer">\"Открыть панель программ\"</string>
+    <string name="show_notification">\"Отобразить оповещение\"</string>
+    <string name="sleep">\"Выключить экран\"</string>
+    <string name="soft_key">\"Экранная кнопка\"</string>
+    <string name="title_fingerprint">\"Разблокировка прикосновением\"</string>
+    <string name="title_password">\"Разблокировка паролем\"</string>
+    <string name="torch">\"Фонарик\"</string>
+    <string name="work_in_progress">\"В работе...\"</string>
+    <string name="youtube_sub">\"Подписки\"</string>
 </resources>
