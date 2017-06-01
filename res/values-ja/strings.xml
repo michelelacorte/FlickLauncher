@@ -279,7 +279,7 @@
 
     <string name="all_apps_size_summary">ドロワーの大きさを変更します</string>
 
-    <string name="disclaimer_dialog_message">&app_name;へようこそ！\n\nこのアプリは<a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>で管理されている、オープンソースのアプリケーションです。\n\nFlick LauncherプロジェクトはGoogle Pixelに影響を受けていますが、いくつかの機能が追加されてます。\n詳しくは、<a href="https://github.com/michelelacorte/FlickLauncher">GitHub</a>をご覧ください。\n\nこのアプリが気に入ったら、<a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">Donation App</a>をダウンロードして開発者を支援してください。\n\nThis project is under <a href="https://github.com/michelelacorte/FlickLauncher/blob/master/LICENSE">Apache v2 License</a>, and all right reserved to Michele Lacorte.\n\n\n\nバージョン v0.1.0 Build 100</string>
+    <string name="disclaimer_dialog_message">&app_name;へようこそ！\n\nこのアプリは<a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>で管理されている、オープンソースアプリケーションです。\n\nFlick LauncherプロジェクトはGoogle Pixelに影響を受けていますが、いくつかの機能が追加されてます。\n詳しくは、<a href="https://github.com/michelelacorte/FlickLauncher">GitHub</a>をご覧ください。\n\nこのアプリが気に入ったら、<a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">Donation App</a>をダウンロードして開発者を支援してください。\n\nThis project is under <a href="https://github.com/michelelacorte/FlickLauncher/blob/master/LICENSE">Apache v2 License</a>, and all right reserved to Michele Lacorte.\n\n\n\nバージョン v0.1.0 Build 100</string>
 
 
 
