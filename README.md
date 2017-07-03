@@ -97,6 +97,7 @@ Android API 21+
 * Added new notification dots badge from Android O! (with all customization, like alignment and color)
 * Added Proximity gesture.
 * Added Headset gesture.
+* Added Google Now panel.
 * And many more..just download!
 
 
