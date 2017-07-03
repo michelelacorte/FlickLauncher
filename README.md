@@ -3,7 +3,9 @@
 Flick Launcher is a project started by [Michele Lacorte](https://github.com/michelelacorte).
 I want to create a launcher for google pixels style stock, with a few tweaks.
 
-## ALPHA
+## [OFFICIAL SITE](http://flicklauncher.it)
+
+## BETA
 
 #### Flick Launcher is on open Alpha preview!!!
 
@@ -70,12 +72,8 @@ Android API 21+
 
 ## CHANGELOG
 
-**v0.1.0 Beta 157**
-* App Shortcuts on Launcher working on device screen:
-    * 1440x2560 (Portrait).
-    * 1080x1920 (Portrait).
-    * 720x1280 (Portrait).
-* Fixed App Shortcuts on 560 dpi and 420 dpi.
+**v0.1.0 Beta 163**
+* App Shortcuts on Launcher working on all device screen.
 * Added App Shortcuts for: Google Chrome, Maps, Ebay, Evernote, Gmail, Allo, Docs, Youtube, Calendar, Photos, Drive, Greenify, Play Movies, Play Music.
 * Fixed crash on click widget.
 * Update app icon and string (all languages).
@@ -96,7 +94,10 @@ Android API 21+
 * Added modification of icon.
 * Added feature to PRO version.
 * Added new search bar.
-* Added new notification dots badge from Android O!
+* Added new notification dots badge from Android O! (with all customization, like alignment and color)
+* Added Proximity gesture.
+* Added Headset gesture.
+* And many more..just download!
 
 
 **v0**
