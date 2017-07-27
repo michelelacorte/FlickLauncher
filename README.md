@@ -35,7 +35,7 @@ This project needs you! If you would like to support this project's further deve
 
 * **[Donate $5]**: Thank's for creating this project, here's a coffee (or some beer) for you!
 
-* **[Donate $10]**: Wow, I am stunned. Let me take you to the movies!ù
+* **[Donate $10]**: Wow, I am stunned. Let me take you to the movies!
 
 * **[Donate $15]**: I really appreciate your work, let's grab some lunch!
 
@@ -94,11 +94,11 @@ Android API 21+
 * Added modification of icon.
 * Added feature to PRO version.
 * Added new search bar.
-* Added new notification dots badge from Android O! (with all customization, like alignment and color)
+* Added new notification dots badge from Android O! (with all customization, like alignment and color).
 * Added Proximity gesture.
 * Added Headset gesture.
 * Added Google Now panel.
-* And many more..just download!
+* And many more...just download!
 
 
 **v0**
