@@ -137,6 +137,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
+Thanks to Lawnchair for: wallpaperpicker, blur, dynamic calendar icon
+
+[License](https://github.com/Deletescape-Media/Lawnchair/blob/alpha/LICENSE)
+
 [Donate $5]: 		https://www.paypal.me/MicheleLacorte/5
 [Donate $10]:  		https://www.paypal.me/MicheleLacorte/10
 [Donate $15]:  		https://www.paypal.me/MicheleLacorte/15
