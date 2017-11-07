@@ -137,7 +137,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-Thanks to Lawnchair for: wallpaperpicker, blur, dynamic calendar icon
+Thanks to Lawnchair for: wallpaperpicker, blur, dynamic calendar icon, [app shortcuts animation method](https://gist.github.com/michelelacorte/c1b5e561975ed3056f9a04e23c94439f)
 
 [License](https://github.com/Deletescape-Media/Lawnchair/blob/alpha/LICENSE)
 
