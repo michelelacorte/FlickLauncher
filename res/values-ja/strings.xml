@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<?xml version="1.0" encoding="utf-8"?>
+<!--
 /*
 * Copyright (C) 2008 The Android Open Source Project
 *
@@ -15,93 +15,469 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- -->
+-->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="649227358658669779">Universal Launcher</string>
-    <string name="folder_name" msgid="7371454440695724752"></string>
-    <string name="work_folder_name" msgid="3753320833950115786">"仕事用"</string>
-    <string name="activity_not_found" msgid="8071924732094499514">"このアプリはインストールされていません。"</string>
-    <string name="activity_not_available" msgid="7456344436509528827">"このアプリは使用できません"</string>
-    <string name="safemode_shortcut_error" msgid="9160126848219158407">"ダウンロードしたアプリは、セーフモードでは無効です"</string>
-    <string name="safemode_widget_error" msgid="4863470563535682004">"セーフモードではウィジェットは無効です"</string>
-    <string name="shortcut_not_available" msgid="2536503539825726397">"ショートカットは使用できません"</string>
-    <string name="long_press_widget_to_add" msgid="7699152356777458215">"ウィジェットを追加するには押し続けます。"</string>
-    <string name="long_accessible_way_to_add" msgid="4289502106628154155">"ダブルタップ後に押し続けてウィジェットを選択するか、カスタム操作を使用してください。"</string>
-    <string name="widget_dims_format" msgid="2370757736025621599">"%1$dx%2$d"</string>
-    <string name="widget_accessible_dims_format" msgid="3640149169885301790">"幅 %1$d、高さ %2$d"</string>
-    <string name="all_apps_search_bar_hint" msgid="7084713969757597256">"アプリを検索"</string>
-    <string name="all_apps_loading_message" msgid="7557140873644765180">"アプリを読み込んでいます…"</string>
-    <string name="all_apps_no_search_results" msgid="6332185285860416787">"「<xliff:g id="QUERY">%1$s</xliff:g>」に一致するアプリは見つかりませんでした"</string>
-    <string name="all_apps_search_market_message" msgid="1366263386197059176">"他のアプリを検索"</string>
-    <string name="out_of_space" msgid="4691004494942118364">"このホーム画面に空きスペースがありません。"</string>
-    <string name="hotseat_out_of_space" msgid="7448809638125333693">"お気に入りトレイに空きスペースがありません"</string>
-    <string name="all_apps_button_label" msgid="8130441508702294465">"アプリのリスト"</string>
-    <string name="all_apps_home_button_label" msgid="252062713717058851">"ホーム"</string>
-    <string name="remove_drop_target_label" msgid="7812859488053230776">"削除"</string>
-    <string name="uninstall_drop_target_label" msgid="4722034217958379417">"アンインストール"</string>
-    <string name="app_info_drop_target_label" msgid="692894985365717661">"アプリ情報"</string>
-    <string name="permlab_install_shortcut" msgid="5632423390354674437">"ショートカットのインストール"</string>
-    <string name="permdesc_install_shortcut" msgid="923466509822011139">"ユーザー操作なしでショートカットを追加することをアプリに許可します。"</string>
-    <string name="permlab_read_settings" msgid="1941457408239617576">"ホームの設定とショートカットの読み取り"</string>
-    <string name="permdesc_read_settings" msgid="5833423719057558387">"ホームの設定とショートカットの読み取りをアプリに許可します。"</string>
-    <string name="permlab_write_settings" msgid="3574213698004620587">"ホームの設定とショートカットの書き込み"</string>
-    <string name="permdesc_write_settings" msgid="5440712911516509985">"ホームの設定とショートカットの変更をアプリに許可します。"</string>
-    <string name="msg_no_phone_permission" msgid="9208659281529857371">"「<xliff:g id="APP_NAME">%1$s</xliff:g>」から電話をかけることはできません"</string>
-    <string name="gadget_error_text" msgid="6081085226050792095">"ウィジェットを表示できません"</string>
-    <string name="gadget_setup_text" msgid="8274003207686040488">"セットアップ"</string>
-    <string name="uninstall_system_app_text" msgid="4172046090762920660">"このシステムアプリはアンインストールできません。"</string>
-    <string name="folder_hint_text" msgid="6617836969016293992">"名前のないフォルダ"</string>
-    <string name="disabled_app_label" msgid="6673129024321402780">"「<xliff:g id="APP_NAME">%1$s</xliff:g>」は無効です"</string>
-    <string name="default_scroll_format" msgid="7475544710230993317">"%1$d/%2$dページ"</string>
-    <string name="workspace_scroll_format" msgid="8458889198184077399">"ホーム画面: %1$d/%2$d"</string>
-    <string name="workspace_new_page" msgid="257366611030256142">"新しいホーム画面ページ"</string>
-    <string name="folder_opened" msgid="94695026776264709">"フォルダが開いています。<xliff:g id="WIDTH">%1$d</xliff:g>x<xliff:g id="HEIGHT">%2$d</xliff:g>の大きさです"</string>
-    <string name="folder_tap_to_close" msgid="4625795376335528256">"タップしてフォルダを閉じます"</string>
-    <string name="folder_tap_to_rename" msgid="4017685068016979677">"タップして変更後の名前を保存します"</string>
-    <string name="folder_closed" msgid="4100806530910930934">"フォルダは閉じています"</string>
-    <string name="folder_renamed" msgid="1794088362165669656">"フォルダの名前を「<xliff:g id="NAME">%1$s</xliff:g>」に変更しました"</string>
-    <string name="folder_name_format" msgid="6629239338071103179">"フォルダ: <xliff:g id="NAME">%1$s</xliff:g>"</string>
-    <string name="widget_button_text" msgid="2880537293434387943">"ウィジェット"</string>
-    <string name="wallpaper_button_text" msgid="8404103075899945851">"壁紙"</string>
-    <string name="settings_button_text" msgid="8119458837558863227">"設定"</string>
-    <string name="msg_disabled_by_admin" msgid="6898038085516271325">"管理者により無効にされています"</string>
-    <string name="accessibility_action_overview" msgid="6257665857640347026">"概要"</string>
-    <string name="allow_rotation_title" msgid="7728578836261442095">"ホーム画面の回転を許可"</string>
-    <string name="allow_rotation_desc" msgid="8662546029078692509">"スマートフォンが回転したとき"</string>
-    <string name="allow_rotation_blocked_desc" msgid="3212602545192996253">"現在の [ディスプレイ] 設定では回転を使用できません"</string>
-    <string name="package_state_unknown" msgid="7592128424511031410">"不明"</string>
-    <string name="abandoned_clean_this" msgid="7610119707847920412">"削除"</string>
-    <string name="abandoned_search" msgid="891119232568284442">"検索"</string>
-    <string name="abandoned_promises_title" msgid="7096178467971716750">"このアプリはインストールされていません"</string>
-    <string name="abandoned_promise_explanation" msgid="3990027586878167529">"このアイコンのアプリはインストールされていません。このアイコンは削除できます。または、手動でアプリを検索してインストールしください。"</string>
-    <string name="app_downloading_title" msgid="8336702962104482644">"<xliff:g id="NAME">%1$s</xliff:g>をダウンロード中、<xliff:g id="PROGRESS">%2$s</xliff:g>完了"</string>
-    <string name="app_waiting_download_title" msgid="7053938513995617849">"<xliff:g id="NAME">%1$s</xliff:g>のインストール待ち"</string>
-    <string name="action_add_to_workspace" msgid="8902165848117513641">"ホーム画面に追加"</string>
-    <string name="action_move_here" msgid="2170188780612570250">"アイテムをここに移動"</string>
-    <string name="item_added_to_workspace" msgid="4211073925752213539">"アイテムをホーム画面に追加しました"</string>
-    <string name="item_removed" msgid="851119963877842327">"アイテムを削除しました"</string>
-    <string name="action_move" msgid="4339390619886385032">"アイテムを移動"</string>
-    <string name="move_to_empty_cell" msgid="2833711483015685619">"行<xliff:g id="NUMBER_0">%1$s</xliff:g>、列<xliff:g id="NUMBER_1">%2$s</xliff:g>に移動"</string>
-    <string name="move_to_position" msgid="6750008980455459790">"位置<xliff:g id="NUMBER">%1$s</xliff:g>に移動"</string>
-    <string name="move_to_hotseat_position" msgid="6295412897075147808">"お気に入りの位置<xliff:g id="NUMBER">%1$s</xliff:g>に移動"</string>
-    <string name="item_moved" msgid="4606538322571412879">"アイテムを移動しました"</string>
-    <string name="add_to_folder" msgid="9040534766770853243">"フォルダ「<xliff:g id="NAME">%1$s</xliff:g>」に追加"</string>
-    <string name="add_to_folder_with_app" msgid="4534929978967147231">"<xliff:g id="NAME">%1$s</xliff:g>のあるフォルダに追加"</string>
-    <string name="added_to_folder" msgid="4793259502305558003">"アイテムをフォルダに追加しました"</string>
-    <string name="create_folder_with" msgid="4050141361160214248">"「<xliff:g id="NAME">%1$s</xliff:g>」フォルダを作成"</string>
-    <string name="folder_created" msgid="6409794597405184510">"フォルダを作成しました"</string>
-    <string name="action_move_to_workspace" msgid="1603837886334246317">"ホーム画面に移動"</string>
-    <string name="action_move_screen_left" msgid="8854216831569401665">"画面を左に移動"</string>
-    <string name="action_move_screen_right" msgid="329334910274311123">"画面を右に移動"</string>
-    <string name="screen_moved" msgid="266230079505650577">"画面を移動しました"</string>
-    <string name="action_resize" msgid="1802976324781771067">"サイズを変更"</string>
-    <string name="action_increase_width" msgid="8773715375078513326">"幅を広くする"</string>
-    <string name="action_increase_height" msgid="459390020612501122">"高さを高くする"</string>
-    <string name="action_decrease_width" msgid="1374549771083094654">"幅を狭くする"</string>
-    <string name="action_decrease_height" msgid="282377193880900022">"高さを低くする"</string>
-    <string name="widget_resized" msgid="9130327887929620">"ウィジェットのサイズを幅<xliff:g id="NUMBER_0">%1$s</xliff:g>、高さ<xliff:g id="NUMBER_1">%2$s</xliff:g>に変更しました"</string>
-    <string name="action_deep_shortcut" msgid="2864038805849372848">"ショートカット"</string>
-    <string name="shortcuts_menu_description" msgid="406159963824238648">"<xliff:g id="APP_NAME">%2$s</xliff:g>用の <xliff:g id="NUMBER_OF_SHORTCUTS">%1$d</xliff:g> 件のショートカット"</string>
+<!DOCTYPE resources [
+<!ENTITY app_name "Flick Launcher">
+]>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Shortcuts -->
+    <string name="add_shortcuts">ショートカットを追加</string>
+    <string name="information">情報</string>
+    <string name="delete">アンインストール</string>
+    <string name="new_incognito_tab">シークレットタブ</string>
+    <string name="new_tab">新しいタブ</string>
+    <string name="maps_work">職場</string>
+    <string name="maps_home">自宅</string>
+    <string name="search">検索</string>
+    <string name="ebay_watching">ウォッチリスト</string>
+    <string name="ebay_local_offer">出品中</string>
+    <string name="ebay_following">フォロー中</string>
+    <string name="evernote_note">テキストノート</string>
+    <string name="evernote_audio">音声</string>
+    <string name="evernote_camera">カメラ</string>
+    <string name="gmail_compose">新規メール</string>
+    <string name="allo_conversation">新規チャット</string>
+    <string name="drive_upload">アップロード</string>
+    <string name="drive_scan">スキャン</string>
+    <string name="youtube_sub">登録チャンネル</string>
+    <string name="youtube_trending">急上昇</string>
+    <string name="calendar_event">予定を追加</string>
+    <string name="calendar_reminder">リマインダーを追加</string>
+    <string name="photo_free_space">空き容量を増やす</string>
+    <string name="photo_lucky">I\'m Feeling Lucky</string>
+    <string name="docs_new">新規ドキュメント</string>
+    <string name="docs_template">テンプレートを選択</string>
+    <string name="greenify_hibernate">休止する</string>
+    <string name="greenify_sleep">スリープして休止する</string>
+    <string name="movies_my">映画</string>
+    <string name="movies_tv">テレビ番組</string>
+    <string name="movies_wishlist">見たいものリスト</string>
+    <string name="music_library">ライブラリ</string>
+    <string name="music_recent">最近のアクティビティ</string>
+    <string name="hang_chat">新規チャット</string>
+    <string name="hang_video">ビデオハングアウト</string>
+    <string name="hang_call">ボイスハングアウト</string>
+    <string name="folder_title">フォルダ名</string>
+    <string name="folder_enter_title">フォルダ名を変更</string>
+    <string name="folder_rename">フォルダ名を変更</string>
+    <string name="folder_open">フォルダを開く</string>
+
+    <!-- Alert dialog shortcuts -->
+    <string name="alert_title">タイトル</string>
+    <string name="alert_max">ショートカットの最大数:</string>
+    <string name="alert_choose_app">アプリを選択</string>
+    <!-- General -->
+    <skip />
+
+    <string name="nothing">なし</string>
+    <!-- Alert dialog launcher default -->
+    <string name="ask_default">&app_name;をデフォルトのランチャーに設定しますか？</string>
+    <string name="ask_restart">ランチャーを再起動しますか？</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">キャンセル</string>
+
+    <!-- Application name -->
+    <string name="app_name" translatable="false">Flick Launcher</string>
+    <!-- Default folder name -->
+    <string name="folder_name"></string>
+    <!-- Work folder name -->
+    <string name="work_folder_name">仕事用</string>
+    <!-- Displayed when user selects a shortcut for an app that was uninstalled [CHAR_LIMIT=none]-->
+    <string name="activity_not_found">このアプリはインストールされていません</string>
+    <!-- Displayed when user selects a shortcut for an app that is current not available [CHAR_LIMIT=none]-->
+    <string name="activity_not_available">このアプリは使用できません</string>
+    <!-- SafeMode shortcut error string -->
+    <string name="safemode_shortcut_error">ダウンロードしたアプリは、セーフモードでは無効です</string>
+    <!-- SafeMode widget error string -->
+    <string name="safemode_widget_error">ウィジェットは、セーフモードでは無効です</string>
+    <!-- Message shown when a shortcut is not available. It could have been temporarily disabled and may start working again after some time. -->
+    <string name="shortcut_not_available">このショートカットは使用できません</string>
+
+    <!-- Widgets -->
+    <!-- Message to tell the user to press and hold on a widget to add it [CHAR_LIMIT=50] -->
+    <string name="long_press_widget_to_add">ウィジェットを追加するには押し続けます</string>
+    <!-- Accessibility spoken hint message in widget picker, which allows user to add a widget. Custom action is the label for additional accessibility actions available in this mode [CHAR_LIMIT=100] -->
+    <string name="long_accessible_way_to_add">ダブルタップ後に押し続けてウィジェットを選択するか、カスタム操作を使用してください</string>
+    <!-- The format string for the dimensions of a widget in the drawer -->
+    <!-- There is a special version of this format string for Farsi -->
+    <string name="widget_dims_format">%1$dx%2$d</string>
+    <!-- Accessibility spoken message format for the dimensions of a widget in the drawer -->
+    <string name="widget_accessible_dims_format">幅 %1$d 高さ %2$d</string>
+
+    <!-- All Apps -->
+    <!-- Search bar text in the apps view. [CHAR_LIMIT=50] -->
+    <string name="all_apps_search_bar_hint">アプリを検索</string>
+    <!-- Loading apps text. [CHAR_LIMIT=50] -->
+    <string name="all_apps_loading_message">アプリを読み込んでいます…</string>
+    <!-- No-search-results text. [CHAR_LIMIT=50] -->
+    <string name="all_apps_no_search_results">「<xliff:g id="query" example="Android">%1$s</xliff:g>」に一致するアプリは見つかりませんでした</string>
+    <!-- Label for the button which allows the user to get app search results. [CHAR_LIMIT=50] -->
+    <string name="all_apps_search_market_message">Play ストアを検索</string>
+
+    <!-- Drag and drop -->
+    <skip />
+    <!-- Error message when user has filled a home screen -->
+    <string name="out_of_space">このホーム画面には空きスペースがありません</string>
+    <!-- Error message when user has filled the hotseat -->
+    <string name="hotseat_out_of_space">お気に入りトレイに空きスペースがありません</string>
+
+    <!-- All applications label -->
+    <string name="all_apps_button_label">アプリのリスト</string>
+    <!-- Label for button in all applications label to go back home (to the workspace / desktop)
+         for accessibilty (spoken when the button gets focus). -->
+    <string name="all_apps_home_button_label">ホーム</string>
+
+    <!-- Label for remove drop target. [CHAR_LIMIT=20] -->
+    <string name="remove_drop_target_label">削除</string>
+    <!-- Label for uninstall drop target. [CHAR_LIMIT=20]-->
+    <string name="uninstall_drop_target_label">アンインストール</string>
+    <!-- Label for app info drop target. [CHAR_LIMIT=20] -->
+    <string name="app_info_drop_target_label">情報</string>
+
+    <!-- Permissions: -->
+    <skip />
+    <!-- Permission short label -->
+    <string name="permlab_install_shortcut">ショートカットのインストール</string>
+    <!-- Permission description -->
+    <string name="permdesc_install_shortcut">ユーザーの操作なしでショートカットを追加することをアプリに許可します</string>
+    <!-- Permission short label -->
+    <string name="permlab_read_settings">ホームの設定とショートカットの読み取り</string>
+    <!-- Permission description -->
+    <string name="permdesc_read_settings">ホームの設定とショートカットの読み取りをアプリに許可します</string>
+    <!-- Permission short label -->
+    <string name="permlab_write_settings">ホームの設定とショートカットの書き込み</string>
+    <!-- Permission description -->
+    <string name="permdesc_write_settings">ホームの設定とショートカットの書き込みをアプリに許可します</string>
+
+    <!-- Toast shown on clicking a direct call shortcut. [CHAR_LIMIT=80] -->
+    <string name="msg_no_phone_permission">「<xliff:g id="app_name" example="Launcher3">%1$s</xliff:g>」から電話をかけることはできません</string>
+
+    <!-- Widgets: -->
+    <skip />    
+
+    <!-- Text to show user in place of a gadget when we can't display it properly -->
+    <string name="gadget_error_text">ウィジェットを表示できません</string>
+
+    <!-- Text to show user in place of a gadget when it is not yet initialized. -->
+    <string name="gadget_setup_text">セットアップ</string>
+
+    <!-- Text to inform the user that they can't uninstall a system application -->
+    <string name="uninstall_system_app_text">このシステムアプリはアンインストールできません</string>
+
+    <!-- Default folder title -->
+    <string name="folder_hint_text">名前のないフォルダ</string>
+
+    <!-- Accessibility -->
+    <!-- The format string for when an app is temporarily disabled. -->
+    <string name="disabled_app_label">「<xliff:g id="app_name" example="Messenger">%1$s</xliff:g>」は無効です</string>
+    <skip />
+
+    <!-- The format string for default page scroll text [CHAR_LIMIT=none] -->
+    <string name="default_scroll_format">%1$d / %2$d ページ</string>
+    <!-- The format string for Workspace page scroll text [CHAR_LIMIT=none] -->
+    <string name="workspace_scroll_format">ホーム画面: %1$d / %2$d</string>
+    <!-- Description for a new page on homescreen[CHAR_LIMIT=none] -->
+    <string name="workspace_new_page">新しいホーム画面ページ</string>
+
+    <!-- Folder accessibility -->
+    <!-- The format string for when a folder is opened, speaks the dimensions -->
+    <string name="folder_opened">行 <xliff:g id="width" example="5">%1$d</xliff:g> 列 <xliff:g id="height" example="3">%2$d</xliff:g> のフォルダーを開きました</string>
+    <!-- Instruction that clicking outside will close folder -->
+    <string name="folder_tap_to_close">タップしてフォルダを閉じる</string>
+    <!-- Instruction that clicking outside will commit folder rename -->
+    <string name="folder_tap_to_rename">タップしてフォルダの名前を保存</string>
+    <!-- Indication that folder closed -->
+    <string name="folder_closed">フォルダを閉じました</string>
+    <!-- Folder renamed format -->
+    <string name="folder_renamed">フォルダの名前を「<xliff:g id="name" example="Games">%1$s</xliff:g>」に変更しました</string>
+    <!-- Folder name format -->
+    <string name="folder_name_format">フォルダ: <xliff:g id="name" example="Games">%1$s</xliff:g></string>
+
+    <!-- Strings for the customization mode -->
+    <!-- Text for widget add button -->
+    <string name="widget_button_text">ウィジェット</string>
+    <!-- Text for wallpaper change button -->
+    <string name="wallpaper_button_text">壁紙</string>
+    <!-- Text for settings button -->
+    <string name="settings_button_text">設定</string>
+    <!-- Message shown when a feature is disabled by the administrator -->
+    <string name="msg_disabled_by_admin">管理者により無効にされています</string>
+    <!-- Text for custom accessibility action to go to the overview mode, where users can look and change the overall UI of the launcher. -->
+    <string name="accessibility_action_overview">概要</string>
+
+    <!-- Strings for settings -->
+    <string name="preferences_layout_option">レイアウト</string>
+    <!-- Title for Allow Rotation setting. [CHAR LIMIT=50] -->
+    <string name="allow_rotation_title">ホーム画面の回転を許可</string>
+    <!-- Text explaining when the home screen will get rotated. [CHAR LIMIT=100] -->
+    <string name="allow_rotation_desc">スマートフォンが回転したとき</string>
+    <!-- Text explaining that rotation is disabled in Display settings. 'Display' refers to the Display section in system settings [CHAR LIMIT=100] -->
+    <string name="allow_rotation_blocked_desc">現在の [ディスプレイ] 設定では回転を使用できません</string>
+
+    <string name="allow_icon_title">円形のアイコンを有効化</string>
+
+    <string name="allow_icon_summary">円形のアイコンを有効化します</string>
+
+    <string name="grid_size">グリッドの大きさ</string>
+
+    <string name="grid_size_summary">グリッドの大きさを変更します</string>
+
+    <string name="column_size">列数</string>
+
+    <string name="row_size">行数</string>
+
+    <string name="preferences_dock_option">ドック</string>
+
+    <string name="preferences_folder">フォルダ</string>
+
+    <string name="dock_size">ドック内のアイコンの数</string>
+
+    <string name="all_apps_dialog">Icon in all apps</string>
+
+    <string name="dock_size_summary">ドック内のアイコンの数を変更します</string>
+
+    <string name="preferences_various_option">Various</string>
+
+    <string name="ask_default_launcher">&app_name;をデフォルトのランチャーに設定する</string>
+
+    <string name="ask_default_launcher_summary">デフォルトのランチャーを変更します</string>
+
+    <string name="default_launcher_already_set">&app_name;をデフォルトのランチャーに設定しました</string>
+
+    <string name="ask_restart_launcher">&app_name;を再起動</string>
+
+    <string name="preferences_gesture">ジェスチャー</string>
+
+    <string name="allow_sleep">ダブルタップでスリープ</string>
+
+    <string name="allow_sleep_summary">ダブルタップで画面をロックします</string>
+
+    <string name="choose_double_tap">タップタップ</string>
+
+    <string name="choose_double_tap_summary">アプリを選択します</string>
+
+    <string name="choose_bottom_swipe">下にスワイプ</string>
+
+    <string name="choose_up_swipe">上にスワイプ</string>
+
+    <string name="choose_up_swipe_two_fingers">2本指で上にスワイプ</string>
+
+    <string name="choose_bottom_swipe_two_fingers">2本指で下にスワイプ</string>
+
+    <string name="preferences_info">情報</string>
+
+    <string name="info">&app_name;の情報</string>
+
+    <string name="donation">寄付</string>
+
+    <string name="donation_summary">このアプリを支援してください</string>
+
+    <string name="all_apps_size">ドロワーの大きさ</string>
+
+    <string name="all_apps_size_summary">ドロワーの大きさを変更します</string>
+
+    <string name="disclaimer_dialog_message">&app_name;へようこそ！\n\nこのアプリは<a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>で管理されている、オープンソースアプリケーションです。\n\nFlick LauncherプロジェクトはGoogle Pixelに影響を受けていますが、いくつかの機能が追加されてます。\n詳しくは、<a href="https://github.com/michelelacorte/FlickLauncher">GitHub</a>をご覧ください。\n\nこのアプリが気に入ったら、<a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">Donation App</a>をダウンロードして開発者を支援してください。\n\nThis project is under <a href="https://github.com/michelelacorte/FlickLauncher/blob/master/LICENSE">Apache v2 License</a>, and all right reserved to Michele Lacorte.\n\n\n\nバージョン v0.1.0 Build 100</string>
+
+
+
+
+    <!-- Label on an icon that references an uninstalled package, for which we have no information about when it might be installed. [CHAR_LIMIT=15] -->
+    <string name="package_state_unknown">不明</string>
+
+    <!-- Button for abandoned promises dialog, to removes this abandoned promise icon. -->
+    <string name="abandoned_clean_this">削除</string>
+    <!-- Button for abandoned promise dialog, to search in the market for the missing package. -->
+    <string name="abandoned_search">検索</string>
+    <!-- Title for abandoned promise dialog. -->
+    <string name="abandoned_promises_title">このアプリはインストールされていません</string>
+    <!-- Explanation for abandoned promise dialog. "The first 'it' refers to the shortcut icon.
+    The second "it" refers to the app. -->
+    <string name="abandoned_promise_explanation">このアイコンのアプリはインストールされていません。このアイコンを削除または手動でアプリをインストールしてください。</string>
+    <!-- Title for an app which is being downloaded. -->
+    <string name="app_downloading_title"><xliff:g id="name" example="Messenger">%1$s</xliff:g> をダウンロード中 <xliff:g id="progress" example="30%">%2$s</xliff:g> 完了</string>
+    <!-- Title for an app whose download has been started. -->
+    <string name="app_waiting_download_title"><xliff:g id="name" example="Messenger">%1$s</xliff:g> のインストール待機中</string>
+
+<!-- Strings for accessibility actions -->
+    <!-- Accessibility action to add an app to workspace. [CHAR_LIMIT=30] -->
+    <string name="action_add_to_workspace">ホーム画面に追加</string>
+
+    <!-- Accessibility action to move item to the current location. [CHAR_LIMIT=30] -->
+    <string name="action_move_here">アイテムをここに移動</string>
+
+    <!-- Accessibility confirmation for item added to workspace. -->
+    <string name="item_added_to_workspace">アイテムをホーム画面に追加しました</string>
+
+    <!-- Accessibility confirmation for item removed. -->
+    <string name="item_removed">アイテムを削除しました</string>
+
+    <!-- Accessibility action to move an item on the workspace. [CHAR_LIMIT=30] -->
+    <string name="action_move">アイテムを移動</string>
+
+    <!-- Accessibility description to move item to empty cell. -->
+    <string name="move_to_empty_cell">行 <xliff:g id="number" example="1">%1$s</xliff:g> 列 <xliff:g id="number" example="1">%2$s</xliff:g> に移動</string>
+
+    <!-- Accessibility description to move item inside a folder. -->
+    <string name="move_to_position">位置 <xliff:g id="number" example="1">%1$s</xliff:g> に移動</string>
+
+    <!-- Accessibility description to move item to the hotseat. -->
+    <string name="move_to_hotseat_position">お気に入りの位置 <xliff:g id="number" example="1">%1$s</xliff:g> に移動</string>
+
+    <!-- Accessibility confirmation for item move. -->
+    <string name="item_moved">アイテムを移動しました</string>
+
+    <!-- Accessibility description to move item into an existing folder. -->
+    <string name="add_to_folder">フォルダ「<xliff:g id="name" example="Games">%1$s</xliff:g>」に追加</string>
+
+    <!-- Accessibility description to move item into an existing folder containing an app. -->
+    <string name="add_to_folder_with_app"><xliff:g id="name" example="Messenger">%1$s</xliff:g> のあるフォルダに追加</string>
+
+    <!-- Accessibility confirmation for item added to folder. -->
+    <string name="added_to_folder">アイテムをフォルダに追加しました</string>
+
+    <!-- Accessibility description to create folder with another item. -->
+    <string name="create_folder_with">「<xliff:g id="name" example="Game">%1$s</xliff:g>」フォルダを作成</string>
+
+    <!-- Accessibility confirmation for folder created. -->
+    <string name="folder_created">フォルダを作成しました</string>
+
+    <!-- Accessibility action to move an item from folder to workspace. [CHAR_LIMIT=30] -->
+    <string name="action_move_to_workspace">ホーム画面に移動</string>
+
+    <!-- Accessibility action to move an homescreen to the left. [CHAR_LIMIT=30] -->
+    <string name="action_move_screen_left">画面を右に移動</string>
+
+    <!-- Accessibility action to move an homescreen to the right. [CHAR_LIMIT=30] -->
+    <string name="action_move_screen_right">画面を左に移動</string>
+
+    <!-- Accessibility confirmation when a screen was moved. -->
+    <string name="screen_moved">画面を移動しました</string>
+
+    <!-- Accessibility action to resize a widget. [CHAR_LIMIT=30] -->
+    <string name="action_resize">サイズを変更</string>
+
+    <!-- Accessibility action to increase width of a widget. [CHAR_LIMIT=30] -->
+    <string name="action_increase_width">幅を広くする</string>
+
+    <!-- Accessibility action to increase height of a widget. [CHAR_LIMIT=30] -->
+    <string name="action_increase_height">高さを高くする</string>
+
+    <!-- Accessibility action to decrease width of a widget. [CHAR_LIMIT=30] -->
+    <string name="action_decrease_width">幅を狭くする</string>
+
+    <!-- Accessibility action to decrease height of a widget. [CHAR_LIMIT=30] -->
+    <string name="action_decrease_height">高さを低くする</string>
+
+    <!-- Accessibility confirmation for widget resize. -->
+    <string name="widget_resized">ウィジェットのサイズを 幅 <xliff:g id="number" example="2">%1$s</xliff:g> 高さ <xliff:g id="number" example="1">%2$s</xliff:g>に変更しました</string>
+
+    <!-- Accessibility action to show quick actions menu for an icon. [CHAR_LIMIT=30] -->
+    <string name="action_deep_shortcut">ショートカット</string>
+
+    <!-- Accessibility description for the shortcuts menu shown for an app. -->
+    <string name="shortcuts_menu_description"><xliff:g id="app_name" example="Messenger">%2$s</xliff:g> 用の <xliff:g id="number_of_shortcuts" example="3">%1$d</xliff:g> 件のショートカット</string>
+    <string name="folder_background">フォルダの背景色</string>
+    <string name="folder_background_summary">フォルダの背景色を変更します</string>
+    <string name="folder_transparent">フォルダプレビューの背景色を透明にする</string>
+    <string name="folder_transparent_summary">フォルダプレビューの背景色を透明にします</string>
+    <string name="folder_preview_background">フォルダプレビューの背景色</string>
+    <string name="folder_preview_background_summary">フォルダプレビューの背景色を変更します</string>
+    <string name="folder_circle_color">フォルダの枠の色</string>
+    <string name="folder_circle_color_summary">フォルダの枠の色を変更します</string>
+    <string name="choose_color">色を選択</string>
+    <string name="license">ライセンス</string>
+    <string name="preferences_security">セキュリティ</string>
+    <string name="fingerprint">指紋認証でアプリをロック</string>
+    <string name="fingerprint_summary">指紋認証でアプリをロックします</string>
+    <string name="select_apps">アプリを選択</string>
+    <string name="allow_persistent_search_bar">Allow persistent search bar</string>
+    <string name="allow_persistent_search_bar_summary">Set search bar persistent to first screen</string>
+    <string name="dock_background">ドックの背景色</string>
+    <string name="dock_background_summary">ドックの背景色を変更します</string>
+    <string name="add_page">ページを追加</string>
+    <string name="password">パスワードでアプリをロック</string>
+    <string name="password_summary">パスワードでアプリをロックします</string>
+    <string name="password_mismatch">パスワードが一致しません。もう一度お試しください。</string>
+    <string name="allow_voice_search_bar">音声検索アイコンを有効化</string>
+    <string name="allow_voice_search_bar_summary">音声検索アイコンを有効化します</string>
+    <string name="preferences_searchbar_option">検索バー</string>
+    <string name="icon_pack_summary">アイコンテーマを選択します</string>
+    <string name="icon_pack">アイコンテーマ</string>
+    <string name="preferences_icon_pack_option">アイコン</string>
+    <string name="ask_icon">リストアしますか？</string>
+    <string name="icon_size">アイコンの大きさ</string>
+    <string name="icon_size_summary">アイコンの大きさを変更します</string>
+    <string name="neutral">デフォルト</string>
+    <string name="edit">編集</string>
+    <string name="edit_label">アプリのラベルを編集</string>
+    <string name="work_in_progress">進行中</string>
+    <string name="allow_notification_count">通知バッジを有効化</string>
+    <string name="allow_notification_count_summary">通知バッジを有効化します</string>
+    <string name="notification">&app_name; 通知バッジ</string>
+    <string name="allow_night">ナイトモードを有効化</string>
+    <string name="allow_night_summary">ナイトモードテーマを有効化します</string>
+    <string name="drawer_background">ドロワーの背景色</string>
+    <string name="drawer_background_summary">ドロワーの背景色を変更します</string>
+    <string name="show_notification">通知の表示</string>
+    <string name="not_allow">この操作は許可されていません</string>
+    <string name="show_app_drawer">ドロワーを開く</string>
+    <string name="pro_version">PROバージョンを試す</string>
+    <string name="license_dialog_message_pro">この機能は、PROバージョンのみ使用できます。\n\nPROバージョンのダウンロード: <a href="http://www.apache.org/licenses/LICENSE-2.0">Flick Launcher PRO</a></string>
+    <string name="soft_key">ソフトキー</string>
+    <string name="home_key">ホームボタン</string>
+    <string name="home_key_summary">ホームボタンを押した時の動作を割り当てます</string>
+    <string name="recent_key">ホームボタンを長押し</string>
+    <string name="recent_key_summary">ホームボタンを長押しした時の動作を割り当てます</string>
+
+    <string name="license_dialog_message"><a href="https://github.com/QuadFlask/colorpicker">colorpicker</a>\n\n
+    Copyright 2014-2017 QuadFlask\n\n
+    Licensed under the Apache License, Version 2.0 (the "License");\n
+    you may not use this file except in compliance with the License.\n
+    You may obtain a copy of the License at\n\n
+
+   <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\n
+
+    Unless required by applicable law or agreed to in writing, software\n
+    distributed under the License is distributed on an "AS IS" BASIS,\n
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n
+    See the License for the specific language governing permissions and\n
+    limitations under the License.\n</string>
+
+    <!-- Custom gesture -->
+    <string name="torch">ライト</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="settings">設定</string>
+    <string name="wifi">Wi-Fi</string>
+    <string name="screenshot">スクリーンショット</string>
+    <string name="sleep">画面をスリープ</string>
+    <string name="mode_silent">サイレントモード</string>
+    <string name="mode_normal">通常モード</string>
+    <string name="mode_vibrate">バイブレーションモード</string>
+
+    <!-- Fingerprint -->
+
+    <string name="title_fingerprint">One-Touch Unlock</string>
+    <string name="desc_fingerprint">指先を指紋認証センサーにかざしてください。</string>
+    <string name="note">(指紋認証を使用するには、1つ以上の指紋をデバイスに登録している必要があります)</string>
+    <string name="activity_home_desc">指紋認証で正常にログインしました。</string>
+    <string name="activity_home_note">アプリを閉じてもう一度開くと、指紋認証画面が再び表示されます</string>
+    <string name="fingerprint_help">指紋認証のヘルプ</string>
+    <string name="fingerprint_succeded">指紋認証に成功しました</string>
+    <string name="fingerprint_failed">指紋認証に失敗しました</string>
+    <string name="fingerprint_error">指紋認証のエラー</string>
+
+    <!-- Password -->
+    <string name="title_password">Password Unlock</string>
+    <string name="desc_password">パスワードを入力してください</string>
+    <string name="note_password">(パスワード認証を使用するには、パスワードをデバイスに登録している必要があります)</string>
+    <string name="password_succeded">パスワード認証に成功しました</string>
+    <string name="password_failed">パスワード認証に失敗しました</string>
+    <string name="dialog_password">パスワードを入力</string>
+    <string name="dialog_password_title">パスワードを設定</string>
+    <string name="password_reset">パスワードのリセット</string>
+
+
 </resources>
