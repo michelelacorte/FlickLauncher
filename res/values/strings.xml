@@ -291,7 +291,8 @@
     <string name="package_state_unknown">Unknown</string>
 
     <!-- Button for abandoned promises dialog, to removes this abandoned promise icon. -->
-    <string name="abandoned_clean_this">Remove</string>
+    <string name="abandoned_clean_this"
+        >Remove</string>
     <!-- Button for abandoned promise dialog, to search in the market for the missing package. -->
     <string name="abandoned_search">Search</string>
     <!-- Title for abandoned promise dialog. -->
@@ -453,7 +454,8 @@
 
     <!-- Custom gesture -->
     <string name="torch">Torch</string>
-    <string name="bluetooth">Bluetooth</string>
+    <string name="bluetooth"
+		translatable="false">Bluetooth</string>
     <string name="settings">Settings</string>
     <string name="wifi">Wifi</string>
     <string name="screenshot">Screenshot</string>
