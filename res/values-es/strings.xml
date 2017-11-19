@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<?xml version="1.0" encoding="utf-8"?>
+<!--
 /*
 * Copyright (C) 2008 The Android Open Source Project
 *
@@ -15,93 +15,474 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- -->
+-->
 
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="649227358658669779">Universal Launcher</string>
-    <string name="folder_name" msgid="7371454440695724752"></string>
-    <string name="work_folder_name" msgid="3753320833950115786">"Trabajo"</string>
-    <string name="activity_not_found" msgid="8071924732094499514">"La aplicación no está instalada."</string>
-    <string name="activity_not_available" msgid="7456344436509528827">"La aplicación no está disponible"</string>
-    <string name="safemode_shortcut_error" msgid="9160126848219158407">"Aplicación descargada inhabilitada en modo seguro"</string>
-    <string name="safemode_widget_error" msgid="4863470563535682004">"Widgets inhabilitados en modo seguro"</string>
-    <string name="shortcut_not_available" msgid="2536503539825726397">"Acceso directo no disponible"</string>
-    <string name="long_press_widget_to_add" msgid="7699152356777458215">"Mantén pulsado el widget que quieras seleccionar."</string>
-    <string name="long_accessible_way_to_add" msgid="4289502106628154155">"Toca dos veces y mantén pulsado el widget que quieras seleccionar o utiliza acciones personalizadas."</string>
-    <string name="widget_dims_format" msgid="2370757736025621599">"%1$d × %2$d"</string>
-    <string name="widget_accessible_dims_format" msgid="3640149169885301790">"%1$d de ancho por %2$d de alto"</string>
-    <string name="all_apps_search_bar_hint" msgid="7084713969757597256">"Busca aplicaciones"</string>
-    <string name="all_apps_loading_message" msgid="7557140873644765180">"Cargando aplicaciones…"</string>
-    <string name="all_apps_no_search_results" msgid="6332185285860416787">"No se han encontrado aplicaciones que contengan \"<xliff:g id="QUERY">%1$s</xliff:g>\""</string>
-    <string name="all_apps_search_market_message" msgid="1366263386197059176">"Buscar más aplicaciones"</string>
-    <string name="out_of_space" msgid="4691004494942118364">"No queda espacio en la pantalla de inicio."</string>
-    <string name="hotseat_out_of_space" msgid="7448809638125333693">"La bandeja de favoritos está completa"</string>
-    <string name="all_apps_button_label" msgid="8130441508702294465">"Lista de aplicaciones"</string>
-    <string name="all_apps_home_button_label" msgid="252062713717058851">"Inicio"</string>
-    <string name="remove_drop_target_label" msgid="7812859488053230776">"Quitar"</string>
-    <string name="uninstall_drop_target_label" msgid="4722034217958379417">"Desinstalar"</string>
-    <string name="app_info_drop_target_label" msgid="692894985365717661">"Datos de aplicación"</string>
-    <string name="permlab_install_shortcut" msgid="5632423390354674437">"instalar accesos directos"</string>
-    <string name="permdesc_install_shortcut" msgid="923466509822011139">"Permite que una aplicación añada accesos directos sin intervención del usuario."</string>
-    <string name="permlab_read_settings" msgid="1941457408239617576">"leer información de accesos directos y de ajustes de la pantalla de inicio"</string>
-    <string name="permdesc_read_settings" msgid="5833423719057558387">"Permite que la aplicación consulte los ajustes y los accesos directos de la pantalla de inicio."</string>
-    <string name="permlab_write_settings" msgid="3574213698004620587">"escribir información de accesos directos y de ajustes de la pantalla de inicio"</string>
-    <string name="permdesc_write_settings" msgid="5440712911516509985">"Permite que las aplicaciones cambien los ajustes y los accesos directos de la pantalla de inicio."</string>
-    <string name="msg_no_phone_permission" msgid="9208659281529857371">"<xliff:g id="APP_NAME">%1$s</xliff:g> no puede hacer llamadas"</string>
-    <string name="gadget_error_text" msgid="6081085226050792095">"Problema al cargar el widget"</string>
-    <string name="gadget_setup_text" msgid="8274003207686040488">"Configuración"</string>
-    <string name="uninstall_system_app_text" msgid="4172046090762920660">"Esta aplicación es del sistema y no se puede desinstalar."</string>
-    <string name="folder_hint_text" msgid="6617836969016293992">"Carpeta sin nombre"</string>
-    <string name="disabled_app_label" msgid="6673129024321402780">"Se ha inhabilitado <xliff:g id="APP_NAME">%1$s</xliff:g>"</string>
-    <string name="default_scroll_format" msgid="7475544710230993317">"Página %1$d de %2$d"</string>
-    <string name="workspace_scroll_format" msgid="8458889198184077399">"Pantalla de inicio %1$d de %2$d"</string>
-    <string name="workspace_new_page" msgid="257366611030256142">"Nueva página de pantalla de inicio"</string>
-    <string name="folder_opened" msgid="94695026776264709">"Carpeta abierta, <xliff:g id="WIDTH">%1$d</xliff:g> por <xliff:g id="HEIGHT">%2$d</xliff:g>"</string>
-    <string name="folder_tap_to_close" msgid="4625795376335528256">"Toca para cerrar la carpeta"</string>
-    <string name="folder_tap_to_rename" msgid="4017685068016979677">"Toca para guardar el nuevo nombre"</string>
-    <string name="folder_closed" msgid="4100806530910930934">"Carpeta cerrada"</string>
-    <string name="folder_renamed" msgid="1794088362165669656">"Se ha cambiado el nombre de la carpeta a <xliff:g id="NAME">%1$s</xliff:g>"</string>
-    <string name="folder_name_format" msgid="6629239338071103179">"Carpeta: <xliff:g id="NAME">%1$s</xliff:g>"</string>
-    <string name="widget_button_text" msgid="2880537293434387943">"Widgets"</string>
-    <string name="wallpaper_button_text" msgid="8404103075899945851">"Fondos de pantalla"</string>
-    <string name="settings_button_text" msgid="8119458837558863227">"Ajustes"</string>
-    <string name="msg_disabled_by_admin" msgid="6898038085516271325">"Inhabilitada por el administrador"</string>
-    <string name="accessibility_action_overview" msgid="6257665857640347026">"Visión general"</string>
-    <string name="allow_rotation_title" msgid="7728578836261442095">"Permitir rotación de la pantalla de inicio"</string>
-    <string name="allow_rotation_desc" msgid="8662546029078692509">"Al girar el teléfono"</string>
-    <string name="allow_rotation_blocked_desc" msgid="3212602545192996253">"La configuración de pantalla actual no permite girar la pantalla"</string>
-    <string name="package_state_unknown" msgid="7592128424511031410">"Desconocido"</string>
-    <string name="abandoned_clean_this" msgid="7610119707847920412">"Quitar"</string>
-    <string name="abandoned_search" msgid="891119232568284442">"Buscar"</string>
-    <string name="abandoned_promises_title" msgid="7096178467971716750">"Esta aplicación no está instalada"</string>
-    <string name="abandoned_promise_explanation" msgid="3990027586878167529">"La aplicación de este icono no está instalada. Puedes quitar el icono o buscar la aplicación e instalarla manualmente."</string>
-    <string name="app_downloading_title" msgid="8336702962104482644">"Descargando <xliff:g id="NAME">%1$s</xliff:g> (<xliff:g id="PROGRESS">%2$s</xliff:g> completado)"</string>
-    <string name="app_waiting_download_title" msgid="7053938513995617849">"Esperando para instalar <xliff:g id="NAME">%1$s</xliff:g>"</string>
-    <string name="action_add_to_workspace" msgid="8902165848117513641">"Añadir a la pantalla de inicio"</string>
-    <string name="action_move_here" msgid="2170188780612570250">"Mover elemento aquí"</string>
-    <string name="item_added_to_workspace" msgid="4211073925752213539">"Elemento añadido a la pantalla de inicio"</string>
-    <string name="item_removed" msgid="851119963877842327">"Elemento eliminado"</string>
-    <string name="action_move" msgid="4339390619886385032">"Mover elemento"</string>
-    <string name="move_to_empty_cell" msgid="2833711483015685619">"Mover a la fila <xliff:g id="NUMBER_0">%1$s</xliff:g>, columna <xliff:g id="NUMBER_1">%2$s</xliff:g>"</string>
-    <string name="move_to_position" msgid="6750008980455459790">"Mover a la posición número <xliff:g id="NUMBER">%1$s</xliff:g>"</string>
-    <string name="move_to_hotseat_position" msgid="6295412897075147808">"Mover a la posición número <xliff:g id="NUMBER">%1$s</xliff:g> de favoritos"</string>
-    <string name="item_moved" msgid="4606538322571412879">"Elemento movido"</string>
-    <string name="add_to_folder" msgid="9040534766770853243">"Añadir a carpeta: <xliff:g id="NAME">%1$s</xliff:g>"</string>
-    <string name="add_to_folder_with_app" msgid="4534929978967147231">"Añadir a la carpeta con <xliff:g id="NAME">%1$s</xliff:g>"</string>
-    <string name="added_to_folder" msgid="4793259502305558003">"Elemento añadido a carpeta"</string>
-    <string name="create_folder_with" msgid="4050141361160214248">"Crear carpeta con: <xliff:g id="NAME">%1$s</xliff:g>"</string>
-    <string name="folder_created" msgid="6409794597405184510">"Carpeta creada"</string>
-    <string name="action_move_to_workspace" msgid="1603837886334246317">"Mover a la pantalla de inicio"</string>
-    <string name="action_move_screen_left" msgid="8854216831569401665">"Mover pantalla a la izquierda"</string>
-    <string name="action_move_screen_right" msgid="329334910274311123">"Mover pantalla a la derecha"</string>
-    <string name="screen_moved" msgid="266230079505650577">"Pantalla movida"</string>
-    <string name="action_resize" msgid="1802976324781771067">"Modificar tamaño"</string>
-    <string name="action_increase_width" msgid="8773715375078513326">"Aumentar ancho"</string>
-    <string name="action_increase_height" msgid="459390020612501122">"Aumentar altura"</string>
-    <string name="action_decrease_width" msgid="1374549771083094654">"Reducir ancho"</string>
-    <string name="action_decrease_height" msgid="282377193880900022">"Reducir altura"</string>
-    <string name="widget_resized" msgid="9130327887929620">"Se ha modificado el tamaño del widget a <xliff:g id="NUMBER_0">%1$s</xliff:g> de ancho y <xliff:g id="NUMBER_1">%2$s</xliff:g> de alto"</string>
-    <string name="action_deep_shortcut" msgid="2864038805849372848">"Accesos directos"</string>
-    <string name="shortcuts_menu_description" msgid="406159963824238648">"<xliff:g id="NUMBER_OF_SHORTCUTS">%1$d</xliff:g> accesos directos de <xliff:g id="APP_NAME">%2$s</xliff:g>"</string>
+<!DOCTYPE resources [
+<!ENTITY app_name "Flick Launcher">
+]>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!-- Shortcuts -->
+    <string name="add_shortcuts">Añadir accesos directos</string>
+    <string name="information">Información</string>
+    <string name="delete">Desinstalar</string>
+    <string name="new_incognito_tab">Nueva pestaña de incognito</string>
+    <string name="new_tab">Nueva pestaña</string>
+    <string name="maps_work">Trabajo</string>
+    <string name="maps_home">Casa</string>
+    <string name="search">Buscar</string>
+    <string name="ebay_watching">Viendo</string>
+    <string name="ebay_local_offer">Vendiendo</string>
+    <string name="ebay_following">Siguiendo</string>
+    <string name="evernote_note">Nota simple</string>
+    <string name="evernote_audio">Audio</string>
+    <string name="evernote_camera">Cámara</string>
+    <string name="gmail_compose">Redactar</string>
+    <string name="allo_conversation">Nueva conversación</string>
+    <string name="drive_upload">Subir</string>
+    <string name="drive_scan">Escanear</string>
+    <string name="youtube_sub">Suscripciones</string>
+    <string name="youtube_trending">Tendencias</string>
+    <string name="calendar_event">Nuevo evento</string>
+    <string name="calendar_reminder">Nuevo recordatorio</string>
+    <string name="photo_free_space">Liberar espacio</string>
+    <string name="photo_lucky">Voy a tener suerte</string>
+    <string name="docs_new">Crear nuevo</string>
+    <string name="docs_template">Elegir plantilla</string>
+    <string name="greenify_hibernate">Hibernar ahora</string>
+    <string name="greenify_sleep">Hibernar y bloquear</string>
+    <string name="movies_my">Mis películas</string>
+    <string name="movies_tv">Mis series</string>
+    <string name="movies_wishlist">Mi lista de deseos</string>
+    <string name="music_library">Mi libreria</string>
+    <string name="music_recent">Actividad reciente</string>
+    <string name="hang_chat">Chat</string>
+    <string name="hang_video">Videollamada</string>
+    <string name="hang_call">Llamada de voz</string>
+    <string name="folder_title">Título de la carpeta</string>
+    <string name="folder_enter_title">Escribe el título</string>
+    <string name="folder_rename">Renombrar</string>
+    <string name="folder_open">Abrir Carpeta</string>
+
+    <!-- Alert dialog shortcuts -->
+    <string name="alert_title">Título</string>
+    <string name="alert_max">El número máximo de accesos directos es:</string>
+    <string name="alert_choose_app">Elegir aplicación</string>
+    <!-- General -->
+    <skip />
+
+    <string name="nothing">Nada</string>
+    <!-- Alert dialog launcher default -->
+    <string name="ask_default">Quieres establecer &app_name; como lanzador preterminado?</string>
+    <string name="ask_restart">Quiere reiniciar el lanzador?</string>
+
+    <string name="ok">ACEPTAR</string>
+    <string name="cancel">CANCLELAR</string>
+
+    <!-- Application name -->
+    <string name="app_name" translatable="false">Flick Launcher</string>
+    <!-- Default folder name -->
+    <string name="folder_name"></string>
+    <!-- Work folder name -->
+    <string name="work_folder_name">Trabajo</string>
+    <!-- Displayed when user selects a shortcut for an app that was uninstalled [CHAR_LIMIT=none]-->
+    <string name="activity_not_found">La aplicación no está instalada.</string>
+    <!-- Displayed when user selects a shortcut for an app that is current not available [CHAR_LIMIT=none]-->
+    <string name="activity_not_available">La aplicación no está disponible</string>
+    <!-- SafeMode shortcut error string -->
+    <string name="safemode_shortcut_error">Aplicación descargada deshabilitada en modo seguro</string>
+    <!-- SafeMode widget error string -->
+    <string name="safemode_widget_error">Los widgets están deshalitados en modo seguro</string>
+    <!-- Message shown when a shortcut is not available. It could have been temporarily disabled and may start working again after some time. -->
+    <string name="shortcut_not_available">Shortcut isn\'t available</string>
+
+    <!-- Widgets -->
+    <!-- Message to tell the user to press and hold on a widget to add it [CHAR_LIMIT=50] -->
+    <string name="long_press_widget_to_add">Mantén presionado para arrastar un Widget.</string>
+    <!-- Accessibility spoken hint message in widget picker, which allows user to add a widget. Custom action is the label for additional accessibility actions available in this mode [CHAR_LIMIT=100] -->
+    <string name="long_accessible_way_to_add">Toque dos veces y mantenga presionado para arrastrar un widget o utilizar acciones personalizadas.</string>
+    <!-- The format string for the dimensions of a widget in the drawer -->
+    <!-- There is a special version of this format string for Farsi -->
+    <string name="widget_dims_format">%1$d \u00d7 %2$d</string>
+    <!-- Accessibility spoken message format for the dimensions of a widget in the drawer -->
+    <string name="widget_accessible_dims_format">%1$d ancho por %2$d alto</string>
+
+    <!-- All Apps -->
+    <!-- Search bar text in the apps view. [CHAR_LIMIT=50] -->
+    <string name="all_apps_search_bar_hint">Buscar aplicaciones</string>
+    <!-- Loading apps text. [CHAR_LIMIT=50] -->
+    <string name="all_apps_loading_message">Cargando aplicaciones&#8230;</string>
+    <!-- No-search-results text. [CHAR_LIMIT=50] -->
+    <string name="all_apps_no_search_results">No se encontraron aplicaciones que coincidan \"<xliff:g id="query" example="Android">%1$s</xliff:g>\"</string>
+    <!-- Label for the button which allows the user to get app search results. [CHAR_LIMIT=50] -->
+    <string name="all_apps_search_market_message">Buscar más aplicaciones</string>
+
+    <!-- Drag and drop -->
+    <skip />
+    <!-- Error message when user has filled a home screen -->
+    <string name="out_of_space">No more room on this Home screen.</string>
+    <!-- Error message when user has filled the hotseat -->
+    <string name="hotseat_out_of_space">No more room in the Favorites tray</string>
+
+    <!-- All applications label -->
+    <string name="all_apps_button_label">Lista de aplicaciones</string>
+    <!-- Label for button in all applications label to go back home (to the workspace / desktop)
+         for accessibilty (spoken when the button gets focus). -->
+    <string name="all_apps_home_button_label">Inicio</string>
+
+    <!-- Label for remove drop target. [CHAR_LIMIT=20] -->
+    <string name="remove_drop_target_label">Eliminar</string>
+    <!-- Label for uninstall drop target. [CHAR_LIMIT=20]-->
+    <string name="uninstall_drop_target_label">Desinstalar</string>
+    <!-- Label for app info drop target. [CHAR_LIMIT=20] -->
+    <string name="app_info_drop_target_label">Info.</string>
+
+    <!-- Permissions: -->
+    <skip />
+    <!-- Permission short label -->
+    <string name="permlab_install_shortcut">instalar accesos directos</string>
+    <!-- Permission description -->
+    <string name="permdesc_install_shortcut">Permite añadir a una aplicación
+         accesos directos sin intervención del usuario.</string>
+    <!-- Permission short label -->
+    <string name="permlab_read_settings">leer la configuración de inicio y los accesos directos</string>
+    <!-- Permission description -->
+    <string name="permdesc_read_settings">Permite a una aplicación leer los ajustes y
+        accesos directos del Inicio.</string>
+    <!-- Permission short label -->
+    <string name="permlab_write_settings">escribir la configuración de inicio y accesos directos</string>
+    <!-- Permission description -->
+    <string name="permdesc_write_settings">Permite a una aplicación cambiar la configuración y
+         los accesos directos en Inicio.</string>
+
+    <!-- Toast shown on clicking a direct call shortcut. [CHAR_LIMIT=80] -->
+    <string name="msg_no_phone_permission"><xliff:g id="app_name" example="Launcher3">%1$s</xliff:g> no tiene permitido realizar llamadas télefonicas</string>
+
+    <!-- Widgets: -->
+    <skip />    
+
+    <!-- Text to show user in place of a gadget when we can't display it properly -->
+    <string name="gadget_error_text">Problema cargando el widget</string>
+
+    <!-- Text to show user in place of a gadget when it is not yet initialized. -->
+    <string name="gadget_setup_text">Configuración</string>
+
+    <!-- Text to inform the user that they can't uninstall a system application -->
+    <string name="uninstall_system_app_text">Esta es una aplicación del sistema, no puede ser desinstalada.</string>
+
+    <!-- Default folder title -->
+    <string name="folder_hint_text">Carpeta sin nombre</string>
+
+    <!-- Accessibility -->
+    <!-- The format string for when an app is temporarily disabled. -->
+    <string name="disabled_app_label">Deshabilitada <xliff:g id="app_name" example="Messenger">%1$s</xliff:g></string>
+    <skip />
+
+    <!-- The format string for default page scroll text [CHAR_LIMIT=none] -->
+    <string name="default_scroll_format">Página %1$d de %2$d</string>
+    <!-- The format string for Workspace page scroll text [CHAR_LIMIT=none] -->
+    <string name="workspace_scroll_format">Pantalla de inicio %1$d de %2$d</string>
+    <!-- Description for a new page on homescreen[CHAR_LIMIT=none] -->
+    <string name="workspace_new_page">Nueva pantalla de inicio</string>
+
+    <!-- Folder accessibility -->
+    <!-- The format string for when a folder is opened, speaks the dimensions -->
+    <string name="folder_opened">Carpeta abierta, <xliff:g id="width" example="5">%1$d</xliff:g> por <xliff:g id="height" example="3">%2$d</xliff:g></string>
+    <!-- Instruction that clicking outside will close folder -->
+    <string name="folder_tap_to_close">Tap to close folder</string>
+    <!-- Instruction that clicking outside will commit folder rename -->
+    <string name="folder_tap_to_rename">Tap to save rename</string>
+    <!-- Indication that folder closed -->
+    <string name="folder_closed">Carpeta cerrada</string>
+    <!-- Folder renamed format -->
+    <string name="folder_renamed">Carpeta renombrada a <xliff:g id="name" example="Games">%1$s</xliff:g></string>
+    <!-- Folder name format -->
+    <string name="folder_name_format">Carpeta: <xliff:g id="name" example="Games">%1$s</xliff:g></string>
+
+    <!-- Strings for the customization mode -->
+    <!-- Text for widget add button -->
+    <string name="widget_button_text">Widgets</string>
+    <!-- Text for wallpaper change button -->
+    <string name="wallpaper_button_text">Fondo de pantalla</string>
+    <!-- Text for settings button -->
+    <string name="settings_button_text">Ajustes</string>
+    <!-- Message shown when a feature is disabled by the administrator -->
+    <string name="msg_disabled_by_admin">Deshabilitado por el administrador</string>
+    <!-- Text for custom accessibility action to go to the overview mode, where users can look and change the overall UI of the launcher. -->
+    <string name="accessibility_action_overview">Visión de conjunto</string>
+
+    <!-- Strings for settings -->
+    <string name="preferences_layout_option">Diseño</string>
+    <!-- Title for Allow Rotation setting. [CHAR LIMIT=50] -->
+    <string name="allow_rotation_title">Permitir rotación de la pantalla de inicio</string>
+    <!-- Text explaining when the home screen will get rotated. [CHAR LIMIT=100] -->
+    <string name="allow_rotation_desc">Cuando se gira el teléfono</string>
+    <!-- Text explaining that rotation is disabled in Display settings. 'Display' refers to the Display section in system settings [CHAR LIMIT=100] -->
+    <string name="allow_rotation_blocked_desc">La configuración actual de la pantalla no permite la rotación</string>
+
+    <string name="allow_icon_title">Permitir iconos circulares</string>
+
+    <string name="allow_icon_summary">Este ajuste hace que los iconos sean circulares</string>
+
+    <string name="grid_size">Cambiar el tamaño de la cuadrícula</string>
+
+    <string name="grid_size_summary">Establecer un tamaño de cuadrícula personalizado</string>
+
+    <string name="column_size">Tamaño de columna</string>
+
+    <string name="row_size">Tamaño de fila</string>
+
+    <string name="preferences_dock_option">Dock</string>
+
+    <string name="preferences_folder">Carpeta</string>
+
+    <string name="dock_size">Icon en el dock</string>
+
+    <string name="all_apps_dialog">Icono en el cajón de aplicaciones</string>
+
+    <string name="dock_size_summary">Cambiar número de iconos del dock</string>
+
+    <string name="preferences_various_option">Varios</string>
+
+    <string name="ask_default_launcher">Establecer &app_name; como lanzador preterminado</string>
+
+    <string name="ask_default_launcher_summary">Cambiar lanzador preterminado</string>
+
+    <string name="default_launcher_already_set">¡Estás usando &app_name; como lanzador preterminado!</string>
+
+    <string name="ask_restart_launcher">Reiniciar &app_name;</string>
+
+    <string name="preferences_gesture">Gestos</string>
+
+    <string name="allow_sleep">Permitir doble toque para bloquear</string>
+
+    <string name="allow_sleep_summary">Habilitar doble toque para bloquear la pantalla</string>
+
+    <string name="choose_double_tap">Gesto de doble toque</string>
+
+    <string name="choose_double_tap_summary">Elige tu aplicación personalizada</string>
+
+    <string name="choose_bottom_swipe">Gesto de deslizar hacia abajo</string>
+
+    <string name="choose_up_swipe">Gesto de deslizar hacia arriba</string>
+
+    <string name="choose_up_swipe_two_fingers">Gesto de deslizar hacia arriba (dos dedos)</string>
+
+    <string name="choose_bottom_swipe_two_fingers">Gesto de deslizar hacia abajo (dos dedos)</string>
+
+    <string name="preferences_info">Información</string>
+
+    <string name="info">Información sobre &app_name;</string>
+
+    <string name="donation">Donación</string>
+
+    <string name="donation_summary">¡Contamos contigo!</string>
+
+    <string name="all_apps_size">Cambiar el tamaño del cajón de aplicaciones</string>
+
+    <string name="all_apps_size_summary">Establecer el número personalizado de icono en el cajón de aplicaciones</string>
+
+    <string name="disclaimer_dialog_message">Bienvenido a &app_name;!\n\nEste es un lanzador de código abierto que está disponible en <a href="https://github.com/michelelacorte/UniversalLauncher">GitHub</a>.\n\nEl proyecto Flick Launcher está inspirado en el estilo de Google Pixel, con algunos ajustes más.\nPara más detalles visita la <a href="https://github.com/michelelacorte/FlickLauncher">página de Github</a>.\n\nEste proyecto está bajo la licencia <a href="https://github.com/michelelacorte/FlickLauncher/blob/master/LICENSE">Apache v2 License</a>, y todos los derechos están reservados a Michele Lacorte.\n\nSi te gusta esta aplicación por favor ayudame descargando la <a href="https://play.google.com/store/apps/details?id=it.michelelacorte.githubdonation">Aplicación de donación</a>.\n\n\n\nVersión v0.1.0 Build 100</string>
+
+
+
+
+    <!-- Label on an icon that references an uninstalled package, for which we have no information about when it might be installed. [CHAR_LIMIT=15] -->
+    <string name="package_state_unknown">Desconocido</string>
+
+    <!-- Button for abandoned promises dialog, to removes this abandoned promise icon. -->
+    <string name="abandoned_clean_this">Eliminar</string>
+    <!-- Button for abandoned promise dialog, to search in the market for the missing package. -->
+    <string name="abandoned_search">Buscar</string>
+    <!-- Title for abandoned promise dialog. -->
+    <string name="abandoned_promises_title">La aplicación no está instalada</string>
+    <!-- Explanation for abandoned promise dialog. "The first 'it' refers to the shortcut icon.
+    The second "it" refers to the app. -->
+    <string name="abandoned_promise_explanation">La aplicación de este icono no está instalada.
+        Puede eliminarla o buscar la aplicación e instalarla manualmente.
+    </string>
+    <!-- Title for an app which is being downloaded. -->
+    <string name="app_downloading_title">Descargando <xliff:g id="name" example="Messenger">%1$s</xliff:g>,<xliff:g id="progress" example="30%">%2$s</xliff:g> completado</string>
+    <!-- Title for an app whose download has been started. -->
+    <string name="app_waiting_download_title">Esperando a instalar <xliff:g id="name" example="Messenger">%1$s</xliff:g></string>
+
+<!-- Strings for accessibility actions -->
+    <!-- Accessibility action to add an app to workspace. [CHAR_LIMIT=30] -->
+    <string name="action_add_to_workspace">Añadir al inicio</string>
+
+    <!-- Accessibility action to move item to the current location. [CHAR_LIMIT=30] -->
+    <string name="action_move_here">Mover el elemento aquí</string>
+
+    <!-- Accessibility confirmation for item added to workspace. -->
+    <string name="item_added_to_workspace">Elemento añadido al inicio</string>
+
+    <!-- Accessibility confirmation for item removed. -->
+    <string name="item_removed">Elemento eliminado</string>
+
+    <!-- Accessibility action to move an item on the workspace. [CHAR_LIMIT=30] -->
+    <string name="action_move">Elemento movido</string>
+
+    <!-- Accessibility description to move item to empty cell. -->
+    <string name="move_to_empty_cell">Movido a la fila <xliff:g id="number" example="1">%1$s</xliff:g> columna <xliff:g id="number" example="1">%2$s</xliff:g></string>
+
+    <!-- Accessibility description to move item inside a folder. -->
+    <string name="move_to_position">Movido a la posición <xliff:g id="number" example="1">%1$s</xliff:g></string>
+
+    <!-- Accessibility description to move item to the hotseat. -->
+    <string name="move_to_hotseat_position">Movido a la posición de favoritos <xliff:g id="number" example="1">%1$s</xliff:g></string>
+
+    <!-- Accessibility confirmation for item move. -->
+    <string name="item_moved">Elemento movido</string>
+
+    <!-- Accessibility description to move item into an existing folder. -->
+    <string name="add_to_folder">Añadido a la carpeta: <xliff:g id="name" example="Games">%1$s</xliff:g></string>
+
+    <!-- Accessibility description to move item into an existing folder containing an app. -->
+    <string name="add_to_folder_with_app">Añadir a la carpeta con <xliff:g id="name" example="Messenger">%1$s</xliff:g></string>
+
+    <!-- Accessibility confirmation for item added to folder. -->
+    <string name="added_to_folder">Elemento añadido a la carpeta</string>
+
+    <!-- Accessibility description to create folder with another item. -->
+    <string name="create_folder_with">Carpeta creada: <xliff:g id="name" example="Game">%1$s</xliff:g></string>
+
+    <!-- Accessibility confirmation for folder created. -->
+    <string name="folder_created">Carpeta creada</string>
+
+    <!-- Accessibility action to move an item from folder to workspace. [CHAR_LIMIT=30] -->
+    <string name="action_move_to_workspace">Mover al inicio</string>
+
+    <!-- Accessibility action to move an homescreen to the left. [CHAR_LIMIT=30] -->
+    <string name="action_move_screen_left">Mover pantalla a la izquierda</string>
+
+    <!-- Accessibility action to move an homescreen to the right. [CHAR_LIMIT=30] -->
+    <string name="action_move_screen_right">Mover pantalla a la derecha</string>
+
+    <!-- Accessibility confirmation when a screen was moved. -->
+    <string name="screen_moved">Pantalla movida</string>
+
+    <!-- Accessibility action to resize a widget. [CHAR_LIMIT=30] -->
+    <string name="action_resize">Modificar tamaño</string>
+
+    <!-- Accessibility action to increase width of a widget. [CHAR_LIMIT=30] -->
+    <string name="action_increase_width">Aumentar anchura</string>
+
+    <!-- Accessibility action to increase height of a widget. [CHAR_LIMIT=30] -->
+    <string name="action_increase_height">Aumentar altura</string>
+
+    <!-- Accessibility action to decrease width of a widget. [CHAR_LIMIT=30] -->
+    <string name="action_decrease_width">Reducir anchura</string>
+
+    <!-- Accessibility action to decrease height of a widget. [CHAR_LIMIT=30] -->
+    <string name="action_decrease_height">Reducir altura</string>
+
+    <!-- Accessibility confirmation for widget resize. -->
+    <string name="widget_resized">Widget redimensionado: <xliff:g id="number" example="2">%1$s</xliff:g> de ancho y <xliff:g id="number" example="1">%2$s</xliff:g> de altura</string>
+
+    <!-- Accessibility action to show quick actions menu for an icon. [CHAR_LIMIT=30] -->
+    <string name="action_deep_shortcut">Accesos directos</string>
+
+    <!-- Accessibility description for the shortcuts menu shown for an app. -->
+    <string name="shortcuts_menu_description"><xliff:g id="number_of_shortcuts" example="3">%1$d</xliff:g> accesos directos para <xliff:g id="app_name" example="Messenger">%2$s</xliff:g></string>
+    <string name="folder_background">Color de fondo de la carpeta</string>
+    <string name="folder_background_summary">Cambia el color de fondo</string>
+    <string name="folder_transparent">Hacer carpetas transparente</string>
+    <string name="folder_transparent_summary">Hace que la vista previa de las carpetas sea transparente</string>
+    <string name="folder_preview_background">Cambiar el color de vista previa del fondo</string>
+    <string name="folder_preview_background_summary">Cambia el color de vista previa del fondo</string>
+    <string name="folder_circle_color">Cambiar el color del borde del círculo</string>
+    <string name="folder_circle_color_summary">Cambia el color de la vista previa del círculo</string>
+    <string name="choose_color">Elegir color</string>
+    <string name="license">Licencia</string>
+    <string name="preferences_security">Seguridad</string>
+    <string name="fingerprint">Bloquear aplicación con huella dactilar</string>
+    <string name="fingerprint_summary">Bloquea tus aplicaciones con huella dactilar</string>
+    <string name="select_apps">Seleccionar aplicaciones</string>
+    <string name="allow_persistent_search_bar">Permitir barrada de búsqueda persistente</string>
+    <string name="allow_persistent_search_bar_summary">Set search bar persistent to first screen</string>
+    <string name="dock_background">Color de fondo del dock</string>
+    <string name="dock_background_summary">Cambia el color de fondo</string>
+    <string name="add_page">Añadir página</string>
+    <string name="password">Bloquear aplicaciones con contraseña</string>
+    <string name="password_summary">Bloquea sus aplicaciones con una contraseña</string>
+    <string name="password_mismatch">Las contraseñas no coinciden. Inténtelo de nuevo.</string>
+    <string name="allow_voice_search_bar">Permitir icono de búsqueda por voz</string>
+    <string name="allow_voice_search_bar_summary">Activa icono de búsqueda por voz en la barra de búsqueda</string>
+    <string name="preferences_searchbar_option">Barra de búsqueda</string>
+    <string name="icon_pack_summary">Elige un tema de iconos</string>
+    <string name="icon_pack">Tema de iconos</string>
+    <string name="preferences_icon_pack_option">Iconos</string>
+    <string name="ask_icon">¿Desea restaurar?</string>
+    <string name="icon_size">Tamaño de icono</string>
+    <string name="icon_size_summary">Cambiar tamaño de sus iconos</string>
+    <string name="neutral">PRETERMINADO</string>
+    <string name="edit">Editar</string>
+    <string name="edit_label">Editar etiqueta</string>
+    <string name="work_in_progress">Trabajo en progreso</string>
+    <string name="allow_notification_count">Permitir mostrar el número de notificaciones</string>
+    <string name="allow_notification_count_summary">Permite mostrar el número de notificaciones en el icono</string>
+    <string name="notification">&app_name; notificación</string>
+    <string name="allow_night">Activar modo noche</string>
+    <string name="allow_night_summary">Activar el tema modo noche</string>
+    <string name="drawer_background">Color de fondo del cajón</string>
+    <string name="drawer_background_summary">Cambia el color de fondo del cajón de aplicaciones</string>
+    <string name="show_notification">Mostrar notificación</string>
+    <string name="not_allow">¡No tiene permitido realizar esta acción!</string>
+    <string name="show_app_drawer">Abrir el cajón de aplicaciones</string>
+    <string name="pro_version">¡Probar ahora la versión PRO!</string>
+    <string name="license_dialog_message_pro">¡Esta característica solo está disponible para usuario PRO!\n\nNo pierda el tiempo y descarge <a href="http://www.apache.org/licenses/LICENSE-2.0">Flick Launcher PRO</a></string>
+    <string name="soft_key">Botón soft</string>
+    <string name="home_key">Botón de inicio</string>
+    <string name="home_key_summary">Establezce una acción personalizada en la pulsación del botón de inicio</string>
+    <string name="recent_key">Botón de inicio (pulsación larga)</string>
+    <string name="recent_key_summary">Establezce una acción en el botón de inicio cuando se mantiene pulsado</string>
+
+    <string name="license_dialog_message"><a href="https://github.com/QuadFlask/colorpicker">colorpicker</a>\n\n
+    Copyright 2014-2017 QuadFlask\n\n
+    Licensed under the Apache License, Version 2.0 (the "License");\n
+    you may not use this file except in compliance with the License.\n
+    You may obtain a copy of the License at\n\n
+
+   <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\n
+
+    Unless required by applicable law or agreed to in writing, software\n
+    distributed under the License is distributed on an "AS IS" BASIS,\n
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n
+    See the License for the specific language governing permissions and\n
+    limitations under the License.\n</string>
+
+    <!-- Custom gesture -->
+    <string name="torch">Linterna</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="settings">Ajustes</string>
+    <string name="wifi">Wi-Fi</string>
+    <string name="screenshot">Captura de pantalla</string>
+    <string name="sleep">Bloquear pantalla</string>
+    <string name="mode_silent">Modo de sonido Silencio</string>
+    <string name="mode_normal">Modo de sonido Normal</string>
+    <string name="mode_vibrate">Modo de sonido Vibración</string>
+
+    <!-- Fingerprint -->
+
+    <string name="title_fingerprint">Desbloqueo en un toque</string>
+    <string name="desc_fingerprint">Coloque su dedo en el escáner para verificar su identidad</string>
+    <string name="note">(Esta aplicación está bloqueada por huella dactilar: su dispositivo debe tener al menos una huella dactilar registrada en la configuración del dispositivo)</string>
+    <string name="activity_home_desc">Ha iniciado sesión correctamente con la autenticación de huella dactilar</string>
+    <string name="activity_home_note">Cierre y vuelva a abrir la aplicación para volver a ver la pantalla de autenticación de huellas dactilares</string>
+    <string name="fingerprint_help">Ayuda para autenticación por huella dactilar</string>
+    <string name="fingerprint_succeded">La autenticación por huella dactilar se ha realizado correctamente.</string>
+    <string name="fingerprint_failed">La autenticación de huella dactilar falló</string>
+    <string name="fingerprint_error">Error de autenticación de huella dactilar</string>
+
+    <!-- Password -->
+    <string name="title_password">Desbloquear</string>
+    <string name="desc_password">Por favor inserte su contraseña para verificar su identidad</string>
+    <string name="note_password">(Esta aplicación está bloqueada por contraseña. Su dispositivo debe tener al menos una contraseña registrada)</string>
+    <string name="password_succeded">La autenticación de contraseña se ha realizado correctamente.</string>
+    <string name="password_failed">Error de autenticación de contraseña.</string>
+    <string name="dialog_password">Inserte su contraseña</string>
+    <string name="dialog_password_title">Establezca su contraseña</string>
+    <string name="password_reset">Restablezca su contraseña</string>
+
+
 </resources>
